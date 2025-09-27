@@ -1,0 +1,11 @@
+<%= turbo_stream.prepend "comments" do %>
+  <%= render 'blog/comments/comment', comment: @comment %>
+<% end %>
+
+<%= turbo_stream.replace "comment-form" do %>
+  <div class="bg-green-50 border border-green-200 rounded-lg p-6">
+    <p class="text-green-800">
+      <%= @comment.approved? ? "Thank you for your comment!" : "Your comment has been submitted and is awaiting moderation." %>
+    </p>
+  </div>
+<% end %>

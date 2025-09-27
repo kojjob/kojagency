@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Digital Agency | Web, Mobile & Data Analytics Solutions</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/@hotwired/turbo@8.0.0/dist/turbo.es2017-esm.js" type="module"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: {
+                            50: '#eff6ff',
+                            500: '#3b82f6',
+                            600: '#2563eb',
+                            700: '#1d4ed8',
+                            900: '#1e3a8a'
+                        },
+                        secondary: {
+                            500: '#10b981',
+                            600: '#059669'
+                        }
+                    },
+                    animation: {
+                        'fade-in': 'fadeIn 0.8s ease-in-out',
+                        'slide-up': 'slideUp 0.6s ease-out',
+                        'float': 'float 6s ease-in-out infinite'
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(40px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+    </style>
+</head>
+<body class="bg-white text-gray-900">
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full bg-white/95 backdrop-blur-sm border-b border-gray-100 z-50" data-turbo-permanent>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex-shrink-0">
+                    <a href="/" class="text-2xl font-bold text-primary-600">
+                        DigitalForge
+                    </a>
+                </div>
+                
+                <div class="hidden md:block">
+                    <div class="flex items-center space-x-8">
+                        <a href="#services" class="text-gray-700 hover:text-primary-600 transition-colors">Services</a>
+                        <a href="#work" class="text-gray-700 hover:text-primary-600 transition-colors">Work</a>
+                        <a href="#process" class="text-gray-700 hover:text-primary-600 transition-colors">Process</a>
+                        <a href="#about" class="text-gray-700 hover:text-primary-600 transition-colors">About</a>
+                        <a href="#contact" class="bg-primary-600 text-white px-4 py-2 rounded-lg hover:bg-primary-700 transition-colors">
+                            Start Project
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- Mobile menu button -->
+                <div class="md:hidden">
+                    <button type="button" class="text-gray-700 hover:text-primary-600" id="mobile-menu-button">
+                        <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="relative pt-24 pb-20 bg-gradient-to-br from-primary-50 via-white to-secondary-50 overflow-hidden">
+        <div class="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg width="60" height="60" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg"%3E%3Cg fill="none" fill-rule="evenodd"%3E%3Cg fill="%239C92AC" fill-opacity="0.05"%3E%3Ccircle cx="30" cy="30" r="1"/%3E%3C/g%3E%3C/g%3E%3C/svg%3E')] opacity-40"></div>
+        
+        <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid lg:grid-cols-2 gap-12 items-center">
+                <div class="animate-fade-in">
+                    <h1 class="text-5xl lg:text-6xl font-bold text-gray-900 mb-6 leading-tight">
+                        Build <span class="text-primary-600">Scalable</span> Digital Solutions That Drive 
+                        <span class="text-secondary-500">Business Growth</span>
+                    </h1>
+                    
+                    <p class="text-xl text-gray-600 mb-8 leading-relaxed">
+                        We craft robust web applications, intuitive mobile apps, and powerful data analytics platforms 
+                        using Test-Driven Development and Domain-Driven Design principles.
+                    </p>
+                    
+                    <div class="flex flex-col sm:flex-row gap-4 mb-8">
+                        <a href="#contact" class="bg-primary-600 text-white px-8 py-4 rounded-lg font-semibold hover:bg-primary-700 transition-all duration-300 shadow-lg hover:shadow-xl text-center">
+                            Start Your Project
+                        </a>
+                        <a href="#work" class="border-2 border-primary-600 text-primary-600 px-8 py-4 rounded-lg font-semibold hover:bg-primary-600 hover:text-white transition-all duration-300 text-center">
+                            View Our Work
+                        </a>
+                    </div>
+                    
+                    <!-- Stats -->
+                    <div class="grid grid-cols-3 gap-8 text-center">
+                        <div class="animate-slide-up" style="animation-delay: 0.1s">
+                            <div class="text-3xl font-bold text-primary-600">50+</div>
+                            <div class="text-sm text-gray-600">Projects Delivered</div>
+                        </div>
+                        <div class="animate-slide-up" style="animation-delay: 0.2s">
+                            <div class="text-3xl font-bold text-secondary-500">180%</div>
+                            <div class="text-sm text-gray-600">Avg ROI Increase</div>
+                        </div>
+                        <div class="animate-slide-up" style="animation-delay: 0.3s">
+                            <div class="text-3xl font-bold text-primary-600">98%</div>
+                            <div class="text-sm text-gray-600">Client Satisfaction</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Hero Visual -->
+                <div class="relative animate-float">
+                    <div class="bg-white rounded-2xl shadow-2xl p-8">
+                        <div class="space-y-4">
+                            <div class="flex items-center space-x-3">
+                                <div class="w-8 h-8 bg-primary-500 rounded-full flex items-center justify-center">
+                                    <svg class="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 20 20">
+                                        <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                    </svg>
+                                </div>
+                                <span class="font-semibold text-gray-800">Web Development</span>
+                            </div>
+                            <div class="flex items-center space-x-3">
+                                <div class="w-8 h-8 bg-secondary-500 rounded-full flex items-center justify-center">
+                                    <svg class="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 20 20">
+                                        <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                    </svg>
+                                </div>
+                                <span class="font-semibold text-gray-800">Mobile Apps</span>
+                            </div>
+                            <div class="flex items-center space-x-3">
+                                <div class="w-8 h-8 bg-purple-500 rounded-full flex items-center justify-center">
+                                    <svg class="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 20 20">
+                                        <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                    </svg>
+                                </div>
+                                <span class="font-semibold text-gray-800">Data Analytics</span>
+                            </div>
+                        </div>
+                        
+                        <div class="mt-8 p-4 bg-gray-50 rounded-lg">
+                            <div class="text-sm text-gray-600 mb-2">Project Success Rate</div>
+                            <div class="w-full bg-gray-200 rounded-full h-2">
+                                <div class="bg-gradient-to-r from-primary-500 to-secondary-500 h-2 rounded-full" style="width: 98%"></div>
+                            </div>
+                            <div class="text-right text-sm text-gray-700 mt-1">98%</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services" class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-bold text-gray-900 mb-4">
+                    Full-Stack Digital Solutions
+                </h2>
+                <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+                    From concept to deployment, we build scalable solutions that drive business growth 
+                    and deliver measurable results.
+                </p>
+            </div>
+            
+            <div class="grid md:grid-cols-3 gap-8">
+                <!-- Web Development -->
+                <div class="bg-white rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 p-8 border border-gray-100 group">
+                    <div class="w-16 h-16 bg-primary-100 rounded-lg flex items-center justify-center mb-6 group-hover:bg-primary-500 transition-colors">
+                        <svg class="w-8 h-8 text-primary-600 group-hover:text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-2xl font-bold text-gray-900 mb-4">Web Development</h3>
+                    <p class="text-gray-600 mb-6 leading-relaxed">
+                        Custom web applications built with Ruby on Rails, React, and modern frameworks. 
+                        Scalable, secure, and performance-optimized.
+                    </p>
+                    <ul class="space-y-2 mb-6">
+                        <li class="flex items-center text-gray-700">
+                            <svg class="w-4 h-4 text-primary-500 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                            </svg>
+                            Ruby on Rails & React
+                        </li>
+                        <li class="flex items-center text-gray-700">
+                            <svg class="w-4 h-4 text-primary-500 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                            </svg>
+                            API Development & Integration
+                        </li>
+                        <li class="flex items-center text-gray-700">
+                            <svg class="w-4 h-4 text-primary-500 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                            </svg>
+                            Cloud Deployment & DevOps
+                        </li>
+                    </ul>
+                    <div class="text-primary-600 font-semibold">Starting at $15,000</div>
+                </div>
+                
+                <!-- Mobile Development -->
+                <div class="bg-white rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 p-8 border border-gray-100 group">
+                    <div class="w-16 h-16 bg-secondary-100 rounded-lg flex items-center justify-center mb-6 group-hover:bg-secondary-500 transition-colors">
+                        <svg class="w-8 h-8 text-secondary-600 group-hover:text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-2xl font-bold text-gray-900 mb-4">Mobile Development</h3>
+                    <p class="text-gray-600 mb-6 leading-relaxed">
+                        Native iOS and cross-platform mobile applications with SwiftUI, React Native, 
+                        and seamless backend integration.
+                    </p>
+                    <ul class="space-y-2 mb-6">
+                        <li class="flex items-center text-gray-700">
+                            <svg class="w-4 h-4 text-secondary-500 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                            </svg>
+                            Native iOS & Android
+                        </li>
+                        <li class="flex items-center text-gray-700">
+                            <svg class="w-4 h-4 text-secondary-500 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                            </svg>
+                            SwiftUI & React Native
+                        </li>
+                        <li class="flex items-center text-gray-700">
+                            <svg class="w-4 h-4 text-secondary-500 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                            </svg>
+                            App Store Optimization
+                        </li>
+                    </ul>
+                    <div class="text-secondary-600 font-semibold">Starting at $25,000</div>
+                </div>
+                
+                <!-- Data Analytics -->
+                <div class="bg-white rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 p-8 border border-gray-100 group">
+                    <div class="w-16 h-16 bg-purple-100 rounded-lg flex items-center justify-center mb-6 group-hover:bg-purple-500 transition-colors">
+                        <svg class="w-8 h-8 text-purple-600 group-hover:text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-2xl font-bold text-gray-900 mb-4">Data Analytics</h3>
+                    <p class="text-gray-600 mb-6 leading-relaxed">
+                        Transform your business data into actionable insights with custom dashboards, 
+                        real-time analytics, and predictive modeling.
+                    </p>
+                    <ul class="space-y-2 mb-6">
+                        <li class="flex items-center text-gray-700">
+                            <svg class="w-4 h-4 text-purple-500 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                            </svg>
+                            Custom Dashboards
+                        </li>
+                        <li class="flex items-center text-gray-700">
+                            <svg class="w-4 h-4 text-purple-500 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                            </svg>
+                            Python & Machine Learning
+                        </li>
+                        <li class="flex items-center text-gray-700">
+                            <svg class="w-4 h-4 text-purple-500 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                            </svg>
+                            Real-time Data Processing
+                        </li>
+                    </ul>
+                    <div class="text-purple-600 font-semibold">Starting at $20,000</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Featured Work Section -->
+    <section id="work" class="py-20 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-bold text-gray-900 mb-4">
+                    Featured Projects
+                </h2>
+                <p class="text-xl text-gray-600">
+                    Real results from real projects. See how we've helped businesses scale.
+                </p>
+            </div>
+            
+            <div class="grid lg:grid-cols-2 gap-12 items-center mb-16">
+                <div>
+                    <div class="bg-primary-100 text-primary-800 px-3 py-1 rounded-full text-sm font-medium inline-block mb-4">
+                        Web Development + Data Analytics
+                    </div>
+                    <h3 class="text-3xl font-bold text-gray-900 mb-4">
+                        TechFlow Dashboard Redesign
+                    </h3>
+                    <p class="text-gray-600 mb-6 text-lg leading-relaxed">
+                        Complete overhaul of analytics dashboard with real-time data visualization for a growing SaaS company.
+                    </p>
+                    
+                    <div class="grid grid-cols-2 gap-6 mb-6">
+                        <div class="text-center p-4 bg-white rounded-lg shadow-sm">
+                            <div class="text-2xl font-bold text-primary-600">75%</div>
+                            <div class="text-sm text-gray-600">Faster Load Times</div>
+                        </div>
+                        <div class="text-center p-4 bg-white rounded-lg shadow-sm">
+                            <div class="text-2xl font-bold text-secondary-500">180%</div>
+                            <div class="text-sm text-gray-600">User Engagement</div>
+                        </div>
+                    </div>
+                    
+                    <div class="flex items-center space-x-4 mb-6">
+                        <span class="px-3 py-1 bg-gray-100 text-gray-700 rounded-full text-sm">Ruby on Rails</span>
+                        <span class="px-3 py-1 bg-gray-100 text-gray-700 rounded-full text-sm">React</span>
+                        <span class="px-3 py-1 bg-gray-100 text-gray-700 rounded-full text-sm">PostgreSQL</span>
+                    </div>
+                    
+                    <blockquote class="border-l-4 border-primary-500 pl-4 italic text-gray-700 mb-6">
+                        "The team delivered exactly what we needed. The new dashboard is intuitive, fast, and our users love it. ROI was evident within the first month."
+                    </blockquote>
+                    <div class="text-sm text-gray-600">
+                        — Sarah Johnson, CTO at TechFlow Solutions
+                    </div>
+                </div>
+                
+                <div class="bg-white rounded-xl shadow-lg p-8">
+                    <div class="aspect-video bg-gradient-to-br from-primary-100 to-secondary-100 rounded-lg mb-4 flex items-center justify-center">
+                        <div class="text-center">
+                            <div class="w-16 h-16 bg-primary-500 rounded-full mx-auto mb-4 flex items-center justify-center">
+                                <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
+                                </svg>
+                            </div>
+                            <div class="text-gray-600">Interactive Dashboard Preview</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="text-center">
+                <a href="/work" class="inline-flex items-center text-primary-600 hover:text-primary-700 font-semibold">
+                    View All Case Studies
+                    <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                    </svg>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Process Section -->
+    <section id="process" class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-bold text-gray-900 mb-4">
+                    Our Proven Process
+                </h2>
+                <p class="text-xl text-gray-600">
+                    Test-Driven Development and Domain-Driven Design ensure robust, scalable solutions.
+                </p>
+            </div>
+            
+            <div class="grid md:grid-cols-4 gap-8">
+                <div class="text-center group">
+                    <div class="w-16 h-16 bg-primary-100 rounded-full mx-auto mb-6 flex items-center justify-center group-hover:bg-primary-500 transition-colors">
+                        <span class="text-2xl font-bold text-primary-600 group-hover:text-white">1</span>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-4">Discovery</h3>
+                    <p class="text-gray-600 leading-relaxed">
+                        Deep dive into your business domain, requirements, and goals to build a comprehensive understanding.
+                    </p>
+                </div>
+                
+                <div class="text-center group">
+                    <div class="w-16 h-16 bg-primary-100 rounded-full mx-auto mb-6 flex items-center justify-center group-hover:bg-primary-500 transition-colors">
+                        <span class="text-2xl font-bold text-primary-600 group-hover:text-white">2</span>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-4">Design</h3>
+                    <p class="text-gray-600 leading-relaxed">
+                        Create domain models and system architecture that align perfectly with your business logic.
+                    </p>
+                </div>
+                
+                <div class="text-center group">
+                    <div class="w-16 h-16 bg-primary-100 rounded-full mx-auto mb-6 flex items-center justify-center group-hover:bg-primary-500 transition-colors">
+                        <span class="text-2xl font-bold text-primary-600 group-hover:text-white">3</span>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-4">Develop</h3>
+                    <p class="text-gray-600 leading-relaxed">
+                        Build with TDD approach, ensuring every feature is tested and meets business requirements.
+                    </p>
+                </div>
+                
+                <div class="text-center group">
+                    <div class="w-16 h-16 bg-primary-100 rounded-full mx-auto mb-6 flex items-center justify-center group-hover:bg-primary-500 transition-colors">
+                        <span class="text-2xl font-bold text-primary-600 group-hover:text-white">4</span>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-4">Deploy</h3>
+                    <p class="text-gray-600 leading-relaxed">
+                        Launch with confidence using automated deployment pipelines and comprehensive monitoring.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section id="contact" class="py-20 bg-primary-600">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h2 class="text-4xl font-bold text-white mb-4">
+                Ready to Scale Your Business?
+            </h2>
+            <p class="text-xl text-primary-100 mb-8">
+                Let's discuss how we can build the digital solution your business needs.
+            </p>
+            
+            <div class="bg-white rounded-xl p-8 shadow-2xl max-w-2xl mx-auto">
+                <form class="space-y-6" data-turbo-frame="contact-form">
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Name *</label>
+                            <input type="text" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Email *</label>
+                            <input type="email" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent">
+                        </div>
+                    </div>
+                    
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Company</label>
+                            <input type="text" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Budget Range</label>
+                            <select class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent">
+                                <option value="small">$10k - $25k</option>
+                                <option value="medium">$25k - $100k</option>
+                                <option value="large">$100k - $500k</option>
+                                <option value="enterprise">$500k+</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Project Type</label>
+                        <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+                            <label class="flex items-center">
+                                <input type="checkbox" class="rounded border-gray-300 text-primary-600 focus:ring-primary-500">
+                                <span class="ml-2 text-sm text-gray-700">Web App</span>
+                            </label>
+                            <label class="flex items-center">
+                                <input type="checkbox" class="rounded border-gray-300 text-primary-600 focus:ring-primary-500">
+                                <span class="ml-2 text-sm text-gray-700">Mobile App</span>
+                            </label>
+                            <label class="flex items-center">
+                                <input type="checkbox" class="rounded border-gray-300 text-primary-600 focus:ring-primary-500">
+                                <span class="ml-2 text-sm text-gray-700">Data Analytics</span>
+                            </label>
+                            <label class="flex items-center">
+                                <input type="checkbox" class="rounded border-gray-300 text-primary-600 focus:ring-primary-500">
+                                <span class="ml-2 text-sm text-gray-700">Consultation</span>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Tell us about your project</label>
+                        <textarea rows="4" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent" placeholder="Describe your project requirements, timeline, and goals..."></textarea>
+                    </div>
+                    
+                    <button type="submit" class="w-full bg-primary-600 text-white py-4 px-6 rounded-lg font-semibold hover:bg-primary-700 transition-colors">
+                        Get Free Project Estimate
+                    </button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid md:grid-cols-4 gap-8">
+                <div>
+                    <div class="text-2xl font-bold mb-4">DigitalForge</div>
+                    <p class="text-gray-400 leading-relaxed">
+                        Building scalable digital solutions with Test-Driven Development and Domain-Driven Design.
+                    </p>
+                </div>
+                
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Services</h3>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="#" class="hover:text-white transition-colors">Web Development</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Mobile Development</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Data Analytics</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Consulting</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Company</h3>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="#" class="hover:text-white transition-colors">About</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Work</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Blog</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Careers</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Connect</h3>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="#" class="hover:text-white transition-colors">LinkedIn</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">GitHub</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Twitter</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Contact</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
+                <p>&copy; 2024 DigitalForge. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Simple mobile menu toggle
+        document.getElementById('mobile-menu-button').addEventListener('click', function() {
+            // Add mobile menu functionality here
+            console.log('Mobile menu clicked');
+        });
+        
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>

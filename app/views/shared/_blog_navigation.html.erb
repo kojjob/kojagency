@@ -1,0 +1,21 @@
+<nav class="blog-navigation bg-gray-100 py-4">
+  <div class="container mx-auto px-4">
+    <div class="flex items-center justify-between">
+      <div class="flex items-center space-x-6">
+        <%= link_to "Blog Home", blog_posts_path, class: "text-gray-700 hover:text-gray-900 font-medium" %>
+        <%= link_to "Categories", blog_categories_path, class: "text-gray-700 hover:text-gray-900" %>
+        <%= link_to "Tags", blog_tags_path, class: "text-gray-700 hover:text-gray-900" %>
+        <%= link_to "Authors", blog_authors_path, class: "text-gray-700 hover:text-gray-900" %>
+      </div>
+      <div class="flex items-center space-x-4">
+        <%= link_to feed_blog_posts_path(format: :rss), class: "text-orange-600 hover:text-orange-700", title: "RSS Feed" do %>
+          <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+            <path d="M3.75 3a.75.75 0 00-.75.75v.5c0 .414.336.75.75.75H4c6.075 0 11 4.925 11 11v.25c0 .414.336.75.75.75h.5a.75.75 0 00.75-.75V16C17 8.82 11.18 3 4 3h-.25z"></path>
+            <path d="M3 8.75A.75.75 0 013.75 8H4c3.17 0 5.75 2.58 5.75 5.75V14a.75.75 0 01-.75.75h-.5a.75.75 0 01-.75-.75v-.25A3.25 3.25 0 004.5 10.5H3.75A.75.75 0 013 9.75v-1z"></path>
+            <circle cx="5" cy="15" r="1"></circle>
+          </svg>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</nav>

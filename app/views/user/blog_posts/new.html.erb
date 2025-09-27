@@ -1,0 +1,97 @@
+<% content_for :title, "New Blog Post" %>
+
+<div class="container mx-auto px-4 py-8">
+  <div class="max-w-4xl mx-auto">
+    <div class="mb-6">
+      <%= link_to "← Back to My Posts", user_blog_posts_path,
+          class: "text-blue-600 hover:text-blue-800 text-sm font-medium" %>
+    </div>
+
+    <div class="bg-white shadow rounded-lg overflow-hidden">
+      <div class="px-6 py-8">
+        <h1 class="text-3xl font-bold text-gray-900 mb-8">Create New Blog Post</h1>
+
+        <%= form_with model: [@blog_post], url: user_blog_posts_path, local: true, class: "space-y-6" do |form| %>
+          <% if @blog_post.errors.any? %>
+            <div class="bg-red-50 border border-red-200 rounded-md p-4">
+              <div class="flex">
+                <div class="ml-3">
+                  <h3 class="text-sm font-medium text-red-800">
+                    <%= pluralize(@blog_post.errors.count, "error") %> prohibited this post from being saved:
+                  </h3>
+                  <div class="mt-2 text-sm text-red-700">
+                    <ul class="list-disc list-inside">
+                      <% @blog_post.errors.each do |error| %>
+                        <li><%= error.full_message %></li>
+                      <% end %>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+          <% end %>
+
+          <div>
+            <%= form.label :title, class: "block text-sm font-medium text-gray-700" %>
+            <%= form.text_field :title,
+                class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500",
+                placeholder: "Enter your blog post title..." %>
+          </div>
+
+          <div>
+            <%= form.label :excerpt, class: "block text-sm font-medium text-gray-700" %>
+            <%= form.text_area :excerpt,
+                class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500",
+                rows: 3,
+                placeholder: "Brief excerpt or summary..." %>
+          </div>
+
+          <div>
+            <%= form.label :content, class: "block text-sm font-medium text-gray-700" %>
+            <%= form.text_area :content,
+                class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500",
+                rows: 15,
+                placeholder: "Write your blog post content here..." %>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+              <%= form.label :category_id, "Category", class: "block text-sm font-medium text-gray-700" %>
+              <%= form.select :category_id,
+                  options_from_collection_for_select(@categories, :id, :name, @blog_post.category_id),
+                  { prompt: "Select a category..." },
+                  { class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500" } %>
+            </div>
+
+            <div>
+              <%= form.label :tag_ids, "Tags", class: "block text-sm font-medium text-gray-700" %>
+              <%= form.select :tag_ids,
+                  options_from_collection_for_select(@tags, :id, :name, @blog_post.tag_ids),
+                  {},
+                  { multiple: true,
+                    class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500" } %>
+            </div>
+          </div>
+
+          <div>
+            <%= form.label :status, class: "block text-sm font-medium text-gray-700" %>
+            <%= form.select :status,
+                options_for_select([
+                  ['Draft', 'draft'],
+                  ['Published', 'published']
+                ], @blog_post.status),
+                {},
+                { class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500" } %>
+          </div>
+
+          <div class="flex justify-end space-x-4">
+            <%= link_to "Cancel", user_blog_posts_path,
+                class: "bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded" %>
+            <%= form.submit "Create Post",
+                class: "bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

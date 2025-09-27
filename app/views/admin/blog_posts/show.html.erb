@@ -1,0 +1,116 @@
+<div class="container mx-auto px-4 py-8 max-w-4xl">
+  <div class="flex justify-between items-center mb-6">
+    <h1 class="text-3xl font-bold"><%= @post.title %></h1>
+    <div class="flex gap-2">
+      <%= link_to 'Edit', edit_admin_blog_post_path(@post), class: 'px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700' %>
+      <%= link_to 'Back to Posts', admin_blog_posts_path, class: 'px-4 py-2 bg-gray-600 text-white rounded hover:bg-gray-700' %>
+    </div>
+  </div>
+
+  <div class="bg-white shadow-lg rounded-lg overflow-hidden">
+    <div class="p-6">
+      <div class="grid grid-cols-2 gap-4 mb-6">
+        <div>
+          <span class="font-semibold">Status:</span>
+          <span class="ml-2 px-2 inline-flex text-xs leading-5 font-semibold rounded-full
+            <%= @post.published? ? 'bg-green-100 text-green-800' :
+                @post.draft? ? 'bg-yellow-100 text-yellow-800' :
+                'bg-gray-100 text-gray-800' %>">
+            <%= @post.status.capitalize %>
+          </span>
+        </div>
+
+        <div>
+          <span class="font-semibold">Author:</span>
+          <span class="ml-2"><%= @post.author&.name || 'Not assigned' %></span>
+        </div>
+
+        <div>
+          <span class="font-semibold">Category:</span>
+          <span class="ml-2"><%= @post.category&.name || 'Uncategorized' %></span>
+        </div>
+
+        <div>
+          <span class="font-semibold">Published At:</span>
+          <span class="ml-2"><%= @post.published_at&.strftime("%B %d, %Y at %I:%M %p") || 'Not published' %></span>
+        </div>
+
+        <div>
+          <span class="font-semibold">Featured:</span>
+          <span class="ml-2"><%= @post.featured? ? 'Yes' : 'No' %></span>
+        </div>
+
+        <div>
+          <span class="font-semibold">Views:</span>
+          <span class="ml-2"><%= @post.view_count %></span>
+        </div>
+      </div>
+
+      <% if @post.tags.any? %>
+        <div class="mb-6">
+          <span class="font-semibold">Tags:</span>
+          <div class="mt-2 flex flex-wrap gap-2">
+            <% @post.tags.each do |tag| %>
+              <span class="px-2 py-1 bg-gray-100 text-gray-700 rounded text-sm"><%= tag.name %></span>
+            <% end %>
+          </div>
+        </div>
+      <% end %>
+
+      <% if @post.excerpt.present? %>
+        <div class="mb-6">
+          <h3 class="font-semibold mb-2">Excerpt</h3>
+          <p class="text-gray-700 italic"><%= @post.excerpt %></p>
+        </div>
+      <% end %>
+
+      <div class="mb-6">
+        <h3 class="font-semibold mb-2">Content</h3>
+        <div class="prose max-w-none">
+          <%= @post.content %>
+        </div>
+      </div>
+
+      <% if @post.featured_image.attached? %>
+        <div class="mb-6">
+          <h3 class="font-semibold mb-2">Featured Image</h3>
+          <%= image_tag @post.featured_image, class: 'rounded-lg max-w-full' %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+
+  <div class="mt-6 bg-gray-50 rounded-lg p-6">
+    <h3 class="font-semibold mb-4">SEO Information</h3>
+    <div class="grid grid-cols-1 gap-4">
+      <div>
+        <span class="font-medium">Meta Title:</span>
+        <span class="ml-2 text-gray-700"><%= @post.meta_title || 'Using default title' %></span>
+      </div>
+      <div>
+        <span class="font-medium">Meta Description:</span>
+        <span class="ml-2 text-gray-700"><%= @post.meta_description || 'Using default description' %></span>
+      </div>
+      <div>
+        <span class="font-medium">Meta Keywords:</span>
+        <span class="ml-2 text-gray-700"><%= @post.meta_keywords || 'No keywords set' %></span>
+      </div>
+    </div>
+  </div>
+
+  <div class="mt-6 flex justify-between">
+    <div>
+      <% if @post.draft? %>
+        <%= button_to 'Publish', publish_admin_blog_post_path(@post), method: :post,
+            class: 'px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700' %>
+      <% elsif @post.published? %>
+        <%= button_to 'Archive', archive_admin_blog_post_path(@post), method: :post,
+            class: 'px-4 py-2 bg-yellow-600 text-white rounded hover:bg-yellow-700' %>
+      <% end %>
+    </div>
+
+    <%= button_to 'Delete', admin_blog_post_path(@post), method: :delete,
+        data: { confirm: 'Are you sure? This action cannot be undone.' },
+        class: 'px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700' %>
+  </div>
+</div>

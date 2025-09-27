@@ -1,0 +1,62 @@
+<div class="flex space-x-4 <%= 'ml-8' if comment.parent_id.present? %>" id="comment-<%= comment.id %>">
+  <div class="flex-shrink-0">
+    <img src="<%= comment.gravatar_url(48) %>" alt="<%= comment.author_name %>" class="w-12 h-12 rounded-full">
+  </div>
+  <div class="flex-grow">
+    <div class="bg-white rounded-lg p-4 border border-gray-200">
+      <div class="flex items-start justify-between mb-2">
+        <div>
+          <h4 class="font-semibold text-gray-900">
+            <% if comment.author_website.present? %>
+              <%= link_to comment.author_name, comment.author_website, target: "_blank", rel: "nofollow", class: "hover:text-indigo-600" %>
+            <% else %>
+              <%= comment.author_name %>
+            <% end %>
+          </h4>
+          <p class="text-sm text-gray-500">
+            <%= comment.created_at.strftime("%B %d, %Y at %I:%M %p") %>
+          </p>
+        </div>
+
+        <% if comment.pending? %>
+          <span class="px-2 py-1 text-xs font-medium text-yellow-800 bg-yellow-100 rounded-full">
+            Pending Moderation
+          </span>
+        <% end %>
+      </div>
+
+      <div class="prose prose-sm max-w-none text-gray-700">
+        <%= simple_format(comment.content) %>
+      </div>
+
+      <% unless comment.max_depth_reached? %>
+        <div class="mt-3">
+          <button type="button" class="text-sm text-indigo-600 hover:text-indigo-800" onclick="toggleReplyForm('reply-form-<%= comment.id %>')">
+            Reply
+          </button>
+        </div>
+
+        <div id="reply-form-<%= comment.id %>" class="hidden mt-4">
+          <%= render 'blog/comments/form', blog_post: comment.blog_post, parent_comment: comment %>
+        </div>
+      <% end %>
+    </div>
+
+    <% if comment.replies.approved.any? %>
+      <div class="mt-4">
+        <% comment.replies.approved.recent.each do |reply| %>
+          <%= render 'blog/comments/comment', comment: reply %>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+</div>
+
+<script>
+  function toggleReplyForm(formId) {
+    const form = document.getElementById(formId);
+    if (form) {
+      form.classList.toggle('hidden');
+    }
+  }
+</script>

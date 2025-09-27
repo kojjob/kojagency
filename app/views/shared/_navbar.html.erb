@@ -1,0 +1,72 @@
+<nav class="fixed top-0 w-full z-50 bg-white/90 backdrop-blur-md border-b border-gray-100 transition-all duration-300" data-controller="navbar">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex justify-between items-center h-16 lg:h-20">
+      <!-- Logo -->
+      <div class="flex-shrink-0 flex items-center">
+        <%= link_to root_path, class: "group flex items-center space-x-2" do %>
+          <div class="w-10 h-10 bg-gradient-to-br from-indigo-600 to-purple-600 rounded-lg flex items-center justify-center transform group-hover:scale-110 transition-transform duration-200">
+            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+            </svg>
+          </div>
+          <span class="text-xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
+            KojAgency
+          </span>
+        <% end %>
+      </div>
+
+      <!-- Desktop Navigation -->
+      <div class="hidden lg:flex items-center space-x-8">
+        <%= link_to "Services", services_path, class: "text-gray-700 hover:text-indigo-600 font-medium transition-colors duration-200 relative group" %>
+        <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-indigo-600 group-hover:w-full transition-all duration-200"></span>
+
+        <%= link_to "Projects", projects_path, class: "text-gray-700 hover:text-indigo-600 font-medium transition-colors duration-200 relative group" %>
+        <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-indigo-600 group-hover:w-full transition-all duration-200"></span>
+
+        <%= link_to "About", about_path, class: "text-gray-700 hover:text-indigo-600 font-medium transition-colors duration-200 relative group" %>
+        <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-indigo-600 group-hover:w-full transition-all duration-200"></span>
+
+        <%= link_to "Testimonials", testimonials_path, class: "text-gray-700 hover:text-indigo-600 font-medium transition-colors duration-200 relative group" %>
+        <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-indigo-600 group-hover:w-full transition-all duration-200"></span>
+
+        <%= link_to "Blog", blog_posts_path, class: "text-gray-700 hover:text-indigo-600 font-medium transition-colors duration-200 relative group" %>
+        <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-indigo-600 group-hover:w-full transition-all duration-200"></span>
+
+        <% if admin_signed_in? %>
+          <%= link_to "Admin", admin_root_path, class: "text-gray-700 hover:text-indigo-600 font-medium transition-colors duration-200 relative group bg-indigo-50 px-3 py-1 rounded-md" %>
+          <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-indigo-600 group-hover:w-full transition-all duration-200"></span>
+        <% end %>
+
+        <%= link_to "Contact", contact_path, class: "ml-4 px-6 py-2.5 bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-medium rounded-full hover:shadow-lg transform hover:-translate-y-0.5 transition-all duration-200" %>
+      </div>
+
+      <!-- Mobile menu button -->
+      <button
+        type="button"
+        class="lg:hidden inline-flex items-center justify-center p-2 rounded-lg text-gray-700 hover:text-indigo-600 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500 transition-all duration-200"
+        data-action="click->navbar#toggleMobile"
+        data-navbar-target="menuButton"
+      >
+        <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path data-navbar-target="openIcon" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+          <path data-navbar-target="closeIcon" class="hidden" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- Mobile menu -->
+  <div class="hidden lg:hidden" data-navbar-target="mobileMenu">
+    <div class="px-2 pt-2 pb-3 space-y-1 bg-white border-t border-gray-100">
+      <%= link_to "Services", services_path, class: "block px-3 py-2 rounded-lg text-base font-medium text-gray-700 hover:text-indigo-600 hover:bg-gray-50 transition-all duration-200" %>
+      <%= link_to "Projects", projects_path, class: "block px-3 py-2 rounded-lg text-base font-medium text-gray-700 hover:text-indigo-600 hover:bg-gray-50 transition-all duration-200" %>
+      <%= link_to "About", about_path, class: "block px-3 py-2 rounded-lg text-base font-medium text-gray-700 hover:text-indigo-600 hover:bg-gray-50 transition-all duration-200" %>
+      <%= link_to "Testimonials", testimonials_path, class: "block px-3 py-2 rounded-lg text-base font-medium text-gray-700 hover:text-indigo-600 hover:bg-gray-50 transition-all duration-200" %>
+      <%= link_to "Blog", blog_posts_path, class: "block px-3 py-2 rounded-lg text-base font-medium text-gray-700 hover:text-indigo-600 hover:bg-gray-50 transition-all duration-200" %>
+      <% if admin_signed_in? %>
+        <%= link_to "Admin", admin_root_path, class: "block px-3 py-2 rounded-lg text-base font-medium text-indigo-600 bg-indigo-50 hover:bg-indigo-100 transition-all duration-200" %>
+      <% end %>
+      <%= link_to "Get Started", contact_path, class: "block mx-3 mt-2 px-6 py-2.5 bg-gradient-to-r from-indigo-600 to-purple-600 text-white text-center font-medium rounded-full hover:shadow-lg transition-all duration-200" %>
+    </div>
+  </div>
+</nav>

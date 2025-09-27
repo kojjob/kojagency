@@ -1,0 +1,172 @@
+<%= form_with model: [:admin, post], local: true, class: 'space-y-6' do |form| %>
+  <% if post.errors.any? %>
+    <div class="bg-red-50 border border-red-200 rounded-lg p-4">
+      <h3 class="text-red-800 font-semibold mb-2">
+        <%= pluralize(post.errors.count, "error") %> prohibited this post from being saved:
+      </h3>
+      <ul class="list-disc list-inside text-red-700">
+        <% post.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="bg-white shadow-lg rounded-lg p-6 space-y-6">
+    <div>
+      <%= form.label :title, class: 'block text-sm font-medium text-gray-700 mb-2' %>
+      <%= form.text_field :title, class: 'mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500' %>
+    </div>
+
+    <div>
+      <%= form.label :excerpt, class: 'block text-sm font-medium text-gray-700 mb-2' %>
+      <%= form.text_area :excerpt, rows: 3, class: 'mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500' %>
+      <p class="mt-1 text-sm text-gray-500">Brief description that appears in blog listings</p>
+    </div>
+
+    <div>
+      <%= form.label :content, class: 'block text-sm font-medium text-gray-700 mb-2' %>
+      <%= form.text_area :content, rows: 15, class: 'mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500' %>
+    </div>
+
+    <div class="grid grid-cols-2 gap-6">
+      <div>
+        <%= form.label :author_id, class: 'block text-sm font-medium text-gray-700 mb-2' %>
+        <%= form.select :author_id,
+            options_for_select(@authors.map { |a| [a.name, a.id] }, post.author_id),
+            { prompt: 'Select an author' },
+            class: 'mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500' %>
+      </div>
+
+      <div>
+        <%= form.label :category_id, class: 'block text-sm font-medium text-gray-700 mb-2' %>
+        <%= form.select :category_id,
+            options_for_select(@categories.map { |c| [c.name, c.id] }, post.category_id),
+            { prompt: 'Select a category' },
+            class: 'mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500' %>
+      </div>
+    </div>
+
+    <div>
+      <%= form.label :tag_ids, 'Tags', class: 'block text-sm font-medium text-gray-700 mb-2' %>
+      <div class="grid grid-cols-3 gap-2">
+        <%= form.collection_check_boxes :tag_ids, @tags || [], :id, :name do |b| %>
+          <div class="flex items-center">
+            <%= b.check_box(class: 'rounded border-gray-300 text-blue-600 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50') %>
+            <%= b.label(class: 'ml-2 text-sm text-gray-700') %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-2 gap-6">
+      <div>
+        <%= form.label :status, class: 'block text-sm font-medium text-gray-700 mb-2' %>
+        <%= form.select :status,
+            options_for_select([['Draft', 'draft'], ['Published', 'published'], ['Archived', 'archived']], post.status),
+            {},
+            class: 'mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500' %>
+      </div>
+
+      <div>
+        <%= form.label :published_at, class: 'block text-sm font-medium text-gray-700 mb-2' %>
+        <%= form.datetime_field :published_at, class: 'mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500' %>
+        <p class="mt-1 text-sm text-gray-500">Leave blank to publish immediately when status is set to published</p>
+      </div>
+    </div>
+
+    <div>
+      <div class="flex items-center">
+        <%= form.check_box :featured, class: 'rounded border-gray-300 text-blue-600 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50' %>
+        <%= form.label :featured, 'Feature this post', class: 'ml-2 text-sm font-medium text-gray-700' %>
+      </div>
+      <p class="mt-1 text-sm text-gray-500">Featured posts appear prominently on the blog homepage</p>
+    </div>
+
+    <div>
+      <%= form.label :featured_image, class: 'block text-sm font-medium text-gray-700 mb-2' %>
+      <%= form.file_field :featured_image, class: 'mt-1 block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none' %>
+      <p class="mt-1 text-sm text-gray-500">Main image that appears at the top of the post</p>
+      <% if post.featured_image.attached? %>
+        <div class="mt-2">
+          <p class="text-sm text-gray-600">Current image:</p>
+          <%= image_tag post.featured_image, class: 'mt-2 rounded-lg max-w-xs' %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+
+  <!-- SEO Settings -->
+  <div class="bg-white shadow-lg rounded-lg p-6 space-y-6">
+    <h3 class="text-lg font-semibold text-gray-900">SEO Settings</h3>
+
+    <div>
+      <%= form.label :meta_title, class: 'block text-sm font-medium text-gray-700 mb-2' %>
+      <%= form.text_field :meta_title, class: 'mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500' %>
+      <p class="mt-1 text-sm text-gray-500">Defaults to post title if not set</p>
+    </div>
+
+    <div>
+      <%= form.label :meta_description, class: 'block text-sm font-medium text-gray-700 mb-2' %>
+      <%= form.text_area :meta_description, rows: 2, class: 'mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500' %>
+      <p class="mt-1 text-sm text-gray-500">Defaults to excerpt if not set</p>
+    </div>
+
+    <div>
+      <%= form.label :meta_keywords, class: 'block text-sm font-medium text-gray-700 mb-2' %>
+      <%= form.text_field :meta_keywords, class: 'mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500' %>
+      <p class="mt-1 text-sm text-gray-500">Comma-separated list of keywords</p>
+    </div>
+
+    <div>
+      <%= form.label :canonical_url, class: 'block text-sm font-medium text-gray-700 mb-2' %>
+      <%= form.text_field :canonical_url, class: 'mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500' %>
+      <p class="mt-1 text-sm text-gray-500">Leave blank to use the default post URL</p>
+    </div>
+  </div>
+
+  <!-- Location Settings -->
+  <div class="bg-white shadow-lg rounded-lg p-6 space-y-6">
+    <h3 class="text-lg font-semibold text-gray-900">Location Targeting (Optional)</h3>
+
+    <div class="grid grid-cols-2 gap-6">
+      <div>
+        <%= form.label :country_code, class: 'block text-sm font-medium text-gray-700 mb-2' %>
+        <%= form.text_field :country_code, placeholder: 'US', maxlength: 2, class: 'mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500' %>
+      </div>
+
+      <div>
+        <%= form.label :region, class: 'block text-sm font-medium text-gray-700 mb-2' %>
+        <%= form.text_field :region, placeholder: 'California', class: 'mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500' %>
+      </div>
+    </div>
+
+    <div>
+      <%= form.label :city, class: 'block text-sm font-medium text-gray-700 mb-2' %>
+      <%= form.text_field :city, placeholder: 'San Francisco', class: 'mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500' %>
+    </div>
+
+    <div class="grid grid-cols-2 gap-6">
+      <div>
+        <%= form.label :latitude, class: 'block text-sm font-medium text-gray-700 mb-2' %>
+        <%= form.number_field :latitude, step: :any, class: 'mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500' %>
+      </div>
+
+      <div>
+        <%= form.label :longitude, class: 'block text-sm font-medium text-gray-700 mb-2' %>
+        <%= form.number_field :longitude, step: :any, class: 'mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500' %>
+      </div>
+    </div>
+  </div>
+
+  <div class="flex justify-between">
+    <div>
+      <%= link_to 'Cancel', admin_blog_posts_path, class: 'px-4 py-2 border border-gray-300 rounded-md text-gray-700 bg-white hover:bg-gray-50' %>
+    </div>
+
+    <div class="flex gap-2">
+      <%= form.submit 'Save as Draft', name: 'save_draft', class: 'px-4 py-2 border border-blue-600 rounded-md text-blue-600 bg-white hover:bg-blue-50' %>
+      <%= form.submit 'Save', class: 'px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700' %>
+    </div>
+  </div>
+<% end %>

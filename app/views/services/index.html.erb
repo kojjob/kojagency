@@ -1,0 +1,302 @@
+<!-- Services Hero Section -->
+<section class="relative py-24 bg-gradient-to-br from-indigo-50 via-white to-purple-50">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+    <h1 class="text-4xl lg:text-5xl font-bold text-gray-900 mb-6">
+      Our <span class="bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">Services</span>
+    </h1>
+    <p class="max-w-3xl mx-auto text-xl text-gray-600">
+      Comprehensive digital solutions tailored to your business needs.
+    </p>
+  </div>
+</section>
+
+<!-- Services Grid -->
+<section class="py-20 bg-white">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="space-y-20">
+      <% @services.each_with_index do |service, index| %>
+        <div class="<%= index.even? ? '' : 'lg:flex-row-reverse' %> flex flex-col lg:flex-row gap-12 items-center">
+          <!-- Service Image -->
+          <div class="lg:w-1/2">
+            <div class="aspect-w-16 aspect-h-12 rounded-2xl relative overflow-hidden" style="min-height: 400px;">
+              <% if service[:icon] == "web" %>
+                <!-- Web Development Image -->
+                <div class="absolute inset-0 bg-gradient-to-br from-blue-500 via-indigo-600 to-purple-700 p-8">
+                  <div class="h-full w-full relative">
+                    <!-- Browser Window -->
+                    <div class="bg-white/10 backdrop-blur-sm rounded-lg p-2 h-full">
+                      <div class="flex space-x-2 mb-2">
+                        <div class="w-3 h-3 bg-red-400 rounded-full"></div>
+                        <div class="w-3 h-3 bg-yellow-400 rounded-full"></div>
+                        <div class="w-3 h-3 bg-green-400 rounded-full"></div>
+                      </div>
+                      <div class="bg-white/5 rounded h-full p-4">
+                        <!-- Code Lines -->
+                        <div class="space-y-2">
+                          <div class="h-2 bg-blue-400/30 rounded w-3/4"></div>
+                          <div class="h-2 bg-purple-400/30 rounded w-full"></div>
+                          <div class="h-2 bg-pink-400/30 rounded w-5/6"></div>
+                          <div class="h-2 bg-indigo-400/30 rounded w-2/3"></div>
+                          <div class="h-2 bg-blue-400/30 rounded w-4/5"></div>
+                        </div>
+                      </div>
+                    </div>
+                    <!-- Floating Elements -->
+                    <div class="absolute -top-4 -right-4 w-20 h-20 bg-gradient-to-br from-yellow-400 to-orange-500 rounded-2xl opacity-80 animate-pulse"></div>
+                    <div class="absolute -bottom-4 -left-4 w-16 h-16 bg-gradient-to-br from-green-400 to-teal-500 rounded-full opacity-80 animate-bounce"></div>
+                  </div>
+                </div>
+              <% elsif service[:icon] == "mobile" %>
+                <!-- Mobile Development Image -->
+                <div class="absolute inset-0 bg-gradient-to-br from-green-500 via-teal-600 to-blue-700 p-8">
+                  <div class="h-full w-full flex items-center justify-center">
+                    <!-- Phone Mockup -->
+                    <div class="relative">
+                      <div class="bg-gray-900 rounded-3xl p-2 shadow-2xl transform rotate-6">
+                        <div class="bg-white rounded-2xl p-4 w-48 h-80">
+                          <!-- App Screen -->
+                          <div class="bg-gradient-to-b from-teal-50 to-blue-50 rounded-lg h-full p-3">
+                            <div class="bg-teal-500 h-12 rounded-lg mb-3"></div>
+                            <div class="space-y-2">
+                              <div class="bg-gray-200 h-8 rounded"></div>
+                              <div class="bg-gray-200 h-8 rounded"></div>
+                              <div class="bg-gray-200 h-8 rounded"></div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <!-- Second Phone -->
+                      <div class="absolute -right-12 top-8 bg-gray-900 rounded-3xl p-2 shadow-2xl transform -rotate-6 scale-90">
+                        <div class="bg-white rounded-2xl p-4 w-48 h-80">
+                          <div class="bg-gradient-to-b from-purple-50 to-pink-50 rounded-lg h-full p-3">
+                            <div class="bg-purple-500 h-12 rounded-lg mb-3"></div>
+                            <div class="grid grid-cols-2 gap-2">
+                              <div class="bg-gray-200 h-16 rounded"></div>
+                              <div class="bg-gray-200 h-16 rounded"></div>
+                              <div class="bg-gray-200 h-16 rounded"></div>
+                              <div class="bg-gray-200 h-16 rounded"></div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              <% elsif service[:icon] == "data" %>
+                <!-- Data Engineering Image -->
+                <div class="absolute inset-0 bg-gradient-to-br from-purple-600 via-indigo-700 to-blue-800 p-8">
+                  <div class="h-full w-full relative">
+                    <!-- Data Flow Visualization -->
+                    <div class="absolute inset-0 flex items-center justify-center">
+                      <svg class="w-full h-full" viewBox="0 0 400 300">
+                        <!-- Data Pipeline -->
+                        <defs>
+                          <linearGradient id="dataGradient<%= index %>" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" style="stop-color:#60A5FA;stop-opacity:1" />
+                            <stop offset="100%" style="stop-color:#A78BFA;stop-opacity:1" />
+                          </linearGradient>
+                        </defs>
+
+                        <!-- Source Database -->
+                        <rect x="20" y="100" width="80" height="100" rx="8" fill="url(#dataGradient<%= index %>)" opacity="0.8"/>
+                        <rect x="20" y="80" width="80" height="20" rx="8" fill="url(#dataGradient<%= index %>)"/>
+
+                        <!-- Data Flow Lines -->
+                        <path d="M100 140 Q200 140 200 80" stroke="#60A5FA" stroke-width="3" fill="none" stroke-dasharray="5,5" opacity="0.8">
+                          <animate attributeName="stroke-dashoffset" values="0;10" dur="1s" repeatCount="indefinite"/>
+                        </path>
+                        <path d="M100 140 Q200 140 200 140" stroke="#A78BFA" stroke-width="3" fill="none" stroke-dasharray="5,5" opacity="0.8">
+                          <animate attributeName="stroke-dashoffset" values="0;10" dur="1s" repeatCount="indefinite"/>
+                        </path>
+                        <path d="M100 140 Q200 140 200 200" stroke="#F472B6" stroke-width="3" fill="none" stroke-dasharray="5,5" opacity="0.8">
+                          <animate attributeName="stroke-dashoffset" values="0;10" dur="1s" repeatCount="indefinite"/>
+                        </path>
+
+                        <!-- Processing Center -->
+                        <circle cx="200" cy="140" r="30" fill="#8B5CF6" opacity="0.9"/>
+                        <circle cx="200" cy="140" r="20" fill="#A78BFA" opacity="0.9"/>
+
+                        <!-- Output Streams -->
+                        <rect x="280" y="60" width="100" height="40" rx="20" fill="#60A5FA" opacity="0.8"/>
+                        <rect x="280" y="120" width="100" height="40" rx="20" fill="#A78BFA" opacity="0.8"/>
+                        <rect x="280" y="180" width="100" height="40" rx="20" fill="#F472B6" opacity="0.8"/>
+                      </svg>
+                    </div>
+                    <!-- Floating Data Points -->
+                    <div class="absolute top-4 left-4 w-4 h-4 bg-cyan-400 rounded-full animate-ping"></div>
+                    <div class="absolute bottom-4 right-4 w-4 h-4 bg-purple-400 rounded-full animate-ping" style="animation-delay: 0.5s"></div>
+                    <div class="absolute top-1/2 right-8 w-4 h-4 bg-pink-400 rounded-full animate-ping" style="animation-delay: 1s"></div>
+                  </div>
+                </div>
+              <% elsif service[:icon] == "analytics" %>
+                <!-- Analytics Platform Image -->
+                <div class="absolute inset-0 bg-gradient-to-br from-orange-500 via-red-600 to-pink-700 p-8">
+                  <div class="h-full w-full relative">
+                    <!-- Dashboard Mockup -->
+                    <div class="bg-white/10 backdrop-blur-sm rounded-xl p-4 h-full">
+                      <!-- Charts Grid -->
+                      <div class="grid grid-cols-2 gap-4 h-full">
+                        <!-- Bar Chart -->
+                        <div class="bg-white/10 rounded-lg p-3 flex items-end justify-around">
+                          <div class="w-8 bg-gradient-to-t from-orange-400 to-yellow-400 rounded-t" style="height: 40%"></div>
+                          <div class="w-8 bg-gradient-to-t from-orange-400 to-yellow-400 rounded-t" style="height: 70%"></div>
+                          <div class="w-8 bg-gradient-to-t from-orange-400 to-yellow-400 rounded-t" style="height: 55%"></div>
+                          <div class="w-8 bg-gradient-to-t from-orange-400 to-yellow-400 rounded-t" style="height: 85%"></div>
+                        </div>
+                        <!-- Line Chart -->
+                        <div class="bg-white/10 rounded-lg p-3 relative">
+                          <svg class="w-full h-full">
+                            <polyline points="10,50 30,30 50,35 70,20 90,25 110,10"
+                                      stroke="url(#lineGradient<%= index %>)"
+                                      stroke-width="3"
+                                      fill="none"/>
+                            <defs>
+                              <linearGradient id="lineGradient<%= index %>" x1="0%" y1="0%" x2="100%" y2="0%">
+                                <stop offset="0%" style="stop-color:#FBBF24;stop-opacity:1" />
+                                <stop offset="100%" style="stop-color:#F87171;stop-opacity:1" />
+                              </linearGradient>
+                            </defs>
+                          </svg>
+                        </div>
+                        <!-- Pie Chart -->
+                        <div class="bg-white/10 rounded-lg p-3 flex items-center justify-center">
+                          <div class="relative w-24 h-24">
+                            <svg class="transform -rotate-90 w-24 h-24">
+                              <circle cx="48" cy="48" r="36" stroke="#FBBF24" stroke-width="24" fill="none" stroke-dasharray="113 226"/>
+                              <circle cx="48" cy="48" r="36" stroke="#F87171" stroke-width="24" fill="none" stroke-dasharray="75 226" stroke-dashoffset="-113"/>
+                              <circle cx="48" cy="48" r="36" stroke="#FB923C" stroke-width="24" fill="none" stroke-dasharray="38 226" stroke-dashoffset="-188"/>
+                            </svg>
+                          </div>
+                        </div>
+                        <!-- Metrics -->
+                        <div class="bg-white/10 rounded-lg p-3">
+                          <div class="text-white/80 text-xs mb-1">Growth</div>
+                          <div class="text-2xl font-bold text-white">+127%</div>
+                          <div class="text-green-300 text-xs">↑ 23% vs last month</div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              <% else %>
+                <!-- Consulting Image -->
+                <div class="absolute inset-0 bg-gradient-to-br from-emerald-500 via-teal-600 to-cyan-700 p-8">
+                  <div class="h-full w-full relative flex items-center justify-center">
+                    <!-- Strategy Icon -->
+                    <div class="relative">
+                      <svg class="w-40 h-40" viewBox="0 0 200 200">
+                        <!-- Lightbulb -->
+                        <path d="M100 40 C70 40 45 65 45 95 C45 115 55 130 70 140 L70 160 L130 160 L130 140 C145 130 155 115 155 95 C155 65 130 40 100 40 Z"
+                              fill="none"
+                              stroke="white"
+                              stroke-width="3"/>
+                        <!-- Glow Effect -->
+                        <circle cx="100" cy="95" r="40" fill="yellow" opacity="0.3">
+                          <animate attributeName="r" values="40;45;40" dur="2s" repeatCount="indefinite"/>
+                        </circle>
+                        <!-- Ideas -->
+                        <line x1="100" y1="20" x2="100" y2="5" stroke="white" stroke-width="3"/>
+                        <line x1="140" y1="35" x2="150" y2="25" stroke="white" stroke-width="3"/>
+                        <line x1="165" y1="70" x2="180" y2="65" stroke="white" stroke-width="3"/>
+                        <line x1="35" y1="70" x2="20" y2="65" stroke="white" stroke-width="3"/>
+                        <line x1="60" y1="35" x2="50" y2="25" stroke="white" stroke-width="3"/>
+                      </svg>
+                      <!-- Orbiting Elements -->
+                      <div class="absolute top-0 right-0 w-8 h-8 bg-yellow-400 rounded-full animate-pulse"></div>
+                      <div class="absolute bottom-0 left-0 w-6 h-6 bg-cyan-400 rounded-full animate-pulse" style="animation-delay: 0.5s"></div>
+                      <div class="absolute top-1/2 -right-4 w-5 h-5 bg-green-400 rounded-full animate-pulse" style="animation-delay: 1s"></div>
+                    </div>
+                  </div>
+                </div>
+              <% end %>
+            </div>
+          </div>
+
+          <!-- Service Content -->
+          <div class="lg:w-1/2">
+            <h2 class="text-3xl lg:text-4xl font-bold text-gray-900 mb-6">
+              <%= service[:title] %>
+            </h2>
+            <p class="text-lg text-gray-600 mb-8">
+              <%= service[:description] %>
+            </p>
+
+            <!-- Features -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
+              <% service[:features].first(4).each do |feature| %>
+                <div class="flex items-start">
+                  <svg class="w-5 h-5 text-indigo-600 mr-2 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                  </svg>
+                  <span class="text-gray-700"><%= feature %></span>
+                </div>
+              <% end %>
+            </div>
+
+            <!-- Technologies -->
+            <div class="mb-8">
+              <h4 class="text-sm font-medium text-gray-500 uppercase tracking-wide mb-3">Technologies We Use</h4>
+              <div class="flex flex-wrap gap-2">
+                <% service[:technologies].each do |tech| %>
+                  <span class="px-3 py-1 bg-gray-100 text-gray-700 rounded-full text-sm">
+                    <%= tech %>
+                  </span>
+                <% end %>
+              </div>
+            </div>
+
+            <%= link_to service_path(service[:slug]), class: "inline-flex items-center px-6 py-3 bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-semibold rounded-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-300" do %>
+              Learn More
+              <svg class="ml-2 w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+              </svg>
+            <% end %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</section>
+
+<!-- Process Section -->
+<section class="py-20 bg-gray-50">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="text-center mb-12">
+      <h2 class="text-3xl lg:text-4xl font-bold text-gray-900 mb-4">
+        How We Work
+      </h2>
+      <p class="max-w-2xl mx-auto text-xl text-gray-600">
+        Our proven process ensures project success from start to finish.
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-8">
+      <% ["Discovery", "Planning", "Design", "Development", "Testing", "Launch"].each_with_index do |step, index| %>
+        <div class="text-center">
+          <div class="w-16 h-16 mx-auto bg-gradient-to-br from-indigo-500 to-purple-600 rounded-full flex items-center justify-center text-white font-bold text-xl mb-4">
+            <%= index + 1 %>
+          </div>
+          <h3 class="font-semibold text-gray-900"><%= step %></h3>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</section>
+
+<!-- CTA Section -->
+<section class="py-20 bg-gradient-to-r from-indigo-600 to-purple-600">
+  <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+    <h2 class="text-3xl lg:text-4xl font-bold text-white mb-6">
+      Ready to Get Started?
+    </h2>
+    <p class="text-xl text-indigo-100 mb-8">
+      Let's discuss how we can help transform your business.
+    </p>
+    <%= link_to contact_path, class: "inline-flex items-center px-8 py-4 bg-white text-indigo-600 font-semibold rounded-full hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300" do %>
+      Start Your Project
+      <svg class="ml-2 w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path>
+      </svg>
+    <% end %>
+  </div>
+</section>

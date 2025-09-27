@@ -1,0 +1,74 @@
+<% content_for :title, "My Blog Posts" %>
+
+<div class="container mx-auto px-4 py-8">
+  <div class="flex justify-between items-center mb-6">
+    <h1 class="text-3xl font-bold text-gray-900">My Blog Posts</h1>
+    <%= link_to "New Post", new_user_blog_post_path,
+        class: "bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" %>
+  </div>
+
+  <% if @blog_posts.any? %>
+    <div class="bg-white shadow overflow-hidden sm:rounded-md">
+      <ul class="divide-y divide-gray-200">
+        <% @blog_posts.each do |post| %>
+          <li>
+            <div class="px-4 py-4 sm:px-6">
+              <div class="flex items-center justify-between">
+                <div class="flex-1 min-w-0">
+                  <h3 class="text-lg font-medium text-gray-900 truncate">
+                    <%= link_to post.title, user_blog_post_path(post),
+                        class: "text-blue-600 hover:text-blue-800" %>
+                  </h3>
+                  <p class="mt-1 text-sm text-gray-500">
+                    Status:
+                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium
+                               <%= post.published? ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800' %>">
+                      <%= post.status.humanize %>
+                    </span>
+                  </p>
+                  <p class="mt-1 text-sm text-gray-500">
+                    Created: <%= post.created_at.strftime("%B %d, %Y") %>
+                    <% if post.published_at %>
+                      | Published: <%= post.published_at.strftime("%B %d, %Y") %>
+                    <% end %>
+                  </p>
+                </div>
+                <div class="flex space-x-2">
+                  <%= link_to "Edit", edit_user_blog_post_path(post),
+                      class: "text-blue-600 hover:text-blue-800 text-sm font-medium" %>
+                  <% if post.draft? %>
+                    <%= link_to "Publish", publish_user_blog_post_path(post),
+                        method: :post,
+                        class: "text-green-600 hover:text-green-800 text-sm font-medium",
+                        data: { confirm: "Are you sure you want to publish this post?" } %>
+                  <% elsif post.published? %>
+                    <%= link_to "Unpublish", unpublish_user_blog_post_path(post),
+                        method: :post,
+                        class: "text-yellow-600 hover:text-yellow-800 text-sm font-medium",
+                        data: { confirm: "Are you sure you want to unpublish this post?" } %>
+                  <% end %>
+                  <%= link_to "Delete", user_blog_post_path(post),
+                      method: :delete,
+                      class: "text-red-600 hover:text-red-800 text-sm font-medium",
+                      data: { confirm: "Are you sure you want to delete this post?" } %>
+                </div>
+              </div>
+            </div>
+          </li>
+        <% end %>
+      </ul>
+    </div>
+
+    <% if respond_to?(:paginate) %>
+      <div class="mt-6">
+        <%= paginate @blog_posts %>
+      </div>
+    <% end %>
+  <% else %>
+    <div class="text-center py-12">
+      <p class="text-gray-500 mb-4">You haven't created any blog posts yet.</p>
+      <%= link_to "Create your first post", new_user_blog_post_path,
+          class: "bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" %>
+    </div>
+  <% end %>
+</div>

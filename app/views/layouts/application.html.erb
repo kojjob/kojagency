@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title><%= content_for(:title) || "KojAgency - Digital Agency for Web, Mobile & Data Solutions" %></title>
+
+    <!-- Primary Meta Tags -->
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="description" content="<%= content_for(:description) || 'Leading digital agency specializing in custom web development, mobile applications, data pipelines, and analytics platforms. Transform your digital presence with our expert team.' %>">
+    <meta name="keywords" content="<%= content_for(:keywords) || 'web development, mobile apps, data pipelines, analytics platforms, Ruby on Rails, React, Vue.js, digital transformation, SaaS development' %>">
+    <meta name="author" content="KojAgency">
+    <meta name="robots" content="index, follow">
+    <meta name="language" content="English">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="<%= content_for(:og_type) || 'website' %>">
+    <meta property="og:url" content="<%= request.original_url %>">
+    <meta property="og:title" content="<%= content_for(:og_title) || content_for(:title) || 'KojAgency - Digital Agency for Web, Mobile & Data Solutions' %>">
+    <meta property="og:description" content="<%= content_for(:og_description) || content_for(:description) || 'Leading digital agency specializing in custom web development, mobile applications, data pipelines, and analytics platforms.' %>">
+    <meta property="og:image" content="<%= content_for(:og_image) || '/og-image.jpg' %>">
+    <meta property="og:site_name" content="KojAgency">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="<%= request.original_url %>">
+    <meta property="twitter:title" content="<%= content_for(:twitter_title) || content_for(:title) || 'KojAgency - Digital Agency' %>">
+    <meta property="twitter:description" content="<%= content_for(:twitter_description) || content_for(:description) || 'Leading digital agency for web, mobile & data solutions.' %>">
+    <meta property="twitter:image" content="<%= content_for(:twitter_image) || '/twitter-card.jpg' %>">
+
+    <!-- PWA -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="application-name" content="KojAgency">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="theme-color" content="#6366f1">
+
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <!-- Canonical URL -->
+    <link rel="canonical" href="<%= content_for(:canonical_url) || request.original_url %>">
+
+    <!-- Favicon -->
+    <link rel="icon" href="/favicon.ico">
+    <link rel="icon" href="/icon.png" type="image/png">
+    <link rel="icon" href="/icon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+
+    <!-- External Resources -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+    <!-- AOS Animation Library -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+    <%# Enable PWA manifest for installable apps %>
+    <%#= tag.link rel: "manifest", href: pwa_manifest_path(format: :json) %>
+
+    <%= yield :head %>
+
+    <!-- Structured Data -->
+    <%= yield :structured_data %>
+
+    <%# Includes all stylesheet files in app/assets/stylesheets %>
+    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+    <%= stylesheet_link_tag "tailwind", "data-turbo-track": "reload" %>
+    <%= javascript_importmap_tags %>
+  </head>
+
+  <body class="<%= content_for(:body_class) %> min-h-screen flex flex-col">
+    <!-- Navigation -->
+    <%= render "shared/navbar" %>
+
+    <!-- Main Content -->
+    <main class="flex-grow pt-16 lg:pt-20">
+      <%= yield %>
+    </main>
+
+    <!-- Footer -->
+    <%= render "shared/footer" %>
+
+    <!-- AOS Animation Library -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+      AOS.init({
+        duration: 800,
+        once: true,
+        offset: 100
+      });
+    </script>
+
+    <%= yield :scripts %>
+  </body>
+</html>

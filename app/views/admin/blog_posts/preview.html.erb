@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title><%= @post.meta_title || @post.title %></title>
+  <meta name="description" content="<%= @post.meta_description || @post.excerpt %>" />
+  <meta name="keywords" content="<%= @post.meta_keywords %>" />
+  <style>
+    body { font-family: system-ui, sans-serif; max-width: 800px; margin: 0 auto; padding: 20px; }
+    .header { background: #f3f4f6; padding: 20px; border-radius: 8px; margin-bottom: 30px; }
+    .meta { color: #6b7280; margin-bottom: 10px; }
+    .content { line-height: 1.8; }
+    .tags { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 30px; }
+    .tag { background: #e5e7eb; padding: 5px 10px; border-radius: 4px; font-size: 14px; }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <div class="meta">
+      <% if @post.published? %>
+        Published on <%= @post.published_at&.strftime("%B %d, %Y") %>
+      <% else %>
+        <%= @post.status.capitalize %> - Preview Mode
+      <% end %>
+      | By <%= @post.author&.name || "Unknown Author" %>
+      | <%= @post.category&.name || "Uncategorized" %>
+    </div>
+    <h1><%= @post.title %></h1>
+    <% if @post.excerpt.present? %>
+      <p><em><%= @post.excerpt %></em></p>
+    <% end %>
+  </div>
+
+  <% if @post.featured_image.attached? %>
+    <div style="margin-bottom: 30px;">
+      <%= image_tag @post.featured_image, style: 'width: 100%; height: auto; border-radius: 8px;' %>
+    </div>
+  <% end %>
+
+  <div class="content">
+    <%= simple_format(@post.content) %>
+  </div>
+
+  <% if @post.tags.any? %>
+    <div class="tags">
+      <% @post.tags.each do |tag| %>
+        <span class="tag">#<%= tag.name %></span>
+      <% end %>
+    </div>
+  <% end %>
+</body>
+</html>
