@@ -283,10 +283,10 @@
           </style>
 
           <%# Rich Text Content %>
-          <% if @post.respond_to?(:rich_content) %>
-            <%= @post.rich_content %>
+          <% if @post.content.present? %>
+            <%= @post.content %>
           <% else %>
-            <%= simple_format(@post.content) %>
+            <%= simple_format(@post.excerpt || "No content available") %>
           <% end %>
 
           <%# Interactive Elements for Content %>

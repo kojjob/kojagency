@@ -78,10 +78,10 @@
                 <p class="text-gray-600 text-lg mb-6 leading-relaxed">
                   <% if @featured_post.excerpt.present? %>
                     <%= truncate(@featured_post.excerpt, length: 200) %>
-                  <% elsif @featured_post.rich_content.present? %>
-                    <%= truncate(strip_tags(@featured_post.rich_content.to_s), length: 200) %>
+                  <% elsif @featured_post.content.present? %>
+                    <%= truncate(@featured_post.content.to_plain_text, length: 200) %>
                   <% else %>
-                    <%= truncate(strip_tags(@featured_post.content), length: 200) %>
+                    <span class="text-gray-500">No content available</span>
                   <% end %>
                   <%= link_to "read more", blog_post_path(@featured_post), class: "text-blue-600 hover:text-blue-800 font-medium" %>
                 </p>
@@ -126,10 +126,10 @@
                 <p class="text-gray-600 mb-4 leading-relaxed">
                   <% if post.excerpt.present? %>
                     <%= truncate(post.excerpt, length: 120) %>
-                  <% elsif post.rich_content.present? %>
-                    <%= truncate(strip_tags(post.rich_content.to_s), length: 120) %>
+                  <% elsif post.content.present? %>
+                    <%= truncate(post.content.to_plain_text, length: 120) %>
                   <% else %>
-                    <%= truncate(strip_tags(post.content), length: 120) %>
+                    <span class="text-gray-500">No content available</span>
                   <% end %>
                   <%= link_to "read more", blog_post_path(post), class: "text-blue-600 hover:text-blue-800 text-sm font-medium" %>
                 </p>

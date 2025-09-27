@@ -74,12 +74,13 @@ Rails.application.routes.draw do
       end
     end
 
-    resources :leads, only: [:index, :show, :update, :destroy] do
+    resources :leads, only: [:index, :show, :edit, :update, :destroy] do
       member do
         patch :contact
         patch :qualify
         patch :disqualify
         patch :archive
+        patch :recalculate_score
       end
     end
   end

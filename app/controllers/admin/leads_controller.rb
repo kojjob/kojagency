@@ -4,7 +4,7 @@ module Admin
   class LeadsController < ApplicationController
     before_action :authenticate_admin!
     before_action :require_admin
-    before_action :set_lead, only: [:show, :update, :destroy, :contact, :qualify, :disqualify, :archive]
+    before_action :set_lead, only: [:show, :edit, :update, :destroy, :contact, :qualify, :disqualify, :archive, :recalculate_score]
 
     def index
       @leads = Lead.all
@@ -126,6 +126,10 @@ module Admin
       @notes = @lead.notes || ""
     end
 
+    def edit
+      # Action for rendering the edit form
+    end
+
     def update
       if @lead.update(lead_params)
         redirect_to admin_lead_path(@lead), notice: 'Lead was successfully updated.'
@@ -159,6 +163,46 @@ module Admin
       redirect_to admin_leads_path, notice: 'Lead has been archived.'
     end
 
+    def recalculate_score
+      begin
+        # Force recalculation of the score
+        service = LeadScoringService.new(@lead)
+        new_score = service.calculate_total_score
+
+        @lead.update!(
+          score: new_score,
+          budget_score: service.budget_score,
+          timeline_score: service.timeline_score,
+          complexity_score: service.complexity_score,
+          quality_score: service.quality_score
+        )
+
+        respond_to do |format|
+          format.json {
+            render json: {
+              success: true,
+              score: new_score,
+              message: 'Score recalculated successfully'
+            }
+          }
+          format.html {
+            redirect_to admin_lead_path(@lead), notice: 'Lead score recalculated successfully.'
+          }
+        end
+      rescue => e
+        respond_to do |format|
+          format.json {
+            render json: {
+              success: false,
+              error: e.message
+            }, status: :unprocessable_entity
+          }
+          format.html {
+            redirect_to admin_lead_path(@lead), alert: "Error recalculating score: #{e.message}"
+          }
+        end
+      end
+    end
 
     private
 

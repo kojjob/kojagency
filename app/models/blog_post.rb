@@ -3,7 +3,7 @@ class BlogPost < ApplicationRecord
   friendly_id :title, use: :slugged
 
   # For rich text editor
-  has_rich_text :rich_content
+  has_rich_text :content
 
   # Geocoding
   geocoded_by :location_string
@@ -41,7 +41,7 @@ class BlogPost < ApplicationRecord
 
   # Validations
   validates :title, presence: true, length: { maximum: 255 }
-  validates :rich_content, presence: true
+  validates :content, presence: true
   validates :slug, uniqueness: true
   validates :meta_description, length: { maximum: 160 }, allow_blank: true
   validates :meta_title, length: { maximum: 60 }, allow_blank: true
@@ -87,7 +87,7 @@ class BlogPost < ApplicationRecord
   end
 
   def seo_description
-    meta_description.presence || excerpt.presence || (rich_content.present? ? rich_content.to_plain_text.truncate(160) : '')
+    meta_description.presence || excerpt.presence || (content.present? ? content.to_plain_text.truncate(160) : '')
   end
 
   def structured_data
@@ -167,9 +167,9 @@ class BlogPost < ApplicationRecord
   end
 
   def calculate_reading_time
-    if rich_content.present?
+    if content.present?
       words_per_minute = 250
-      word_count = rich_content.to_plain_text.split.size
+      word_count = content.to_plain_text.split.size
       self.reading_time = (word_count.to_f / words_per_minute).ceil
     end
   end
