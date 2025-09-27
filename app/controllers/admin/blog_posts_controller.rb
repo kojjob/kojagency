@@ -142,7 +142,10 @@ module Admin
       if params[:blog_post][:author_id].present?
         author_type, author_id = params[:blog_post][:author_id].split('-')
         @post.author_type = author_type
-        @post.author_id = author_id
+        @post.author_id = author_id.to_i if author_id.present?
+      else
+        # Clear author if no author selected
+        @post.author = nil
       end
     end
 

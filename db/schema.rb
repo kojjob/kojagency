@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2025_09_27_024820) do
+ActiveRecord::Schema[8.1].define(version: 2025_09_27_034644) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -128,7 +128,7 @@ ActiveRecord::Schema[8.1].define(version: 2025_09_27_024820) do
   end
 
   create_table "blog_posts", force: :cascade do |t|
-    t.bigint "author_id", null: false
+    t.bigint "author_id"
     t.string "author_type"
     t.integer "blog_comments_count", default: 0, null: false
     t.string "canonical_url"

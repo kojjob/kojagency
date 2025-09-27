@@ -14,7 +14,7 @@
 
 <!-- Reading Progress Bar -->
 <div class="fixed top-0 left-0 w-full h-1 bg-gray-200 z-50">
-  <div id="reading-progress" class="h-full bg-gradient-to-r from-indigo-600 to-purple-600 transition-all duration-200" style="width: 0%"></div>
+  <div data-blog-post-target="readingProgress" class="h-full bg-gradient-to-r from-indigo-600 to-purple-600 transition-all duration-200" style="width: 0%"></div>
 </div>
 
 <!-- Hero Section with Parallax -->
@@ -110,78 +110,11 @@
   </div>
 <% end %>
 
-<article class="relative">
+<article class="relative" data-controller="blog-post" data-blog-post-title-value="<%= @post.title %>">
   <div class="container mx-auto px-4 py-12">
-    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 max-w-7xl mx-auto">
-      <!-- Main Content Column -->
-      <div class="lg:col-span-2 lg:sticky lg:top-24 lg:h-fit hidden lg:block">
-        <!-- Floating Table of Contents -->
-        <nav class="bg-white rounded-xl shadow-lg p-6">
-          <h4 class="font-semibold text-gray-900 mb-4 flex items-center gap-2">
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
-            </svg>
-            Table of Contents
-          </h4>
-          <ul class="space-y-2 text-sm" id="toc-list">
-            <!-- Will be populated by JavaScript -->
-          </ul>
-        </nav>
-
-        <!-- Author Card (on desktop) -->
-        <% if @post.author.present? %>
-          <div class="mt-6 bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 rounded-xl shadow-xl p-[2px]">
-            <div class="bg-white rounded-xl p-6">
-              <div class="flex items-start space-x-4">
-                <% if @post.author.respond_to?(:display_avatar) %>
-                  <% if @post.author.avatar.attached? %>
-                    <%= image_tag @post.author.avatar,
-                        class: "w-16 h-16 rounded-full",
-                        alt: @post.author.name %>
-                  <% else %>
-                    <img src="<%= @post.author.display_avatar %>"
-                         class="w-16 h-16 rounded-full"
-                         alt="<%= @post.author.name %>">
-                  <% end %>
-                <% end %>
-                <div class="flex-1">
-                  <h3 class="font-semibold text-gray-900 flex items-center gap-1">
-                    <%= @post.author.name %>
-                    <% if @post.author.respond_to?(:verified?) && @post.author.verified? %>
-                      <svg class="w-4 h-4 text-blue-500" fill="currentColor" viewBox="0 0 20 20">
-                        <path d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"></path>
-                      </svg>
-                    <% end %>
-                  </h3>
-                  <% if @post.author.respond_to?(:display_title) && @post.author.display_title.present? %>
-                    <p class="text-sm text-gray-600 mb-2"><%= @post.author.display_title %></p>
-                  <% end %>
-                  <% if @post.author.bio.present? %>
-                    <p class="text-sm text-gray-700 line-clamp-2"><%= @post.author.bio.truncate(100) %></p>
-                  <% end %>
-                </div>
-              </div>
-
-              <% if @post.author.respond_to?(:has_social_media?) && @post.author.has_social_media? %>
-                <div class="flex space-x-3 mt-4 pt-4 border-t">
-                  <% %w[twitter linkedin github instagram website].each do |platform| %>
-                    <% if @post.author.social_link(platform).present? %>
-                      <a href="<%= @post.author.social_link(platform) %>"
-                         target="_blank"
-                         class="text-gray-500 hover:text-gray-700 transition-colors">
-                        <%= render "blog/shared/social_icon", platform: platform %>
-                      </a>
-                    <% end %>
-                  <% end %>
-                </div>
-              <% end %>
-            </div>
-          </div>
-        <% end %>
-      </div>
-
-      <!-- Article Content -->
-      <div class="lg:col-span-8">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 max-w-full mx-auto px-4">
+      <!-- Article Content (Main) -->
+      <div class="lg:col-span-6">
         <div class="bg-white rounded-2xl shadow-xl p-8 lg:p-12">
           <!-- Excerpt with drop cap -->
           <% if @post.excerpt.present? %>
@@ -191,7 +124,7 @@
           <% end %>
 
           <!-- Main Content with enhanced typography -->
-          <div class="article-content prose prose-lg lg:prose-xl max-w-none">
+          <div class="article-content prose prose-lg lg:prose-xl max-w-none" data-blog-post-target="articleContent">
             <% if @post.rich_content.present? %>
               <div class="lexxy-content">
                 <%= @post.rich_content %>
@@ -295,7 +228,7 @@
 
       <!-- Author Bio (Mobile and Enhanced Desktop) -->
       <% if @post.author.present? %>
-        <div class="lg:col-span-8 mt-8">
+        <div class="lg:col-span-6 mt-8">
           <div class="bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 rounded-2xl shadow-xl p-[2px]">
             <div class="bg-white rounded-2xl p-8">
               <div class="flex items-start space-x-6">
@@ -435,12 +368,25 @@
                   <div class="flex items-center justify-between text-xs text-gray-500">
                     <div class="flex items-center space-x-4">
                       <!-- Author -->
-                      <div class="flex items-center">
-                        <img src="https://www.gravatar.com/avatar/<%= Digest::MD5.hexdigest(related_post.author.email.downcase.strip) %>?s=20&d=mp"
-                             class="w-5 h-5 rounded-full mr-1"
-                             alt="<%= related_post.author.name %>">
-                        <span><%= related_post.author.name.split.first %></span>
-                      </div>
+                      <% if related_post.author.present? %>
+                        <div class="flex items-center">
+                          <% if related_post.author.respond_to?(:email) && related_post.author.email.present? %>
+                            <img src="https://www.gravatar.com/avatar/<%= Digest::MD5.hexdigest(related_post.author.email.downcase.strip) %>?s=20&d=mp"
+                                 class="w-5 h-5 rounded-full mr-1"
+                                 alt="<%= related_post.author.name %>">
+                          <% else %>
+                            <div class="w-5 h-5 rounded-full bg-gradient-to-br from-indigo-400 to-purple-400 flex items-center justify-center text-white text-xs font-bold mr-1">
+                              <%= related_post.author.name.first.upcase %>
+                            </div>
+                          <% end %>
+                          <span><%= related_post.author.name.split.first %></span>
+                        </div>
+                      <% else %>
+                        <div class="flex items-center">
+                          <div class="w-5 h-5 rounded-full bg-gray-300 mr-1"></div>
+                          <span>Anonymous</span>
+                        </div>
+                      <% end %>
 
                       <!-- Reading Time -->
                       <div class="flex items-center">
@@ -469,5 +415,197 @@
         </div>
       </div>
     <% end %>
+      </div>
+
+      <!-- Sidebar (Right) -->
+      <div class="lg:col-span-6">
+        <div class="lg:sticky lg:top-24 space-y-6">
+          <!-- Table of Contents -->
+          <nav id="table-of-contents" class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+            <div class="bg-gradient-to-r from-indigo-500 to-purple-600 px-6 py-4">
+              <h4 class="text-white font-semibold flex items-center gap-2">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                </svg>
+                Table of Contents
+              </h4>
+            </div>
+            <div class="p-4">
+              <ul class="space-y-1" data-blog-post-target="tocList" style="max-height: 280px; overflow-y: auto;">
+                <!-- Will be populated by JavaScript -->
+              </ul>
+            </div>
+          </nav>
+
+          <!-- Author Card -->
+          <% if @post.author.present? %>
+            <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+              <div class="bg-gradient-to-r from-purple-500 to-pink-500 px-6 py-4">
+                <h4 class="text-white font-semibold">About the Author</h4>
+              </div>
+              <div class="p-6">
+                <div class="flex items-center space-x-4 mb-4">
+                  <% if @post.author.respond_to?(:display_avatar) %>
+                    <% if @post.author.avatar.attached? %>
+                      <%= image_tag @post.author.avatar,
+                          class: "w-16 h-16 rounded-full border-2 border-purple-200",
+                          alt: @post.author.name %>
+                    <% else %>
+                      <div class="w-16 h-16 rounded-full bg-gradient-to-br from-purple-400 to-pink-400 flex items-center justify-center text-white text-xl font-bold">
+                        <%= @post.author.name.first.upcase %>
+                      </div>
+                    <% end %>
+                  <% else %>
+                    <div class="w-16 h-16 rounded-full bg-gradient-to-br from-purple-400 to-pink-400 flex items-center justify-center text-white text-xl font-bold">
+                      <%= @post.author.name.first.upcase %>
+                    </div>
+                  <% end %>
+
+                  <div class="flex-1">
+                    <h3 class="font-semibold text-gray-900 flex items-center gap-1">
+                      <%= @post.author.name %>
+                      <% if @post.author.respond_to?(:verified?) && @post.author.verified? %>
+                        <svg class="w-4 h-4 text-blue-500" fill="currentColor" viewBox="0 0 20 20">
+                          <path d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"></path>
+                        </svg>
+                      <% end %>
+                    </h3>
+                    <% if @post.author.respond_to?(:display_title) && @post.author.display_title.present? %>
+                      <p class="text-sm text-gray-600"><%= @post.author.display_title %></p>
+                    <% end %>
+                  </div>
+                </div>
+
+                <% if @post.author.bio.present? %>
+                  <p class="text-sm text-gray-600 mb-4 line-clamp-3"><%= @post.author.bio %></p>
+                <% end %>
+
+                <% if @post.author.respond_to?(:expertise) && @post.author.expertise.present? %>
+                  <div class="flex flex-wrap gap-2 mb-4">
+                    <% @post.author.expertise.first(3).each do |skill| %>
+                      <span class="px-2 py-1 bg-purple-100 text-purple-700 text-xs rounded-md font-medium">
+                        <%= skill %>
+                      </span>
+                    <% end %>
+                  </div>
+                <% end %>
+
+                <div class="flex justify-between items-center pt-4 border-t border-gray-100">
+                  <div class="flex gap-4 text-center">
+                    <% if @post.author.respond_to?(:posts_count) %>
+                      <div>
+                        <div class="text-lg font-bold text-gray-900"><%= @post.author.posts_count %></div>
+                        <div class="text-xs text-gray-500">Articles</div>
+                      </div>
+                    <% end %>
+                    <% if @post.author.respond_to?(:follower_count) && @post.author.follower_count > 0 %>
+                      <div>
+                        <div class="text-lg font-bold text-gray-900"><%= number_to_human(@post.author.follower_count) %></div>
+                        <div class="text-xs text-gray-500">Followers</div>
+                      </div>
+                    <% end %>
+                  </div>
+
+                  <% if @post.author.respond_to?(:has_social_media?) && @post.author.has_social_media? %>
+                    <div class="flex gap-1">
+                      <% %w[twitter linkedin github].each do |platform| %>
+                        <% if @post.author.social_link(platform).present? %>
+                          <a href="<%= @post.author.social_link(platform) %>"
+                             target="_blank"
+                             class="p-1.5 text-gray-400 hover:text-gray-600 transition-colors">
+                            <% if platform == 'twitter' %>
+                              <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z"/>
+                              </svg>
+                            <% elsif platform == 'linkedin' %>
+                              <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                              </svg>
+                            <% elsif platform == 'github' %>
+                              <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                              </svg>
+                            <% end %>
+                          </a>
+                        <% end %>
+                      <% end %>
+                    </div>
+                  <% end %>
+                </div>
+              </div>
+            </div>
+          <% end %>
+
+          <!-- Share Section -->
+          <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+            <div class="bg-gradient-to-r from-green-500 to-teal-600 px-6 py-4">
+              <h4 class="text-white font-semibold flex items-center gap-2">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m9.032 4.026a9.001 9.001 0 01-7.432 0m9.032-4.026A9.001 9.001 0 0112 3c-4.474 0-8.268 2.943-9.543 7a9.97 9.97 0 011.827 3.342M12 21a9.001 9.001 0 01-7.432-3.974m16.975-4.026a9.97 9.97 0 01-1.827 3.342"></path>
+                </svg>
+                Share Article
+              </h4>
+            </div>
+            <div class="p-4">
+              <p class="text-sm text-gray-600 mb-4">Help others discover this article</p>
+              <div class="flex flex-wrap gap-2">
+                <button data-action="click->blog-post#shareOnTwitter" class="flex-1 flex items-center justify-center gap-1 px-3 py-2 bg-[#1DA1F2] text-white text-sm rounded-lg hover:bg-[#1a8cd8] transition-colors">
+                  <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z"/>
+                  </svg>
+                  <span>Tweet</span>
+                </button>
+                <button data-action="click->blog-post#shareOnLinkedIn" class="flex-1 flex items-center justify-center gap-1 px-3 py-2 bg-[#0077B5] text-white text-sm rounded-lg hover:bg-[#006399] transition-colors">
+                  <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                  </svg>
+                  <span>Share</span>
+                </button>
+              </div>
+              <div class="flex gap-2 mt-2">
+                <button data-action="click->blog-post#shareOnFacebook" class="flex-1 flex items-center justify-center gap-1 px-3 py-2 bg-[#1877F2] text-white text-sm rounded-lg hover:bg-[#1664d8] transition-colors">
+                  <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                  </svg>
+                  <span>Share</span>
+                </button>
+                <button data-action="click->blog-post#copyLink" class="flex-1 flex items-center justify-center gap-1 px-3 py-2 bg-gray-100 text-gray-700 text-sm rounded-lg hover:bg-gray-200 transition-colors border border-gray-200">
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
+                  </svg>
+                  <span>Copy</span>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Categories Widget -->
+          <% if BlogCategory.with_posts.any? %>
+            <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+              <div class="bg-gradient-to-r from-blue-500 to-indigo-600 px-6 py-4">
+                <h4 class="text-white font-semibold flex items-center gap-2">
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"></path>
+                  </svg>
+                  Categories
+                </h4>
+              </div>
+              <div class="p-4">
+                <div class="space-y-2">
+                  <% BlogCategory.with_posts.limit(5).each do |category| %>
+                    <%= link_to blog_category_path(category), class: "flex items-center justify-between p-2 rounded-lg hover:bg-gray-50 transition-colors" do %>
+                      <span class="text-sm text-gray-700"><%= category.name %></span>
+                      <span class="text-xs text-gray-500 bg-gray-100 px-2 py-1 rounded-full"><%= category.posts_count %></span>
+                    <% end %>
+                  <% end %>
+                </div>
+              </div>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
   </div>
 </article>
+
+<!-- JavaScript functionality is now handled by Stimulus blog-post controller -->
