@@ -39,13 +39,21 @@
             </h2>
 
             <p class="text-gray-600 mb-4">
-              <%= truncate(post.excerpt || post.content, length: 150) %>
+              <% if post.excerpt.present? %>
+                <%= truncate(post.excerpt, length: 150) %>
+              <% elsif post.rich_content.present? %>
+                <%= truncate(strip_tags(post.rich_content.to_s), length: 150) %>
+              <% else %>
+                <%= truncate(strip_tags(post.content), length: 150) %>
+              <% end %>
             </p>
 
             <div class="flex items-center justify-between text-sm text-gray-500">
               <div class="flex items-center">
-                <span><%= post.author.name %></span>
-                <span class="mx-2">·</span>
+                <% if post.author.present? %>
+                  <span><%= post.author.name %></span>
+                  <span class="mx-2">·</span>
+                <% end %>
                 <span><%= post.published_at&.strftime("%B %d, %Y") %></span>
               </div>
 

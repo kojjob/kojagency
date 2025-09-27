@@ -104,7 +104,7 @@ module Blog
           article: {
             published_time: @post.published_at&.iso8601,
             modified_time: @post.updated_at.iso8601,
-            author: @post.author.name,
+            author: @post.author&.name,
             section: @post.category&.name
           }
         }

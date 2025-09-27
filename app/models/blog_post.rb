@@ -10,7 +10,7 @@ class BlogPost < ApplicationRecord
   after_validation :geocode, if: :location_changed?
 
   # Associations
-  belongs_to :author, polymorphic: true
+  belongs_to :author, polymorphic: true, optional: true
   belongs_to :category, class_name: 'BlogCategory', optional: true
   has_many :blog_post_tags, dependent: :destroy
   has_many :tags, through: :blog_post_tags, source: :blog_tag
@@ -21,10 +21,27 @@ class BlogPost < ApplicationRecord
   has_many :blog_comments, dependent: :destroy
   has_many :approved_comments, -> { approved.root_comments }, class_name: 'BlogComment'
   has_one_attached :featured_image
+  has_many_attached :content_images
+
+  # Hero style options
+  enum :hero_style, {
+    standard: 0,
+    fullscreen: 1,
+    minimal: 2,
+    split: 3
+  }, prefix: true
+
+  # Content layout options
+  enum :content_layout, {
+    classic: 0,
+    magazine: 1,
+    minimal: 2,
+    cards: 3
+  }, prefix: true
 
   # Validations
   validates :title, presence: true, length: { maximum: 255 }
-  validates :content, presence: true
+  validates :rich_content, presence: true
   validates :slug, uniqueness: true
   validates :meta_description, length: { maximum: 160 }, allow_blank: true
   validates :meta_title, length: { maximum: 60 }, allow_blank: true
@@ -70,7 +87,7 @@ class BlogPost < ApplicationRecord
   end
 
   def seo_description
-    meta_description.presence || excerpt.presence || content.truncate(160)
+    meta_description.presence || excerpt.presence || (rich_content.present? ? rich_content.to_plain_text.truncate(160) : '')
   end
 
   def structured_data
@@ -150,9 +167,9 @@ class BlogPost < ApplicationRecord
   end
 
   def calculate_reading_time
-    if content.present?
+    if rich_content.present?
       words_per_minute = 250
-      word_count = content.split.size
+      word_count = rich_content.to_plain_text.split.size
       self.reading_time = (word_count.to_f / words_per_minute).ceil
     end
   end

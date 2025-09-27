@@ -12,96 +12,363 @@
 <% content_for :twitter_description, @post.excerpt %>
 <% content_for :twitter_image, url_for(@post.featured_image) if @post.featured_image.attached? %>
 
-<article class="container mx-auto px-4 py-8">
-  <div class="max-w-4xl mx-auto">
-    <!-- Article Header -->
-    <header class="mb-8">
+<!-- Reading Progress Bar -->
+<div class="fixed top-0 left-0 w-full h-1 bg-gray-200 z-50">
+  <div id="reading-progress" class="h-full bg-gradient-to-r from-indigo-600 to-purple-600 transition-all duration-200" style="width: 0%"></div>
+</div>
+
+<!-- Hero Section with Parallax -->
+<% if @post.featured_image.attached? %>
+  <div class="hero-section relative h-screen overflow-hidden" data-parallax>
+    <!-- Background image with overlay -->
+    <div class="absolute inset-0">
+      <%= image_tag @post.featured_image,
+          class: "w-full h-full object-cover parallax-img",
+          loading: "eager",
+          alt: @post.title %>
+      <div class="absolute inset-0 bg-gradient-to-b from-transparent via-black/30 to-black/80"></div>
+    </div>
+
+    <!-- Content overlay -->
+    <div class="relative h-full flex items-end">
+      <div class="container mx-auto px-4 pb-16">
+        <!-- Category badge with glassmorphism -->
+        <% if @post.category %>
+          <div class="inline-block mb-4">
+            <%= link_to @post.category.name,
+                blog_category_path(@post.category),
+                class: "px-4 py-2 bg-white/10 backdrop-blur-md text-white rounded-full text-sm font-medium hover:bg-white/20 transition-all duration-300 border border-white/20" %>
+          </div>
+        <% end %>
+
+        <!-- Title -->
+        <h1 class="text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-6 leading-tight">
+          <%= @post.title %>
+        </h1>
+
+        <!-- Meta info with author -->
+        <div class="flex items-center justify-between flex-wrap gap-4">
+          <div class="flex items-center space-x-6">
+            <% if @post.author.present? %>
+              <div class="flex items-center space-x-3">
+                <% if @post.author.respond_to?(:display_avatar) %>
+                  <% if @post.author.avatar.attached? %>
+                    <%= image_tag @post.author.avatar,
+                        class: "w-12 h-12 rounded-full border-2 border-white",
+                        alt: @post.author.name %>
+                  <% else %>
+                    <img src="<%= @post.author.display_avatar %>"
+                         class="w-12 h-12 rounded-full border-2 border-white"
+                         alt="<%= @post.author.name %>">
+                  <% end %>
+                <% end %>
+                <div class="text-white">
+                  <span class="font-medium flex items-center gap-1">
+                    <%= @post.author.name %>
+                    <% if @post.author.respond_to?(:verified?) && @post.author.verified? %>
+                      <svg class="w-4 h-4 text-blue-400" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"></path>
+                      </svg>
+                    <% end %>
+                  </span>
+                  <% if @post.author.respond_to?(:display_title) && @post.author.display_title.present? %>
+                    <div class="text-sm text-white/80"><%= @post.author.display_title %></div>
+                  <% end %>
+                </div>
+              </div>
+            <% end %>
+            <span class="text-white/80"><%= @post.published_at&.strftime("%B %d, %Y") %></span>
+            <span class="text-white/80"><%= @post.reading_time %> min read</span>
+          </div>
+          <div class="text-white/80">
+            <%= @post.views_count %> views
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+<% else %>
+  <!-- Minimal hero without image -->
+  <div class="bg-gradient-to-br from-indigo-600 via-purple-600 to-pink-500 py-24">
+    <div class="container mx-auto px-4">
       <% if @post.category %>
-        <%= link_to @post.category.name, blog_category_path(@post.category), class: "text-blue-600 hover:text-blue-800 text-sm font-semibold" %>
-      <% end %>
-
-      <h1 class="text-4xl font-bold mt-2 mb-4"><%= @post.title %></h1>
-
-      <div class="flex items-center text-gray-600 mb-6">
-        <div class="flex items-center">
-          <span>By <%= link_to @post.author.name, blog_author_path(@post.author), class: "font-medium text-gray-900 hover:text-blue-600" %></span>
-          <span class="mx-2">·</span>
-          <span><%= @post.published_at&.strftime("%B %d, %Y") %></span>
-          <span class="mx-2">·</span>
-          <span><%= @post.reading_time %> min read</span>
+        <div class="mb-4">
+          <%= link_to @post.category.name,
+              blog_category_path(@post.category),
+              class: "px-4 py-2 bg-white/20 backdrop-blur-md text-white rounded-full text-sm font-medium hover:bg-white/30 transition-all duration-300" %>
         </div>
+      <% end %>
+      <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6"><%= @post.title %></h1>
+      <div class="flex items-center space-x-6 text-white">
+        <% if @post.author.present? %>
+          <span>By <%= @post.author.name %></span>
+        <% end %>
+        <span><%= @post.published_at&.strftime("%B %d, %Y") %></span>
+        <span><%= @post.reading_time %> min read</span>
+      </div>
+    </div>
+  </div>
+<% end %>
+
+<article class="relative">
+  <div class="container mx-auto px-4 py-12">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 max-w-7xl mx-auto">
+      <!-- Main Content Column -->
+      <div class="lg:col-span-2 lg:sticky lg:top-24 lg:h-fit hidden lg:block">
+        <!-- Floating Table of Contents -->
+        <nav class="bg-white rounded-xl shadow-lg p-6">
+          <h4 class="font-semibold text-gray-900 mb-4 flex items-center gap-2">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+            </svg>
+            Table of Contents
+          </h4>
+          <ul class="space-y-2 text-sm" id="toc-list">
+            <!-- Will be populated by JavaScript -->
+          </ul>
+        </nav>
+
+        <!-- Author Card (on desktop) -->
+        <% if @post.author.present? %>
+          <div class="mt-6 bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 rounded-xl shadow-xl p-[2px]">
+            <div class="bg-white rounded-xl p-6">
+              <div class="flex items-start space-x-4">
+                <% if @post.author.respond_to?(:display_avatar) %>
+                  <% if @post.author.avatar.attached? %>
+                    <%= image_tag @post.author.avatar,
+                        class: "w-16 h-16 rounded-full",
+                        alt: @post.author.name %>
+                  <% else %>
+                    <img src="<%= @post.author.display_avatar %>"
+                         class="w-16 h-16 rounded-full"
+                         alt="<%= @post.author.name %>">
+                  <% end %>
+                <% end %>
+                <div class="flex-1">
+                  <h3 class="font-semibold text-gray-900 flex items-center gap-1">
+                    <%= @post.author.name %>
+                    <% if @post.author.respond_to?(:verified?) && @post.author.verified? %>
+                      <svg class="w-4 h-4 text-blue-500" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"></path>
+                      </svg>
+                    <% end %>
+                  </h3>
+                  <% if @post.author.respond_to?(:display_title) && @post.author.display_title.present? %>
+                    <p class="text-sm text-gray-600 mb-2"><%= @post.author.display_title %></p>
+                  <% end %>
+                  <% if @post.author.bio.present? %>
+                    <p class="text-sm text-gray-700 line-clamp-2"><%= @post.author.bio.truncate(100) %></p>
+                  <% end %>
+                </div>
+              </div>
+
+              <% if @post.author.respond_to?(:has_social_media?) && @post.author.has_social_media? %>
+                <div class="flex space-x-3 mt-4 pt-4 border-t">
+                  <% %w[twitter linkedin github instagram website].each do |platform| %>
+                    <% if @post.author.social_link(platform).present? %>
+                      <a href="<%= @post.author.social_link(platform) %>"
+                         target="_blank"
+                         class="text-gray-500 hover:text-gray-700 transition-colors">
+                        <%= render "blog/shared/social_icon", platform: platform %>
+                      </a>
+                    <% end %>
+                  <% end %>
+                </div>
+              <% end %>
+            </div>
+          </div>
+        <% end %>
       </div>
 
-      <% if @post.featured_image.attached? %>
-        <div class="mb-8">
-          <%= image_tag @post.featured_image, class: "w-full rounded-lg shadow-lg" %>
-        </div>
-      <% end %>
-    </header>
-
-    <!-- Article Content -->
-    <div class="prose prose-lg max-w-none mb-8">
-      <% if @post.excerpt.present? %>
-        <p class="text-xl text-gray-700 leading-relaxed mb-6">
-          <%= @post.excerpt %>
-        </p>
-      <% end %>
-
-      <% if @post.rich_content.present? %>
-        <%= @post.rich_content %>
-      <% else %>
-        <%= raw @post.content %>
-      <% end %>
-    </div>
-
-    <!-- Tags -->
-    <% if @post.tags.any? %>
-      <div class="mb-8">
-        <div class="flex items-center flex-wrap gap-2">
-          <span class="text-sm text-gray-600">Tags:</span>
-          <% @post.tags.each do |tag| %>
-            <%= link_to tag.name, blog_tag_path(tag), class: "px-3 py-1 bg-gray-100 text-gray-700 text-sm rounded-full hover:bg-gray-200" %>
+      <!-- Article Content -->
+      <div class="lg:col-span-8">
+        <div class="bg-white rounded-2xl shadow-xl p-8 lg:p-12">
+          <!-- Excerpt with drop cap -->
+          <% if @post.excerpt.present? %>
+            <div class="text-xl text-gray-700 leading-relaxed mb-8 first-letter:float-left first-letter:text-6xl first-letter:font-bold first-letter:text-indigo-600 first-letter:mr-3 first-letter:mt-1">
+              <%= @post.excerpt %>
+            </div>
           <% end %>
-        </div>
-      </div>
-    <% end %>
 
-    <!-- Share Buttons -->
-    <div class="border-t border-b py-4 mb-8">
-      <div class="flex items-center justify-between">
-        <div class="flex items-center space-x-4">
-          <span class="text-sm text-gray-600">Share:</span>
-          <a href="https://twitter.com/intent/tweet?text=<%= url_encode(@post.title) %>&url=<%= url_encode(request.original_url) %>"
-             target="_blank"
-             class="text-gray-600 hover:text-blue-400">
-            Twitter
-          </a>
-          <a href="https://www.linkedin.com/sharing/share-offsite/?url=<%= url_encode(request.original_url) %>"
-             target="_blank"
-             class="text-gray-600 hover:text-blue-600">
-            LinkedIn
-          </a>
-          <a href="https://www.facebook.com/sharer/sharer.php?u=<%= url_encode(request.original_url) %>"
-             target="_blank"
-             class="text-gray-600 hover:text-blue-800">
-            Facebook
-          </a>
+          <!-- Main Content with enhanced typography -->
+          <div class="article-content prose prose-lg lg:prose-xl max-w-none">
+            <% if @post.rich_content.present? %>
+              <div class="lexxy-content">
+                <%= @post.rich_content %>
+              </div>
+            <% else %>
+              <%= raw @post.content %>
+            <% end %>
+
+            <!-- Content Images Gallery (if any) -->
+            <% if @post.content_images.any? %>
+              <div class="my-12">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <% @post.content_images.each_with_index do |image, index| %>
+                    <figure class="group cursor-pointer" data-lightbox="gallery">
+                      <%= image_tag image,
+                          class: "w-full rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300",
+                          loading: "lazy",
+                          alt: "Image #{index + 1}" %>
+                      <% if image.blob.metadata["caption"].present? %>
+                        <figcaption class="text-sm text-gray-600 mt-2 text-center">
+                          <%= image.blob.metadata["caption"] %>
+                        </figcaption>
+                      <% end %>
+                    </figure>
+                  <% end %>
+                </div>
+              </div>
+            <% end %>
+          </div>
         </div>
 
-        <div class="text-sm text-gray-500">
-          <%= @post.views_count %> views
-        </div>
-      </div>
-    </div>
+        <!-- Tags -->
+        <% if @post.tags.any? %>
+          <div class="mt-8 pt-8 border-t">
+            <div class="flex items-center flex-wrap gap-2">
+              <span class="text-sm font-semibold text-gray-700">Tags:</span>
+              <% @post.tags.each do |tag| %>
+                <%= link_to tag.name,
+                    blog_tag_path(tag),
+                    class: "px-4 py-2 bg-gradient-to-r from-indigo-50 to-purple-50 text-indigo-700 text-sm rounded-full hover:from-indigo-100 hover:to-purple-100 transition-all duration-200 font-medium" %>
+              <% end %>
+            </div>
+          </div>
+        <% end %>
 
-    <!-- Author Bio -->
-    <% if @post.author.bio.present? %>
-      <div class="bg-gray-50 rounded-lg p-6 mb-8">
-        <h3 class="font-semibold mb-2">About the Author</h3>
-        <p class="text-gray-700 mb-2"><%= @post.author.bio %></p>
-        <%= link_to "View all posts by #{@post.author.name}", blog_author_path(@post.author), class: "text-blue-600 hover:text-blue-800 text-sm" %>
+        <!-- Share Buttons -->
+        <div class="mt-8 p-6 bg-gradient-to-r from-indigo-50 to-purple-50 rounded-xl">
+          <div class="flex items-center justify-between flex-wrap gap-4">
+            <div class="flex items-center space-x-2">
+              <span class="text-sm font-semibold text-gray-700">Share this article:</span>
+              <div class="flex items-center space-x-1">
+                <a href="https://twitter.com/intent/tweet?text=<%= url_encode(@post.title) %>&url=<%= url_encode(request.original_url) %>"
+                   target="_blank"
+                   class="p-2 bg-white rounded-full hover:bg-blue-50 transition-colors group">
+                  <svg class="w-5 h-5 text-gray-600 group-hover:text-blue-400" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z"/>
+                  </svg>
+                </a>
+                <a href="https://www.linkedin.com/sharing/share-offsite/?url=<%= url_encode(request.original_url) %>"
+                   target="_blank"
+                   class="p-2 bg-white rounded-full hover:bg-blue-50 transition-colors group">
+                  <svg class="w-5 h-5 text-gray-600 group-hover:text-blue-600" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                  </svg>
+                </a>
+                <a href="https://www.facebook.com/sharer/sharer.php?u=<%= url_encode(request.original_url) %>"
+                   target="_blank"
+                   class="p-2 bg-white rounded-full hover:bg-blue-50 transition-colors group">
+                  <svg class="w-5 h-5 text-gray-600 group-hover:text-blue-800" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                  </svg>
+                </a>
+                <button onclick="navigator.clipboard.writeText(window.location.href); this.innerHTML = 'Copied!'; setTimeout(() => this.innerHTML = '<svg class=\'w-5 h-5\' fill=\'none\' stroke=\'currentColor\' viewBox=\'0 0 24 24\'><path stroke-linecap=\'round\' stroke-linejoin=\'round\' stroke-width=\'2\' d=\'M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z\'></path></svg>', 2000)"
+                        class="p-2 bg-white rounded-full hover:bg-gray-100 transition-colors text-gray-600">
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
+                  </svg>
+                </button>
+              </div>
+            </div>
+
+            <div class="flex items-center space-x-4 text-sm text-gray-600">
+              <span class="flex items-center gap-1">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+                </svg>
+                <%= number_with_delimiter(@post.views_count) %> views
+              </span>
+              <span class="flex items-center gap-1">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
+                </svg>
+                <%= @post.blog_comments_count %> comments
+              </span>
+            </div>
+          </div>
+        </div>
+
       </div>
-    <% end %>
+
+      <!-- Author Bio (Mobile and Enhanced Desktop) -->
+      <% if @post.author.present? %>
+        <div class="lg:col-span-8 mt-8">
+          <div class="bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 rounded-2xl shadow-xl p-[2px]">
+            <div class="bg-white rounded-2xl p-8">
+              <div class="flex items-start space-x-6">
+                <% if @post.author.respond_to?(:display_avatar) %>
+                  <% if @post.author.avatar.attached? %>
+                    <%= image_tag @post.author.avatar,
+                        class: "w-24 h-24 rounded-full flex-shrink-0",
+                        alt: @post.author.name %>
+                  <% else %>
+                    <img src="<%= @post.author.display_avatar %>"
+                         class="w-24 h-24 rounded-full flex-shrink-0"
+                         alt="<%= @post.author.name %>">
+                  <% end %>
+                <% end %>
+                <div class="flex-1">
+                  <h3 class="text-xl font-bold text-gray-900 mb-1 flex items-center gap-2">
+                    About <%= @post.author.name %>
+                    <% if @post.author.respond_to?(:verified?) && @post.author.verified? %>
+                      <svg class="w-5 h-5 text-blue-500" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"></path>
+                      </svg>
+                    <% end %>
+                  </h3>
+                  <% if @post.author.respond_to?(:display_title) && @post.author.display_title.present? %>
+                    <p class="text-gray-600 mb-3"><%= @post.author.display_title %></p>
+                  <% end %>
+                  <% if @post.author.bio.present? %>
+                    <p class="text-gray-700 mb-4"><%= @post.author.bio %></p>
+                  <% end %>
+                  <div class="flex items-center justify-between flex-wrap gap-4">
+                    <div class="flex items-center space-x-6">
+                      <% if @post.author.respond_to?(:posts_count) %>
+                        <div>
+                          <span class="text-2xl font-bold text-gray-900"><%= @post.author.posts_count %></span>
+                          <span class="text-sm text-gray-600 block">Posts</span>
+                        </div>
+                      <% end %>
+                      <% if @post.author.respond_to?(:total_views) %>
+                        <div>
+                          <span class="text-2xl font-bold text-gray-900"><%= number_to_human(@post.author.total_views) %></span>
+                          <span class="text-sm text-gray-600 block">Views</span>
+                        </div>
+                      <% end %>
+                      <% if @post.author.respond_to?(:follower_count) %>
+                        <div>
+                          <span class="text-2xl font-bold text-gray-900"><%= number_with_delimiter(@post.author.follower_count) %></span>
+                          <span class="text-sm text-gray-600 block">Followers</span>
+                        </div>
+                      <% end %>
+                    </div>
+                    <%= link_to "View all posts →",
+                        blog_author_path(@post.author),
+                        class: "inline-flex items-center px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors" %>
+                  </div>
+                  <% if @post.author.respond_to?(:has_social_media?) && @post.author.has_social_media? %>
+                    <div class="flex space-x-3 mt-6 pt-6 border-t">
+                      <% %w[twitter linkedin github instagram website].each do |platform| %>
+                        <% if @post.author.social_link(platform).present? %>
+                          <a href="<%= @post.author.social_link(platform) %>"
+                             target="_blank"
+                             class="p-2 bg-gray-100 rounded-full hover:bg-gray-200 transition-colors">
+                            <%= render "blog/shared/social_icon", platform: platform %>
+                          </a>
+                        <% end %>
+                      <% end %>
+                    </div>
+                  <% end %>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      <% end %>
 
     <!-- Comments Section -->
     <div class="mb-8">
