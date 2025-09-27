@@ -1,77 +1,245 @@
-<div class="container mx-auto px-4 py-8">
-  <div class="max-w-6xl mx-auto">
-    <h1 class="text-4xl font-bold mb-8">Blog</h1>
+<!-- Hero Section -->
+<div class="bg-gradient-to-br from-blue-50 to-indigo-100 py-16">
+  <div class="container mx-auto px-4">
+    <div class="max-w-4xl mx-auto text-center">
+      <h1 class="text-5xl font-bold text-gray-900 mb-6">Blog</h1>
+      <p class="text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
+        Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit sed consequuntur ratione voluptatem sequi nesciunt.
+      </p>
 
-    <% if params[:category].present? %>
-      <div class="mb-4">
-        <p class="text-gray-600">Category: <%= params[:category] %></p>
-      </div>
-    <% end %>
-
-    <% if params[:tag].present? %>
-      <div class="mb-4">
-        <p class="text-gray-600">Tag: <%= params[:tag] %></p>
-      </div>
-    <% end %>
-
-    <% if params[:q].present? %>
-      <div class="mb-4">
-        <p class="text-gray-600">Search results for: "<%= params[:q] %>"</p>
-      </div>
-    <% end %>
-
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-      <% @posts.each do |post| %>
-        <article class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow">
-          <% if post.featured_image.attached? %>
-            <%= link_to blog_post_path(post), class: "block" do %>
-              <%= image_tag post.featured_image, class: "w-full h-48 object-cover" %>
-            <% end %>
+      <!-- Tags Filter -->
+      <div class="mb-8">
+        <h5 class="text-sm font-semibold text-gray-700 mb-4 uppercase tracking-wider">Tags:</h5>
+        <div class="flex flex-wrap justify-center gap-3">
+          <%= link_to "All", blog_posts_path, class: "px-4 py-2 bg-white text-gray-700 rounded-full hover:bg-blue-600 hover:text-white transition-all duration-200 shadow-sm #{'bg-blue-600 text-white' if params[:tag].blank?}" %>
+          <% @tags&.each do |tag| %>
+            <%= link_to tag.name, blog_posts_path(tag: tag.slug), class: "px-4 py-2 bg-white text-gray-700 rounded-full hover:bg-blue-600 hover:text-white transition-all duration-200 shadow-sm #{'bg-blue-600 text-white' if params[:tag] == tag.slug}" %>
           <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 
-          <div class="p-6">
-            <% if post.category %>
-              <%= link_to post.category.name, blog_category_path(post.category), class: "text-sm text-blue-600 hover:text-blue-800" %>
-            <% end %>
+<!-- Main Content -->
+<div class="container mx-auto px-4 py-12">
+  <div class="max-w-7xl mx-auto">
 
-            <h2 class="text-xl font-semibold mb-2 mt-2">
-              <%= link_to post.title, blog_post_path(post), class: "text-gray-900 hover:text-blue-600" %>
-            </h2>
+    <!-- Active Filters Display -->
+    <% if params[:category].present? || params[:tag].present? || params[:q].present? %>
+      <div class="mb-8 p-4 bg-blue-50 rounded-lg">
+        <% if params[:category].present? %>
+          <span class="inline-block bg-blue-100 text-blue-800 text-sm px-3 py-1 rounded-full mr-2 mb-2">
+            Category: <%= params[:category] %>
+            <%= link_to blog_posts_path(params.except(:category)), class: "ml-2 text-blue-600 hover:text-blue-800" do %>×<% end %>
+          </span>
+        <% end %>
+        <% if params[:tag].present? %>
+          <span class="inline-block bg-green-100 text-green-800 text-sm px-3 py-1 rounded-full mr-2 mb-2">
+            Tag: <%= params[:tag] %>
+            <%= link_to blog_posts_path(params.except(:tag)), class: "ml-2 text-green-600 hover:text-green-800" do %>×<% end %>
+          </span>
+        <% end %>
+        <% if params[:q].present? %>
+          <span class="inline-block bg-purple-100 text-purple-800 text-sm px-3 py-1 rounded-full mr-2 mb-2">
+            Search: "<%= params[:q] %>"
+            <%= link_to blog_posts_path(params.except(:q)), class: "ml-2 text-purple-600 hover:text-purple-800" do %>×<% end %>
+          </span>
+        <% end %>
+      </div>
+    <% end %>
 
-            <p class="text-gray-600 mb-4">
-              <% if post.excerpt.present? %>
-                <%= truncate(post.excerpt, length: 150) %>
-              <% elsif post.rich_content.present? %>
-                <%= truncate(strip_tags(post.rich_content.to_s), length: 150) %>
-              <% else %>
-                <%= truncate(strip_tags(post.content), length: 150) %>
-              <% end %>
-            </p>
+    <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
 
-            <div class="flex items-center justify-between text-sm text-gray-500">
-              <div class="flex items-center">
-                <% if post.author.present? %>
-                  <span><%= post.author.name %></span>
-                  <span class="mx-2">·</span>
+      <!-- Main Content Area -->
+      <div class="lg:col-span-3">
+        <% if @featured_post.present? %>
+          <!-- Featured Post -->
+          <div class="mb-12">
+            <article class="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300">
+              <% if @featured_post.featured_image.attached? %>
+                <%= link_to blog_post_path(@featured_post), class: "block relative" do %>
+                  <%= image_tag @featured_post.featured_image, class: "w-full h-64 md:h-80 object-cover" %>
+                  <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
                 <% end %>
-                <span><%= post.published_at&.strftime("%B %d, %Y") %></span>
-              </div>
+              <% end %>
 
-              <span><%= post.reading_time %> min read</span>
+              <div class="p-8">
+                <% if @featured_post.category %>
+                  <%= link_to @featured_post.category.name, blog_category_path(@featured_post.category),
+                      class: "inline-block px-3 py-1 bg-blue-100 text-blue-800 text-sm font-medium rounded-full mb-4 hover:bg-blue-200 transition-colors" %>
+                <% end %>
+
+                <h2 class="text-3xl font-bold text-gray-900 mb-4 leading-tight">
+                  <%= link_to @featured_post.title, blog_post_path(@featured_post),
+                      class: "hover:text-blue-600 transition-colors" %>
+                </h2>
+
+                <p class="text-gray-600 text-lg mb-6 leading-relaxed">
+                  <% if @featured_post.excerpt.present? %>
+                    <%= truncate(@featured_post.excerpt, length: 200) %>
+                  <% elsif @featured_post.rich_content.present? %>
+                    <%= truncate(strip_tags(@featured_post.rich_content.to_s), length: 200) %>
+                  <% else %>
+                    <%= truncate(strip_tags(@featured_post.content), length: 200) %>
+                  <% end %>
+                  <%= link_to "read more", blog_post_path(@featured_post), class: "text-blue-600 hover:text-blue-800 font-medium" %>
+                </p>
+
+                <div class="flex items-center justify-between">
+                  <div class="flex items-center text-sm text-gray-500">
+                    <% if @featured_post.author.present? %>
+                      <span class="font-medium text-gray-700"><%= @featured_post.author.name %></span>
+                      <span class="mx-2">·</span>
+                    <% end %>
+                    <span><%= @featured_post.published_at&.strftime("%d %b, %Y") %></span>
+                    <span class="mx-2">·</span>
+                    <span><%= @featured_post.reading_time %> min read</span>
+                  </div>
+                </div>
+              </div>
+            </article>
+          </div>
+        <% end %>
+
+        <!-- Blog Posts Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <% (@featured_post ? @posts.where.not(id: @featured_post.id) : @posts).each do |post| %>
+            <article class="bg-white rounded-xl shadow-sm hover:shadow-lg transition-all duration-300 overflow-hidden group">
+              <% if post.featured_image.attached? %>
+                <%= link_to blog_post_path(post), class: "block relative overflow-hidden" do %>
+                  <%= image_tag post.featured_image, class: "w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300" %>
+                <% end %>
+              <% end %>
+
+              <div class="p-6">
+                <% if post.category %>
+                  <%= link_to post.category.name, blog_category_path(post.category),
+                      class: "inline-block px-2 py-1 bg-gray-100 text-gray-700 text-xs font-medium rounded-full mb-3 hover:bg-gray-200 transition-colors" %>
+                <% end %>
+
+                <h3 class="text-xl font-semibold text-gray-900 mb-3 leading-tight">
+                  <%= link_to post.title, blog_post_path(post),
+                      class: "hover:text-blue-600 transition-colors" %>
+                </h3>
+
+                <p class="text-gray-600 mb-4 leading-relaxed">
+                  <% if post.excerpt.present? %>
+                    <%= truncate(post.excerpt, length: 120) %>
+                  <% elsif post.rich_content.present? %>
+                    <%= truncate(strip_tags(post.rich_content.to_s), length: 120) %>
+                  <% else %>
+                    <%= truncate(strip_tags(post.content), length: 120) %>
+                  <% end %>
+                  <%= link_to "read more", blog_post_path(post), class: "text-blue-600 hover:text-blue-800 text-sm font-medium" %>
+                </p>
+
+                <div class="flex items-center text-sm text-gray-500">
+                  <% if post.author.present? %>
+                    <span class="font-medium text-gray-700"><%= post.author.name %></span>
+                    <span class="mx-2">·</span>
+                  <% end %>
+                  <span><%= post.published_at&.strftime("%d %b, %Y") %></span>
+                  <span class="mx-2">·</span>
+                  <span><%= post.reading_time %> min read</span>
+                </div>
+              </div>
+            </article>
+          <% end %>
+        </div>
+
+        <% if @posts.empty? %>
+          <div class="text-center py-16">
+            <div class="max-w-md mx-auto">
+              <div class="w-24 h-24 mx-auto mb-6 bg-gray-100 rounded-full flex items-center justify-center">
+                <svg class="w-12 h-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                </svg>
+              </div>
+              <h3 class="text-xl font-medium text-gray-900 mb-2">No posts found</h3>
+              <p class="text-gray-600">We couldn't find any posts matching your criteria. Try adjusting your filters.</p>
             </div>
           </div>
-        </article>
-      <% end %>
-    </div>
+        <% end %>
 
-    <% if @posts.empty? %>
-      <div class="text-center py-12">
-        <p class="text-gray-600 text-lg">No posts found.</p>
+        <!-- Pagination -->
+        <% if @posts.respond_to?(:current_page) %>
+          <div class="mt-12 flex justify-center">
+            <%= paginate @posts %>
+          </div>
+        <% end %>
       </div>
-    <% end %>
 
-    <div class="mt-8">
-      <%= paginate @posts %>
+      <!-- Sidebar -->
+      <div class="lg:col-span-1">
+        <div class="sticky top-8 space-y-8">
+
+          <!-- Newsletter Signup -->
+          <div class="bg-gradient-to-br from-blue-600 to-blue-700 rounded-2xl p-6 text-white">
+            <h4 class="text-lg font-semibold mb-3">Get the latest on product development from KojAgency</h4>
+            <p class="text-blue-100 text-sm mb-6">We send a weekly newsletter containing latest updates in product development</p>
+
+            <%= form_with url: subscribe_blog_posts_path, method: :post, local: false,
+                class: "space-y-4", data: { turbo: false } do |form| %>
+              <%= form.email_field :email,
+                  placeholder: "Enter your email",
+                  class: "w-full px-4 py-2 rounded-lg border-0 text-gray-900 placeholder-gray-500 focus:ring-2 focus:ring-blue-300 focus:outline-none",
+                  required: true %>
+              <%= form.submit "Subscribe",
+                  class: "w-full bg-white text-blue-600 px-6 py-2 rounded-lg font-medium hover:bg-gray-50 transition-colors cursor-pointer" %>
+            <% end %>
+
+            <p class="text-xs text-blue-200 mt-3">*No spam ever.</p>
+          </div>
+
+          <!-- Popular Categories -->
+          <% if @categories&.any? %>
+            <div class="bg-white rounded-xl shadow-sm p-6">
+              <h4 class="text-lg font-semibold text-gray-900 mb-4">Popular Categories</h4>
+              <div class="space-y-2">
+                <% @categories.limit(6).each do |category| %>
+                  <%= link_to blog_category_path(category),
+                      class: "flex items-center justify-between py-2 px-3 rounded-lg hover:bg-gray-50 transition-colors group" do %>
+                    <span class="text-gray-700 group-hover:text-blue-600"><%= category.name %></span>
+                    <span class="text-xs text-gray-500 bg-gray-100 px-2 py-1 rounded-full"><%= category.blog_posts.published.count %></span>
+                  <% end %>
+                <% end %>
+              </div>
+            </div>
+          <% end %>
+
+          <!-- Recent Posts -->
+          <% if @recent_posts&.any? %>
+            <div class="bg-white rounded-xl shadow-sm p-6">
+              <h4 class="text-lg font-semibold text-gray-900 mb-4">Recent Posts</h4>
+              <div class="space-y-4">
+                <% @recent_posts.limit(4).each do |post| %>
+                  <article class="group">
+                    <%= link_to blog_post_path(post), class: "block" do %>
+                      <div class="flex space-x-3">
+                        <% if post.featured_image.attached? %>
+                          <%= image_tag post.featured_image, class: "w-16 h-16 object-cover rounded-lg flex-shrink-0" %>
+                        <% else %>
+                          <div class="w-16 h-16 bg-gray-200 rounded-lg flex-shrink-0"></div>
+                        <% end %>
+                        <div class="flex-1 min-w-0">
+                          <h5 class="text-sm font-medium text-gray-900 group-hover:text-blue-600 transition-colors line-clamp-2">
+                            <%= truncate(post.title, length: 60) %>
+                          </h5>
+                          <p class="text-xs text-gray-500 mt-1">
+                            <%= post.published_at&.strftime("%b %d") %>
+                          </p>
+                        </div>
+                      </div>
+                    <% end %>
+                  </article>
+                <% end %>
+              </div>
+            </div>
+          <% end %>
+
+        </div>
+      </div>
     </div>
   </div>
 </div>
