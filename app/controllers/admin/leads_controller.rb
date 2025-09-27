@@ -7,7 +7,7 @@ module Admin
     before_action :set_lead, only: [:show, :update, :destroy, :contact, :qualify, :disqualify, :archive]
 
     def index
-      @leads = Lead.includes(:lead_status)
+      @leads = Lead.all
 
       # Filter by priority
       case params[:priority]
@@ -68,6 +68,58 @@ module Admin
         this_week: Lead.where(created_at: 1.week.ago..Time.current).count,
         this_month: Lead.where(created_at: 1.month.ago..Time.current).count
       }
+
+      respond_to do |format|
+        format.html # Default HTML rendering
+        format.csv do
+          # Get all leads for export (without pagination)
+          export_leads = Lead.all
+
+          # Apply same filters as above
+          case params[:priority]
+          when 'high'
+            export_leads = export_leads.high_priority
+          when 'medium'
+            export_leads = export_leads.medium_priority
+          when 'low'
+            export_leads = export_leads.low_priority
+          end
+
+          export_leads = export_leads.where(lead_status: params[:status]) if params[:status].present?
+          export_leads = export_leads.where(project_type: params[:project_type]) if params[:project_type].present?
+
+          if params[:q].present?
+            export_leads = export_leads.where(
+              'first_name ILIKE :q OR last_name ILIKE :q OR email ILIKE :q OR company ILIKE :q OR project_description ILIKE :q',
+              q: "%#{params[:q]}%"
+            )
+          end
+
+          if params[:start_date].present? && params[:end_date].present?
+            export_leads = export_leads.where(created_at: Date.parse(params[:start_date])..Date.parse(params[:end_date]))
+          end
+
+          # Apply same sorting
+          case params[:sort]
+          when 'score_desc'
+            export_leads = export_leads.order(score: :desc)
+          when 'score_asc'
+            export_leads = export_leads.order(score: :asc)
+          when 'name'
+            export_leads = export_leads.order(:first_name, :last_name)
+          when 'created_desc'
+            export_leads = export_leads.order(created_at: :desc)
+          when 'created_asc'
+            export_leads = export_leads.order(created_at: :asc)
+          else
+            export_leads = export_leads.order(created_at: :desc)
+          end
+
+          headers['Content-Disposition'] = "attachment; filename=\"leads-#{Date.current}.csv\""
+          headers['Content-Type'] = 'text/csv'
+          render plain: generate_csv(export_leads)
+        end
+      end
     end
 
     def show
@@ -107,37 +159,6 @@ module Admin
       redirect_to admin_leads_path, notice: 'Lead has been archived.'
     end
 
-    def export
-      @leads = Lead.all
-
-      # Apply same filters as index
-      case params[:priority]
-      when 'high'
-        @leads = @leads.high_priority
-      when 'medium'
-        @leads = @leads.medium_priority
-      when 'low'
-        @leads = @leads.low_priority
-      end
-
-      @leads = @leads.where(lead_status: params[:status]) if params[:status].present?
-      @leads = @leads.where(project_type: params[:project_type]) if params[:project_type].present?
-
-      if params[:q].present?
-        @leads = @leads.where(
-          'first_name ILIKE :q OR last_name ILIKE :q OR email ILIKE :q OR company ILIKE :q',
-          q: "%#{params[:q]}%"
-        )
-      end
-
-      respond_to do |format|
-        format.csv do
-          headers['Content-Disposition'] = "attachment; filename=\"leads-#{Date.current}.csv\""
-          headers['Content-Type'] = 'text/csv'
-          render plain: generate_csv(@leads)
-        end
-      end
-    end
 
     private
 
