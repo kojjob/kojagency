@@ -87,7 +87,7 @@ gem 'friendly_id', '~> 5.5'
 # Image and Media Processing
 # image_processing is already declared above with version ~> 1.2
 gem 'mini_magick', '~> 4.12'
-gem 'active_storage_validations', '~> 1.0'
+gem 'active_storage_validations', '~> 3.0'
 
 # Search
 gem 'pg_search', '~> 2.3' # For PostgreSQL full-text search
