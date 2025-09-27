@@ -73,7 +73,7 @@ group :test do
   gem "capybara"
   gem "selenium-webdriver"
   gem 'faker', '~> 3.0'
-  gem 'shoulda-matchers', '~> 5.0'
+  gem 'shoulda-matchers', '~> 6.5'
   gem 'database_cleaner-active_record', '~> 2.0'
   gem 'simplecov', '~> 0.22', require: false
   gem 'rails-controller-testing', '~> 1.0'
