@@ -11,3 +11,5 @@
 
 @import "application.tailwind.css";
 @import "blog.css";
+@import "blog_redesign.scss";
+@import "lexxy.css";

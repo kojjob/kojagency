@@ -22,6 +22,32 @@ module Admin
     def create
       @post = BlogPost.new(post_params)
 
+      # Handle new author creation if needed
+      if params[:new_author_name].present? && params[:new_author_email].present?
+        author = BlogAuthor.find_or_create_by(email: params[:new_author_email]) do |a|
+          a.name = params[:new_author_name]
+          a.bio = params[:new_author_bio] if params[:new_author_bio].present?
+          a.title = params[:new_author_title] if params[:new_author_title].present?
+          a.company = params[:new_author_company] if params[:new_author_company].present?
+          a.location = params[:new_author_location] if params[:new_author_location].present?
+          a.expertise = params[:new_author_expertise].split(',').map(&:strip) if params[:new_author_expertise].present?
+          a.follower_count = params[:new_author_follower_count].to_i if params[:new_author_follower_count].present?
+          a.verified = params[:new_author_verified] == '1'
+
+          # Social media
+          if a.social_media.nil?
+            a.social_media = {}
+          end
+          a.social_media['twitter'] = params[:new_author_twitter] if params[:new_author_twitter].present?
+          a.social_media['linkedin'] = params[:new_author_linkedin] if params[:new_author_linkedin].present?
+          a.social_media['github'] = params[:new_author_github] if params[:new_author_github].present?
+          a.social_media['website'] = params[:new_author_website] if params[:new_author_website].present?
+        end
+        @post.author = author
+      else
+        set_author_from_params
+      end
+
       if @post.save
         redirect_to admin_blog_post_path(@post), notice: 'Blog post was successfully created.'
       else
@@ -34,6 +60,32 @@ module Admin
     end
 
     def update
+      # Handle new author creation if needed
+      if params[:new_author_name].present? && params[:new_author_email].present?
+        author = BlogAuthor.find_or_create_by(email: params[:new_author_email]) do |a|
+          a.name = params[:new_author_name]
+          a.bio = params[:new_author_bio] if params[:new_author_bio].present?
+          a.title = params[:new_author_title] if params[:new_author_title].present?
+          a.company = params[:new_author_company] if params[:new_author_company].present?
+          a.location = params[:new_author_location] if params[:new_author_location].present?
+          a.expertise = params[:new_author_expertise].split(',').map(&:strip) if params[:new_author_expertise].present?
+          a.follower_count = params[:new_author_follower_count].to_i if params[:new_author_follower_count].present?
+          a.verified = params[:new_author_verified] == '1'
+
+          # Social media
+          if a.social_media.nil?
+            a.social_media = {}
+          end
+          a.social_media['twitter'] = params[:new_author_twitter] if params[:new_author_twitter].present?
+          a.social_media['linkedin'] = params[:new_author_linkedin] if params[:new_author_linkedin].present?
+          a.social_media['github'] = params[:new_author_github] if params[:new_author_github].present?
+          a.social_media['website'] = params[:new_author_website] if params[:new_author_website].present?
+        end
+        @post.author = author
+      else
+        set_author_from_params
+      end
+
       if @post.update(post_params)
         redirect_to admin_blog_post_path(@post), notice: 'Blog post was successfully updated.'
       else
@@ -75,14 +127,26 @@ module Admin
 
     def post_params
       params.require(:blog_post).permit(
-        :title, :content, :excerpt, :author_id, :category_id, :status,
+        :title, :rich_content, :excerpt, :author_id, :category_id, :status,
         :featured_image, :published_at, :featured,
         :meta_title, :meta_description, :meta_keywords,
         :canonical_url, :og_title, :og_description, :og_image_url,
         :twitter_card, :twitter_title, :twitter_description, :twitter_image_url,
         :country_code, :region, :city, :latitude, :longitude,
-        tag_ids: []
+        :hero_style, :content_layout,
+        tag_ids: [], content_images: []
       )
+    end
+
+    def set_author_from_params
+      if params[:blog_post][:author_id].present?
+        author_type, author_id = params[:blog_post][:author_id].split('-')
+        @post.author_type = author_type
+        @post.author_id = author_id.to_i if author_id.present?
+      else
+        # Clear author if no author selected
+        @post.author = nil
+      end
     end
 
     def require_admin
