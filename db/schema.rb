@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2025_09_27_001041) do
+ActiveRecord::Schema[8.1].define(version: 2025_09_27_034644) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -54,12 +54,18 @@ ActiveRecord::Schema[8.1].define(version: 2025_09_27_001041) do
 
   create_table "blog_authors", force: :cascade do |t|
     t.text "bio"
+    t.string "company"
     t.datetime "created_at", null: false
     t.string "email"
+    t.text "expertise", default: [], array: true
+    t.integer "follower_count", default: 0
+    t.string "location"
     t.string "name"
     t.string "slug"
     t.jsonb "social_media"
+    t.string "title"
     t.datetime "updated_at", null: false
+    t.boolean "verified", default: false
     t.string "website"
     t.index ["slug"], name: "index_blog_authors_on_slug", unique: true
   end
@@ -122,17 +128,19 @@ ActiveRecord::Schema[8.1].define(version: 2025_09_27_001041) do
   end
 
   create_table "blog_posts", force: :cascade do |t|
-    t.bigint "author_id", null: false
+    t.bigint "author_id"
     t.string "author_type"
     t.integer "blog_comments_count", default: 0, null: false
     t.string "canonical_url"
     t.bigint "category_id"
     t.string "city"
     t.text "content"
+    t.integer "content_layout", default: 0
     t.string "country_code"
     t.datetime "created_at", null: false
     t.text "excerpt"
     t.boolean "featured"
+    t.integer "hero_style", default: 0
     t.decimal "latitude"
     t.decimal "longitude"
     t.string "meta_description"

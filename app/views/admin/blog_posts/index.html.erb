@@ -58,18 +58,39 @@
             </td>
             <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
               <div class="flex gap-2">
-                <%= link_to 'Edit', edit_admin_blog_post_path(post), class: 'text-indigo-600 hover:text-indigo-900' %>
-                <%= link_to 'Preview', preview_admin_blog_post_path(post), class: 'text-gray-600 hover:text-gray-900', target: '_blank' %>
+                <% if defined?(admin_signed_in?) && admin_signed_in? %>
+                  <%# Admins can access all actions %>
+                  <%= link_to 'Edit', edit_admin_blog_post_path(post), class: 'text-indigo-600 hover:text-indigo-900' %>
+                  <%= link_to 'Preview', preview_admin_blog_post_path(post), class: 'text-gray-600 hover:text-gray-900', target: '_blank' %>
 
-                <% if post.draft? %>
-                  <%= button_to 'Publish', publish_admin_blog_post_path(post), method: :post, class: 'text-green-600 hover:text-green-900' %>
-                <% elsif post.published? %>
-                  <%= button_to 'Archive', archive_admin_blog_post_path(post), method: :post, class: 'text-yellow-600 hover:text-yellow-900' %>
+                  <% if post.draft? %>
+                    <%= button_to 'Publish', publish_admin_blog_post_path(post), method: :post, class: 'text-green-600 hover:text-green-900' %>
+                  <% elsif post.published? %>
+                    <%= button_to 'Archive', archive_admin_blog_post_path(post), method: :post, class: 'text-yellow-600 hover:text-yellow-900' %>
+                  <% end %>
+
+                  <%= button_to 'Delete', admin_blog_post_path(post), method: :delete,
+                      data: { confirm: 'Are you sure?' },
+                      class: 'text-red-600 hover:text-red-900' %>
+                <% elsif defined?(current_blog_author) && current_blog_author && post.author == current_blog_author %>
+                  <%# Blog authors can only edit/delete their own posts %>
+                  <%= link_to 'Edit', edit_admin_blog_post_path(post), class: 'text-indigo-600 hover:text-indigo-900' %>
+                  <%= link_to 'Preview', preview_admin_blog_post_path(post), class: 'text-gray-600 hover:text-gray-900', target: '_blank' %>
+
+                  <% if post.draft? %>
+                    <%= button_to 'Publish', publish_admin_blog_post_path(post), method: :post, class: 'text-green-600 hover:text-green-900' %>
+                  <% elsif post.published? %>
+                    <%= button_to 'Archive', archive_admin_blog_post_path(post), method: :post, class: 'text-yellow-600 hover:text-yellow-900' %>
+                  <% end %>
+
+                  <%= button_to 'Delete', admin_blog_post_path(post), method: :delete,
+                      data: { confirm: 'Are you sure?' },
+                      class: 'text-red-600 hover:text-red-900' %>
+                <% else %>
+                  <%# Other users can only view %>
+                  <%= link_to 'View', admin_blog_post_path(post), class: 'text-gray-600 hover:text-gray-900' %>
+                  <%= link_to 'Preview', preview_admin_blog_post_path(post), class: 'text-gray-600 hover:text-gray-900', target: '_blank' %>
                 <% end %>
-
-                <%= button_to 'Delete', admin_blog_post_path(post), method: :delete,
-                    data: { confirm: 'Are you sure?' },
-                    class: 'text-red-600 hover:text-red-900' %>
               </div>
             </td>
           </tr>

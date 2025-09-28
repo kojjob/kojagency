@@ -3,14 +3,14 @@ class BlogPost < ApplicationRecord
   friendly_id :title, use: :slugged
 
   # For rich text editor
-  has_rich_text :rich_content
+  has_rich_text :content
 
   # Geocoding
   geocoded_by :location_string
   after_validation :geocode, if: :location_changed?
 
   # Associations
-  belongs_to :author, polymorphic: true
+  belongs_to :author, polymorphic: true, optional: true
   belongs_to :category, class_name: 'BlogCategory', optional: true
   has_many :blog_post_tags, dependent: :destroy
   has_many :tags, through: :blog_post_tags, source: :blog_tag
@@ -21,6 +21,23 @@ class BlogPost < ApplicationRecord
   has_many :blog_comments, dependent: :destroy
   has_many :approved_comments, -> { approved.root_comments }, class_name: 'BlogComment'
   has_one_attached :featured_image
+  has_many_attached :content_images
+
+  # Hero style options
+  enum :hero_style, {
+    standard: 0,
+    fullscreen: 1,
+    minimal: 2,
+    split: 3
+  }, prefix: true
+
+  # Content layout options
+  enum :content_layout, {
+    classic: 0,
+    magazine: 1,
+    minimal: 2,
+    cards: 3
+  }, prefix: true
 
   # Validations
   validates :title, presence: true, length: { maximum: 255 }
@@ -70,7 +87,7 @@ class BlogPost < ApplicationRecord
   end
 
   def seo_description
-    meta_description.presence || excerpt.presence || content.truncate(160)
+    meta_description.presence || excerpt.presence || (content.present? ? content.to_plain_text.truncate(160) : '')
   end
 
   def structured_data
@@ -152,7 +169,7 @@ class BlogPost < ApplicationRecord
   def calculate_reading_time
     if content.present?
       words_per_minute = 250
-      word_count = content.split.size
+      word_count = content.to_plain_text.split.size
       self.reading_time = (word_count.to_f / words_per_minute).ceil
     end
   end
