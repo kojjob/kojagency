@@ -32,7 +32,7 @@
 
 // Prose Enhancements
 .prose-magazine {
-  @apply prose-lg;
+  @apply text-lg leading-relaxed;
 
   h2 {
     @apply relative mt-16 mb-8 text-3xl font-bold;
@@ -197,7 +197,7 @@
   }
 
   .comment-content {
-    @apply prose prose-sm max-w-none;
+    @apply text-sm max-w-none;
   }
 
   .comment-actions {
@@ -223,7 +223,7 @@
   }
 
   .prose-magazine {
-    @apply prose-invert;
+    @apply text-gray-100;
 
     h2, h3 {
       @apply text-gray-100;
@@ -304,7 +304,7 @@
   }
 
   .prose-magazine {
-    @apply prose-base;
+    @apply text-base;
 
     h2 {
       @apply text-2xl mt-12 mb-6;

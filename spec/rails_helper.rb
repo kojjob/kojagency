@@ -6,10 +6,6 @@ require_relative '../config/environment'
 abort("The Rails environment is running in production mode!") if Rails.env.production?
 require 'rspec/rails'
 # Add additional requires below this line. Rails is not loaded until this point!
-require 'shoulda/matchers'
-require 'database_cleaner/active_record'
-require 'rails-controller-testing'
-require 'devise'
 
 # Requires supporting ruby files with custom matchers and macros, etc, in
 # spec/support/ and its subdirectories. Files matching `spec/**/*_spec.rb` are
@@ -24,7 +20,7 @@ require 'devise'
 # directory. Alternatively, in the individual `*_spec.rb` files, manually
 # require only the support files necessary.
 #
-Rails.root.glob('spec/support/**/*.rb').sort_by(&:to_s).each { |f| require f }
+# Rails.root.glob('spec/support/**/*.rb').sort_by(&:to_s).each { |f| require f }
 
 # Checks for pending migrations and applies them before tests are run.
 # If you are not using ActiveRecord, you can remove these lines.
@@ -33,37 +29,11 @@ begin
 rescue ActiveRecord::PendingMigrationError => e
   abort e.to_s.strip
 end
-
-# Configure Shoulda Matchers
-Shoulda::Matchers.configure do |config|
-  config.integrate do |with|
-    with.test_framework :rspec
-    with.library :rails
-  end
-end
-
 RSpec.configure do |config|
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
   config.fixture_paths = [
     Rails.root.join('spec/fixtures')
   ]
-
-  # Include FactoryBot methods
-  config.include FactoryBot::Syntax::Methods
-
-  # Include rails-controller-testing
-  [:controller, :view, :request].each do |type|
-    config.include ::Rails::Controller::Testing::TestProcess, type: type
-    config.include ::Rails::Controller::Testing::TemplateAssertions, type: type
-    config.include ::Rails::Controller::Testing::Integration, type: type
-  end
-
-  # Include time helpers
-  config.include ActiveSupport::Testing::TimeHelpers
-
-  # Include Devise test helpers
-  config.include Devise::Test::IntegrationHelpers, type: :request
-  config.include Devise::Test::ControllerHelpers, type: :controller
 
   # If you're not using ActiveRecord, or you'd prefer not to run each of your
   # examples within a transaction, remove the following line or assign false
@@ -92,7 +62,4 @@ RSpec.configure do |config|
   config.filter_rails_from_backtrace!
   # arbitrary gems may also be filtered via:
   # config.filter_gems_from_backtrace("gem name")
-
-  # Use transactional fixtures (built-in Rails feature)
-  config.use_transactional_fixtures = true
 end

@@ -97,8 +97,9 @@
         </div>
         <div class="relative">
           <div class="border-2 border-gray-200 rounded-xl overflow-hidden focus-within:border-indigo-500 focus-within:ring focus-within:ring-indigo-200 focus-within:ring-opacity-50 transition-all duration-200">
-            <%= form.rich_text_area :rich_content,
-                class: 'trix-editor min-h-[400px] w-full p-4 border-0 focus:outline-none focus:ring-0',
+            <%= form.rich_text_area :content,
+                class: 'min-h-[400px] w-full p-4 border-0 focus:outline-none focus:ring-0',
+                data: { controller: "trix-editor" },
                 placeholder: 'Start writing your amazing blog post content...' %>
           </div>
         </div>
