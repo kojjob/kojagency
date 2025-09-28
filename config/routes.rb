@@ -98,4 +98,7 @@ Rails.application.routes.draw do
 
   # Redirect /blog to blog posts index
   get 'blog', to: redirect('/blog/posts')
+
+  # Redirect common incorrect blog routes
+  get 'blog/author', to: redirect('/blog/authors')
 end
