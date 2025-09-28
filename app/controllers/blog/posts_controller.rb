@@ -4,6 +4,8 @@ module Blog
     before_action :set_post, only: [:show]
     before_action :set_meta_tags_for_index, only: [:index]
 
+    rescue_from ActiveRecord::RecordNotFound, with: :handle_record_not_found
+
     def index
       @posts = BlogPost.published.recent
       @posts = filter_by_category if params[:category].present?
@@ -123,6 +125,10 @@ module Blog
           }
         }
       }
+    end
+
+    def handle_record_not_found
+      redirect_to blog_posts_path, alert: 'Blog post not found.'
     end
   end
 end

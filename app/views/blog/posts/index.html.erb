@@ -31,19 +31,19 @@
         <% if params[:category].present? %>
           <span class="inline-block bg-blue-100 text-blue-800 text-sm px-3 py-1 rounded-full mr-2 mb-2">
             Category: <%= params[:category] %>
-            <%= link_to blog_posts_path(params.except(:category)), class: "ml-2 text-blue-600 hover:text-blue-800" do %>×<% end %>
+            <%= link_to blog_posts_path(params.permit(:tag, :q, :page).to_h), class: "ml-2 text-blue-600 hover:text-blue-800" do %>×<% end %>
           </span>
         <% end %>
         <% if params[:tag].present? %>
           <span class="inline-block bg-green-100 text-green-800 text-sm px-3 py-1 rounded-full mr-2 mb-2">
             Tag: <%= params[:tag] %>
-            <%= link_to blog_posts_path(params.except(:tag)), class: "ml-2 text-green-600 hover:text-green-800" do %>×<% end %>
+            <%= link_to blog_posts_path(params.permit(:category, :q, :page).to_h), class: "ml-2 text-green-600 hover:text-green-800" do %>×<% end %>
           </span>
         <% end %>
         <% if params[:q].present? %>
           <span class="inline-block bg-purple-100 text-purple-800 text-sm px-3 py-1 rounded-full mr-2 mb-2">
             Search: "<%= params[:q] %>"
-            <%= link_to blog_posts_path(params.except(:q)), class: "ml-2 text-purple-600 hover:text-purple-800" do %>×<% end %>
+            <%= link_to blog_posts_path(params.permit(:category, :tag, :page).to_h), class: "ml-2 text-purple-600 hover:text-purple-800" do %>×<% end %>
           </span>
         <% end %>
       </div>
