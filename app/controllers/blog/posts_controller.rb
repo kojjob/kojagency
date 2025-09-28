@@ -11,6 +11,20 @@ module Blog
       @posts = search_posts if params[:q].present?
       @posts = @posts.page(params[:page]).per(12)
 
+      # For the new design
+      @featured_post = BlogPost.published.featured.first
+      @tags = BlogTag.joins(:blog_post_tags)
+                     .joins("JOIN blog_posts ON blog_post_tags.blog_post_id = blog_posts.id")
+                     .where("blog_posts.status = 'published'")
+                     .group('blog_tags.id, blog_tags.name, blog_tags.slug')
+                     .order('COUNT(blog_post_tags.id) DESC')
+                     .limit(6)
+      @categories = BlogCategory.joins(:blog_posts)
+                                .where("blog_posts.status = 'published'")
+                                .group('blog_categories.id')
+                                .order('COUNT(blog_posts.id) DESC')
+      @recent_posts = BlogPost.published.recent.limit(5)
+
       respond_to do |format|
         format.html
         format.json { render json: @posts }
@@ -104,7 +118,7 @@ module Blog
           article: {
             published_time: @post.published_at&.iso8601,
             modified_time: @post.updated_at.iso8601,
-            author: @post.author.name,
+            author: @post.author&.name,
             section: @post.category&.name
           }
         }

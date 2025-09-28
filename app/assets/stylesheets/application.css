@@ -10,4 +10,8 @@
  */
 
 @import "application.tailwind.css";
+@import "trix.css";
+@import "actiontext.css";
+@import "lexxy.css";
 @import "blog.css";
+@import "blog_redesign.scss";
