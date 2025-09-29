@@ -1,7 +1,6 @@
 module Admin
-  class DashboardController < ApplicationController
-    before_action :authenticate_admin!
-    before_action :require_admin
+  class DashboardController < BaseController
+    # Authentication is handled by BaseController
 
     def index
       # Key Performance Indicators

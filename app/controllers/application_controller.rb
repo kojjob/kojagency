@@ -9,7 +9,7 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
 
   # For backwards compatibility with existing admin system
-  helper_method :admin_current_user, :admin_signed_in?, :current_blog_author, :blog_author_signed_in?
+  helper_method :admin_current_user, :admin_signed_in?, :current_blog_author, :blog_author_signed_in?, :super_admin_signed_in?
 
   private
 
@@ -44,6 +44,24 @@ class ApplicationController < ActionController::Base
     unless admin_current_user&.admin?
       redirect_to root_path, alert: 'Admin access required'
     end
+  end
+
+  def super_admin_signed_in?
+    current_user&.super_admin? || admin_current_user&.super_admin?
+  end
+
+  def require_super_admin
+    unless super_admin_signed_in?
+      redirect_to root_path, alert: 'Super Admin access required'
+    end
+  end
+
+  def authorize_admin_access!
+    # Super admins can access everything
+    return true if super_admin_signed_in?
+
+    # Regular admins have normal admin access
+    require_admin
   end
 
   # Blog author authentication methods

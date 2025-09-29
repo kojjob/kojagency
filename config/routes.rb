@@ -83,6 +83,15 @@ Rails.application.routes.draw do
         patch :recalculate_score
       end
     end
+
+    # User management - only accessible by super admin
+    resources :users do
+      member do
+        patch :make_admin
+        patch :remove_admin
+        patch :make_super_admin
+      end
+    end
   end
 
   # User dashboard routes
