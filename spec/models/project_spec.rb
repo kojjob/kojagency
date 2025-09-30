@@ -6,6 +6,8 @@ RSpec.describe Project, type: :model do
     it { should have_many(:technologies).through(:project_technologies) }
     it { should have_many(:project_services).dependent(:destroy) }
     it { should have_many(:services).through(:project_services) }
+    it { should have_one_attached(:featured_image) }
+    it { should have_many_attached(:gallery_images) }
   end
 
   describe 'validations' do

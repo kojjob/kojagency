@@ -53,7 +53,8 @@ class Admin::ProjectsController < ApplicationController
     params.require(:project).permit(
       :title, :description, :client_name, :project_url, :github_url,
       :completion_date, :duration_months, :team_size, :status, :featured,
-      technology_ids: [], service_ids: []
+      :featured_image, :remove_featured_image,
+      technology_ids: [], service_ids: [], gallery_images: []
     )
   end
 

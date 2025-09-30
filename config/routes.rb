@@ -56,6 +56,17 @@ Rails.application.routes.draw do
     resources :projects
     root "dashboard#index"
 
+    # Analytics routes
+    resources :analytics, only: [:index] do
+      collection do
+        get :funnel
+        get :sources
+        get :campaigns
+        get :conversion_time
+        get :roi
+      end
+    end
+
     resources :blog_posts do
       member do
         post :publish
