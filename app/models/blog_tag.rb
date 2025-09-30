@@ -15,7 +15,7 @@ class BlogTag < ApplicationRecord
 
   # Scopes
   scope :popular, -> { order(usage_count: :desc) }
-  scope :used, -> { where('usage_count > 0') }
+  scope :used, -> { where("usage_count > 0") }
 
   # Instance Methods
   def update_usage_count

@@ -1,46 +1,102 @@
 <!-- Project Detail Hero -->
-<section class="relative py-24 bg-gradient-to-br from-indigo-50 via-white to-purple-50">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    <%= link_to projects_path, class: "inline-flex items-center text-gray-600 hover:text-indigo-600 mb-8 transition-colors" do %>
-      <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+<section class="relative py-24 bg-gradient-to-br from-indigo-50 via-purple-50 to-pink-50 overflow-hidden">
+  <!-- Animated Background Elements -->
+  <div class="absolute inset-0 overflow-hidden">
+    <div class="absolute -top-40 -left-40 w-96 h-96 bg-indigo-400 rounded-full opacity-20 blur-3xl animate-blob"></div>
+    <div class="absolute -bottom-40 -right-40 w-96 h-96 bg-purple-400 rounded-full opacity-20 blur-3xl animate-blob animation-delay-2000"></div>
+    <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-pink-400 rounded-full opacity-20 blur-3xl animate-blob animation-delay-4000"></div>
+  </div>
+
+  <!-- Grid Pattern Overlay -->
+  <div class="absolute inset-0 opacity-5">
+    <div class="w-full h-full" style="background-image: linear-gradient(rgba(99, 102, 241, 0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(99, 102, 241, 0.1) 1px, transparent 1px); background-size: 40px 40px;"></div>
+  </div>
+
+  <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <%= link_to projects_path, class: "group inline-flex items-center text-gray-600 hover:text-indigo-600 mb-8 transition-all duration-300 font-medium" do %>
+      <svg class="w-5 h-5 mr-2 transform group-hover:-translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 19l-7-7 7-7"></path>
       </svg>
       Back to Portfolio
     <% end %>
 
+    <% if @project.featured? %>
+      <div class="inline-flex items-center bg-gradient-to-r from-yellow-400 to-yellow-500 text-white px-6 py-2 rounded-full text-sm font-bold mb-6 shadow-lg">
+        <span>★</span> Featured Project
+      </div>
+    <% end %>
+
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
       <div>
-        <span class="inline-block px-4 py-2 bg-indigo-100 text-indigo-700 rounded-full text-sm font-medium mb-4">
-          <%= @project[:category] %>
-        </span>
-        <h1 class="text-4xl lg:text-5xl font-bold text-gray-900 mb-6">
-          <%= @project[:title] %>
+        <h1 class="text-5xl lg:text-6xl font-black text-gray-900 mb-6 leading-tight">
+          <%= @project.title %>
         </h1>
+
         <div class="flex flex-wrap gap-6 text-gray-600 mb-8">
-          <div class="flex items-center">
-            <svg class="w-5 h-5 mr-2 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
-            </svg>
-            <%= @project[:client] %>
+          <div class="flex items-center group">
+            <div class="w-10 h-10 bg-gradient-to-br from-indigo-500 to-purple-500 rounded-xl flex items-center justify-center mr-3 shadow-lg transform group-hover:scale-110 transition-transform duration-300">
+              <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
+              </svg>
+            </div>
+            <span class="font-medium"><%= @project.client_name %></span>
           </div>
-          <div class="flex items-center">
-            <svg class="w-5 h-5 mr-2 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
-            </svg>
-            <%= @project[:year] %>
-          </div>
-          <div class="flex items-center">
-            <svg class="w-5 h-5 mr-2 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-            </svg>
-            <%= @project[:duration] %>
-          </div>
+
+          <% if @project.completion_date.present? %>
+            <div class="flex items-center group">
+              <div class="w-10 h-10 bg-gradient-to-br from-purple-500 to-pink-500 rounded-xl flex items-center justify-center mr-3 shadow-lg transform group-hover:scale-110 transition-transform duration-300">
+                <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                </svg>
+              </div>
+              <span class="font-medium"><%= @project.formatted_completion_date %></span>
+            </div>
+          <% end %>
+
+          <% if @project.duration_months.present? %>
+            <div class="flex items-center group">
+              <div class="w-10 h-10 bg-gradient-to-br from-pink-500 to-indigo-500 rounded-xl flex items-center justify-center mr-3 shadow-lg transform group-hover:scale-110 transition-transform duration-300">
+                <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                </svg>
+              </div>
+              <span class="font-medium"><%= @project.display_duration %></span>
+            </div>
+          <% end %>
         </div>
-        <p class="text-lg text-gray-600">
-          <%= @project[:description] %>
+
+        <p class="text-xl text-gray-600 leading-relaxed">
+          <%= @project.description %>
         </p>
+
+        <% if @project.project_url.present? %>
+          <div class="mt-8">
+            <%= link_to @project.project_url, target: "_blank", rel: "noopener noreferrer", class: "inline-flex items-center px-8 py-4 bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 text-white font-bold rounded-2xl hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-1" do %>
+              View Live Site
+              <svg class="ml-2 w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
+              </svg>
+            <% end %>
+          </div>
+        <% end %>
       </div>
-      <div class="aspect-w-16 aspect-h-10 bg-gradient-to-br from-indigo-100 to-purple-100 rounded-2xl"></div>
+
+      <div class="relative group">
+        <div class="absolute -inset-1 bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 rounded-3xl blur-2xl opacity-30 group-hover:opacity-50 transition-opacity duration-500"></div>
+        <% if @project.featured_image.attached? %>
+          <div class="relative aspect-w-16 aspect-h-10 bg-gradient-to-br from-indigo-100 to-purple-100 rounded-3xl shadow-2xl overflow-hidden transform group-hover:scale-105 transition-transform duration-500">
+            <%= image_tag @project.featured_image.variant(resize_to_limit: [1200, 800]),
+                          class: "w-full h-full object-cover",
+                          alt: @project.title %>
+          </div>
+        <% else %>
+          <div class="relative aspect-w-16 aspect-h-10 bg-gradient-to-br from-indigo-100 to-purple-100 rounded-3xl shadow-2xl flex items-center justify-center">
+            <svg class="w-32 h-32 text-indigo-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+            </svg>
+          </div>
+        <% end %>
+      </div>
     </div>
   </div>
 </section>
@@ -49,119 +105,165 @@
 <section class="py-20 bg-white">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-12">
-      <!-- Main Content -->
-      <div class="lg:col-span-2 space-y-12">
-        <!-- The Challenge -->
-        <div>
-          <h2 class="text-3xl font-bold text-gray-900 mb-6">The Challenge</h2>
-          <p class="text-lg text-gray-600">
-            <%= @project[:challenge] %>
-          </p>
-        </div>
-
-        <!-- The Solution -->
-        <div>
-          <h2 class="text-3xl font-bold text-gray-900 mb-6">Our Solution</h2>
-          <p class="text-lg text-gray-600 mb-8">
-            <%= @project[:solution] %>
-          </p>
-
-          <div>
-            <h3 class="text-xl font-bold text-gray-900 mb-4">Key Features</h3>
-            <ul class="space-y-3">
-              <% @project[:features].each do |feature| %>
-                <li class="flex items-start">
-                  <svg class="w-6 h-6 text-indigo-600 mr-3 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+      <!-- Sidebar -->
+      <div class="lg:order-2 space-y-8">
+        <!-- Technologies -->
+        <% if @project.technologies.any? %>
+          <div class="relative group">
+            <div class="absolute -inset-0.5 bg-gradient-to-br from-indigo-500 to-purple-500 rounded-2xl opacity-0 group-hover:opacity-100 blur-sm transition-opacity duration-500"></div>
+            <div class="relative bg-white rounded-2xl border-2 border-gray-100 p-6 hover:border-transparent transition-colors duration-300">
+              <div class="flex items-center mb-4">
+                <div class="w-8 h-8 bg-gradient-to-br from-indigo-500 to-purple-500 rounded-xl flex items-center justify-center mr-3">
+                  <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path>
                   </svg>
-                  <span class="text-gray-600"><%= feature %></span>
-                </li>
-              <% end %>
-            </ul>
+                </div>
+                <h3 class="text-xl font-black text-gray-900">Technologies Used</h3>
+              </div>
+              <div class="flex flex-wrap gap-2">
+                <% @project.technologies.each do |tech| %>
+                  <span class="px-4 py-2 bg-gradient-to-r from-indigo-500 to-purple-500 text-white rounded-xl text-sm font-bold shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-300">
+                    <%= tech.name %>
+                  </span>
+                <% end %>
+              </div>
+            </div>
           </div>
-        </div>
+        <% end %>
 
-        <!-- Results -->
-        <div>
-          <h2 class="text-3xl font-bold text-gray-900 mb-6">The Results</h2>
-          <div class="grid grid-cols-2 md:grid-cols-3 gap-6">
-            <% @project[:results].each do |key, value| %>
-              <div class="bg-gradient-to-br from-indigo-50 to-purple-50 rounded-xl p-6">
-                <div class="text-2xl font-bold text-indigo-600 mb-2">
-                  <%= value.split(' ')[0..1].join(' ') %>
+        <!-- Services -->
+        <% if @project.services.any? %>
+          <div class="relative group">
+            <div class="absolute -inset-0.5 bg-gradient-to-br from-purple-500 to-pink-500 rounded-2xl opacity-0 group-hover:opacity-100 blur-sm transition-opacity duration-500"></div>
+            <div class="relative bg-white rounded-2xl border-2 border-gray-100 p-6 hover:border-transparent transition-colors duration-300">
+              <div class="flex items-center mb-4">
+                <div class="w-8 h-8 bg-gradient-to-br from-purple-500 to-pink-500 rounded-xl flex items-center justify-center mr-3">
+                  <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+                  </svg>
                 </div>
-                <div class="text-gray-600">
-                  <%= value.split(' ')[2..-1].join(' ') %>
+                <h3 class="text-xl font-black text-gray-900">Services</h3>
+              </div>
+              <div class="flex flex-wrap gap-2">
+                <% @project.services.each do |service| %>
+                  <span class="px-4 py-2 bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-xl text-sm font-bold shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-300">
+                    <%= service.name %>
+                  </span>
+                <% end %>
+              </div>
+            </div>
+          </div>
+        <% end %>
+
+        <!-- Project Info -->
+        <div class="relative group">
+          <div class="absolute -inset-0.5 bg-gradient-to-br from-green-500 to-emerald-500 rounded-2xl opacity-0 group-hover:opacity-100 blur-sm transition-opacity duration-500"></div>
+          <div class="relative bg-white rounded-2xl border-2 border-gray-100 p-6 hover:border-transparent transition-colors duration-300">
+            <div class="flex items-center mb-4">
+              <div class="w-8 h-8 bg-gradient-to-br from-green-500 to-emerald-500 rounded-xl flex items-center justify-center mr-3">
+                <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                </svg>
+              </div>
+              <h3 class="text-xl font-black text-gray-900">Project Info</h3>
+            </div>
+            <dl class="space-y-4">
+              <div class="flex justify-between items-center pb-3 border-b border-gray-100">
+                <dt class="text-sm text-gray-500 font-medium">Client</dt>
+                <dd class="font-bold text-gray-900"><%= @project.client_name %></dd>
+              </div>
+              <% if @project.completion_date.present? %>
+                <div class="flex justify-between items-center pb-3 border-b border-gray-100">
+                  <dt class="text-sm text-gray-500 font-medium">Completed</dt>
+                  <dd class="font-bold text-gray-900"><%= @project.formatted_completion_date %></dd>
                 </div>
+              <% end %>
+              <% if @project.duration_months.present? %>
+                <div class="flex justify-between items-center pb-3 border-b border-gray-100">
+                  <dt class="text-sm text-gray-500 font-medium">Duration</dt>
+                  <dd class="font-bold text-gray-900"><%= @project.display_duration %></dd>
+                </div>
+              <% end %>
+              <% if @project.team_size.present? %>
+                <div class="flex justify-between items-center">
+                  <dt class="text-sm text-gray-500 font-medium">Team Size</dt>
+                  <dd class="font-bold text-gray-900"><%= @project.display_team_size %></dd>
+                </div>
+              <% end %>
+            </dl>
+
+            <% if @project.github_url.present? %>
+              <div class="mt-6 pt-6 border-t border-gray-100">
+                <%= link_to @project.github_url, target: "_blank", rel: "noopener noreferrer", class: "flex items-center justify-center px-4 py-3 bg-gray-900 text-white rounded-xl font-semibold hover:bg-gray-800 transition-colors duration-300" do %>
+                  <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 24 24">
+                    <path fill-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" clip-rule="evenodd"></path>
+                  </svg>
+                  View on GitHub
+                <% end %>
               </div>
             <% end %>
           </div>
         </div>
 
-        <!-- Testimonial -->
-        <div class="bg-gray-50 rounded-2xl p-8">
-          <svg class="w-10 h-10 text-indigo-600 mb-4" fill="currentColor" viewBox="0 0 24 24">
-            <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z"/>
-          </svg>
-          <p class="text-xl text-gray-700 italic mb-6">
-            <%= @project[:testimonial][:content] %>
-          </p>
-          <div>
-            <div class="font-semibold text-gray-900"><%= @project[:testimonial][:author] %></div>
-            <div class="text-gray-600"><%= @project[:testimonial][:position] %></div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Sidebar -->
-      <div class="space-y-8">
-        <!-- Technologies -->
-        <div class="bg-white rounded-2xl border-2 border-gray-100 p-6">
-          <h3 class="text-xl font-bold text-gray-900 mb-4">Technologies Used</h3>
-          <div class="flex flex-wrap gap-2">
-            <% @project[:technologies].each do |tech| %>
-              <span class="px-3 py-1 bg-indigo-50 text-indigo-700 rounded-full text-sm font-medium">
-                <%= tech %>
+        <!-- CTA -->
+        <div class="relative group">
+          <div class="absolute -inset-1 bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 rounded-3xl blur-xl opacity-75 group-hover:opacity-100 transition-opacity duration-500"></div>
+          <div class="relative bg-gradient-to-br from-indigo-600 via-purple-600 to-pink-600 rounded-3xl p-8 text-white shadow-2xl">
+            <div class="w-12 h-12 bg-white/20 backdrop-blur-sm rounded-2xl flex items-center justify-center mb-4">
+              <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+              </svg>
+            </div>
+            <h3 class="text-2xl font-black mb-4">Start Your Project</h3>
+            <p class="text-indigo-100 mb-6 leading-relaxed">
+              Ready to transform your business with innovative technology?
+            </p>
+            <%= link_to contact_path, class: "relative group/btn inline-flex items-center px-8 py-4 bg-white text-indigo-600 font-bold rounded-2xl hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-1 w-full justify-center" do %>
+              <span class="absolute -inset-0.5 bg-gradient-to-r from-yellow-400 via-pink-400 to-purple-400 rounded-2xl opacity-0 group-hover/btn:opacity-100 blur-sm transition-opacity duration-500"></span>
+              <span class="relative z-10 flex items-center">
+                Get Started
+                <svg class="ml-2 w-5 h-5 transform group-hover/btn:translate-x-2 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M13 7l5 5m0 0l-5 5m5-5H6"></path>
+                </svg>
               </span>
             <% end %>
           </div>
         </div>
+      </div>
 
-        <!-- Project Info -->
-        <div class="bg-white rounded-2xl border-2 border-gray-100 p-6">
-          <h3 class="text-xl font-bold text-gray-900 mb-4">Project Info</h3>
-          <dl class="space-y-3">
-            <div>
-              <dt class="text-sm text-gray-500">Client</dt>
-              <dd class="font-medium text-gray-900"><%= @project[:client] %></dd>
+      <!-- Main Content -->
+      <div class="lg:col-span-2 lg:order-1 space-y-12">
+        <!-- Gallery Images -->
+        <% if @project.gallery_images.attached? && @project.gallery_images.any? %>
+          <div class="group">
+            <div class="flex items-center mb-6">
+              <div class="w-12 h-12 bg-gradient-to-br from-indigo-500 to-purple-500 rounded-2xl flex items-center justify-center mr-4 shadow-lg transform group-hover:scale-110 transition-transform duration-300">
+                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                </svg>
+              </div>
+              <h2 class="text-4xl font-black bg-gradient-to-r from-gray-900 via-indigo-600 to-purple-600 bg-clip-text text-transparent">Project Gallery</h2>
             </div>
-            <div>
-              <dt class="text-sm text-gray-500">Year</dt>
-              <dd class="font-medium text-gray-900"><%= @project[:year] %></dd>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <% @project.gallery_images.each do |image| %>
+                <div class="relative group/image">
+                  <div class="absolute -inset-1 bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 rounded-2xl blur-lg opacity-0 group-hover/image:opacity-50 transition-opacity duration-500"></div>
+                  <div class="relative aspect-w-16 aspect-h-10 bg-gradient-to-br from-indigo-100 to-purple-100 rounded-2xl overflow-hidden shadow-lg transform group-hover/image:scale-105 transition-transform duration-500">
+                    <%= image_tag image.variant(resize_to_limit: [800, 600]),
+                                  class: "w-full h-full object-cover",
+                                  alt: "#{@project.title} screenshot" %>
+                  </div>
+                </div>
+              <% end %>
             </div>
-            <div>
-              <dt class="text-sm text-gray-500">Duration</dt>
-              <dd class="font-medium text-gray-900"><%= @project[:duration] %></dd>
-            </div>
-            <div>
-              <dt class="text-sm text-gray-500">Team Size</dt>
-              <dd class="font-medium text-gray-900"><%= @project[:team_size] %></dd>
-            </div>
-          </dl>
-        </div>
+          </div>
+        <% end %>
 
-        <!-- CTA -->
-        <div class="bg-gradient-to-br from-indigo-600 to-purple-600 rounded-2xl p-6 text-white">
-          <h3 class="text-xl font-bold mb-4">Start Your Project</h3>
-          <p class="text-indigo-100 mb-6">
-            Ready to transform your business with innovative technology?
-          </p>
-          <%= link_to contact_path, class: "inline-flex items-center px-6 py-3 bg-white text-indigo-600 font-semibold rounded-lg hover:shadow-lg transition-all duration-300" do %>
-            Get Started
-            <svg class="ml-2 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
-            </svg>
-          <% end %>
+        <!-- Additional Details Section -->
+        <div class="bg-gradient-to-br from-gray-50 to-indigo-50 rounded-3xl p-10 border-2 border-gray-100">
+          <div class="prose prose-lg max-w-none">
+            <p class="text-gray-700 leading-relaxed whitespace-pre-line"><%= @project.description %></p>
+          </div>
         </div>
       </div>
     </div>

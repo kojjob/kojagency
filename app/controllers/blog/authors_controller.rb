@@ -1,7 +1,7 @@
 module Blog
   class AuthorsController < ApplicationController
-    layout 'blog'
-    before_action :set_author, only: [:show]
+    layout "blog"
+    before_action :set_author, only: [ :show ]
 
     def index
       @authors = BlogAuthor.includes(:blog_posts).order(:name)

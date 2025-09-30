@@ -1,0 +1,374 @@
+<% content_for :title, "Edit #{@author.name} - Blog Authors - Admin Dashboard" %>
+<% content_for :page_title, "Edit Author" %>
+
+<% content_for :breadcrumbs do %>
+  <li>
+    <svg class="w-5 h-5 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+      <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path>
+    </svg>
+  </li>
+  <li>
+    <%= link_to "Blog Authors", admin_blog_authors_path, class: "text-gray-500 hover:text-gray-700" %>
+  </li>
+  <li>
+    <svg class="w-5 h-5 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+      <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path>
+    </svg>
+  </li>
+  <li>
+    <%= link_to @author.name, admin_blog_author_path(@author), class: "text-gray-500 hover:text-gray-700" %>
+  </li>
+  <li>
+    <svg class="w-5 h-5 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+      <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path>
+    </svg>
+  </li>
+  <li>
+    <span class="text-gray-500">Edit</span>
+  </li>
+<% end %>
+
+<div class="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 pb-12">
+  <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+    <!-- Hero Header -->
+    <div class="bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 rounded-2xl md:rounded-3xl p-4 md:p-6 lg:p-8 text-white shadow-2xl mb-6 md:mb-8">
+      <div class="flex items-center gap-4">
+        <div class="hidden md:block flex-shrink-0">
+          <% if @author.avatar.attached? %>
+            <%= image_tag @author.avatar.variant(resize_to_limit: [200, 200]),
+                alt: @author.name,
+                class: 'w-16 h-16 md:w-20 md:h-20 rounded-full object-cover border-4 border-white shadow-xl' %>
+          <% else %>
+            <img src="<%= @author.display_avatar %>"
+                 alt="<%= @author.name %>"
+                 class="w-16 h-16 md:w-20 md:h-20 rounded-full border-4 border-white shadow-xl">
+          <% end %>
+        </div>
+        <div class="flex-1">
+          <h1 class="text-2xl md:text-3xl lg:text-4xl font-bold mb-2">
+            Edit Author: <%= @author.name %>
+            <span class="inline-block">✏️</span>
+          </h1>
+          <p class="text-indigo-100 text-sm md:text-base lg:text-lg leading-relaxed">
+            Update author information and settings
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Form Card -->
+    <div class="bg-white/70 backdrop-blur-sm rounded-xl md:rounded-2xl shadow-xl border border-white/20 overflow-hidden">
+      <div class="p-6 md:p-8">
+        <%= form_with(model: [:admin, @author], local: true, class: "space-y-6") do |form| %>
+          <!-- Error Messages -->
+          <% if @author.errors.any? %>
+            <div class="bg-red-50/80 backdrop-blur-sm border-l-4 border-red-500 rounded-lg p-4 mb-6">
+              <div class="flex items-start">
+                <div class="flex-shrink-0">
+                  <svg class="h-5 w-5 text-red-500" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"></path>
+                  </svg>
+                </div>
+                <div class="ml-3">
+                  <h3 class="text-sm font-semibold text-red-800 mb-2">
+                    <%= pluralize(@author.errors.count, "error") %> prohibited this author from being saved:
+                  </h3>
+                  <ul class="list-disc list-inside text-sm text-red-700 space-y-1">
+                    <% @author.errors.full_messages.each do |message| %>
+                      <li><%= message %></li>
+                    <% end %>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          <% end %>
+
+          <!-- Basic Information Section -->
+          <div class="space-y-6">
+            <h3 class="text-lg font-bold text-gray-900 pb-2 border-b border-gray-200/50">Basic Information</h3>
+
+            <!-- Name -->
+            <div class="space-y-2">
+              <%= form.label :name, class: "block text-sm font-semibold text-gray-700" do %>
+                Full Name
+                <span class="text-red-500">*</span>
+              <% end %>
+              <%= form.text_field :name,
+                  class: "w-full px-4 py-3 bg-white/80 border-2 border-gray-200 rounded-xl focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/10 transition-all duration-200 text-gray-900 placeholder-gray-400",
+                  placeholder: "e.g., John Doe",
+                  required: true,
+                  autofocus: true %>
+            </div>
+
+            <!-- Email -->
+            <div class="space-y-2">
+              <%= form.label :email, class: "block text-sm font-semibold text-gray-700" do %>
+                Email Address
+                <span class="text-red-500">*</span>
+              <% end %>
+              <%= form.email_field :email,
+                  class: "w-full px-4 py-3 bg-white/80 border-2 border-gray-200 rounded-xl focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/10 transition-all duration-200 text-gray-900 placeholder-gray-400",
+                  placeholder: "author@example.com",
+                  required: true %>
+              <p class="text-xs text-gray-500 mt-1">
+                <svg class="inline w-3.5 h-3.5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                </svg>
+                Used for Gravatar and contact purposes
+              </p>
+            </div>
+
+            <!-- Title & Company -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div class="space-y-2">
+                <%= form.label :title, class: "block text-sm font-semibold text-gray-700" do %>
+                  Job Title
+                  <span class="text-gray-400 text-xs font-normal">(Optional)</span>
+                <% end %>
+                <%= form.text_field :title,
+                    class: "w-full px-4 py-3 bg-white/80 border-2 border-gray-200 rounded-xl focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/10 transition-all duration-200 text-gray-900 placeholder-gray-400",
+                    placeholder: "e.g., Senior Developer" %>
+              </div>
+
+              <div class="space-y-2">
+                <%= form.label :company, class: "block text-sm font-semibold text-gray-700" do %>
+                  Company
+                  <span class="text-gray-400 text-xs font-normal">(Optional)</span>
+                <% end %>
+                <%= form.text_field :company,
+                    class: "w-full px-4 py-3 bg-white/80 border-2 border-gray-200 rounded-xl focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/10 transition-all duration-200 text-gray-900 placeholder-gray-400",
+                    placeholder: "e.g., Tech Company Inc." %>
+              </div>
+            </div>
+
+            <!-- Bio -->
+            <div class="space-y-2">
+              <%= form.label :bio, class: "block text-sm font-semibold text-gray-700" do %>
+                Biography
+                <span class="text-gray-400 text-xs font-normal">(Optional)</span>
+              <% end %>
+              <%= form.text_area :bio,
+                  rows: 4,
+                  class: "w-full px-4 py-3 bg-white/80 border-2 border-gray-200 rounded-xl focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/10 transition-all duration-200 text-gray-900 placeholder-gray-400 resize-none",
+                  placeholder: "Write a brief bio about the author..." %>
+              <p class="text-xs text-gray-500 mt-1">
+                <svg class="inline w-3.5 h-3.5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                </svg>
+                Displayed on author profile and blog posts
+              </p>
+            </div>
+
+            <!-- Website -->
+            <div class="space-y-2">
+              <%= form.label :website, class: "block text-sm font-semibold text-gray-700" do %>
+                Website URL
+                <span class="text-gray-400 text-xs font-normal">(Optional)</span>
+              <% end %>
+              <%= form.url_field :website,
+                  class: "w-full px-4 py-3 bg-white/80 border-2 border-gray-200 rounded-xl focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/10 transition-all duration-200 text-gray-900 placeholder-gray-400",
+                  placeholder: "https://example.com" %>
+            </div>
+          </div>
+
+          <!-- Avatar Section -->
+          <div class="space-y-6 pt-6 border-t border-gray-200/50">
+            <h3 class="text-lg font-bold text-gray-900 pb-2">Profile Picture</h3>
+
+            <div class="flex items-start gap-6">
+              <!-- Current Avatar -->
+              <div class="flex-shrink-0">
+                <% if @author.avatar.attached? %>
+                  <%= image_tag @author.avatar.variant(resize_to_limit: [200, 200]),
+                      alt: @author.name,
+                      class: 'w-24 h-24 rounded-full object-cover border-4 border-gray-200 shadow-lg',
+                      id: 'avatar-preview' %>
+                <% else %>
+                  <img src="<%= @author.display_avatar %>"
+                       alt="<%= @author.name %>"
+                       class="w-24 h-24 rounded-full border-4 border-gray-200 shadow-lg"
+                       id="avatar-preview">
+                <% end %>
+              </div>
+
+              <!-- Upload Field -->
+              <div class="flex-1 space-y-2">
+                <%= form.label :avatar, class: "block text-sm font-semibold text-gray-700" do %>
+                  Upload New Avatar
+                  <span class="text-gray-400 text-xs font-normal">(Optional)</span>
+                <% end %>
+                <%= form.file_field :avatar,
+                    accept: 'image/*',
+                    class: "w-full px-4 py-3 bg-white/80 border-2 border-gray-200 rounded-xl focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/10 transition-all duration-200 text-gray-900 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100" %>
+                <p class="text-xs text-gray-500">
+                  <svg class="inline w-3.5 h-3.5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                  </svg>
+                  PNG, JPG or GIF. Max file size 5MB. Leave blank to use Gravatar.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Social Media Section -->
+          <div class="space-y-6 pt-6 border-t border-gray-200/50">
+            <h3 class="text-lg font-bold text-gray-900 pb-2">Social Media Links</h3>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <!-- Twitter -->
+              <div class="space-y-2">
+                <%= form.label 'social_media[twitter]', class: "block text-sm font-semibold text-gray-700" do %>
+                  <svg class="inline w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z"></path>
+                  </svg>
+                  Twitter Username
+                  <span class="text-gray-400 text-xs font-normal">(Optional)</span>
+                <% end %>
+                <%= form.text_field 'social_media[twitter]',
+                    value: @author.social_media&.dig('twitter'),
+                    class: "w-full px-4 py-3 bg-white/80 border-2 border-gray-200 rounded-xl focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/10 transition-all duration-200 text-gray-900 placeholder-gray-400",
+                    placeholder: "@username or full URL" %>
+              </div>
+
+              <!-- LinkedIn -->
+              <div class="space-y-2">
+                <%= form.label 'social_media[linkedin]', class: "block text-sm font-semibold text-gray-700" do %>
+                  <svg class="inline w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"></path>
+                  </svg>
+                  LinkedIn Profile
+                  <span class="text-gray-400 text-xs font-normal">(Optional)</span>
+                <% end %>
+                <%= form.text_field 'social_media[linkedin]',
+                    value: @author.social_media&.dig('linkedin'),
+                    class: "w-full px-4 py-3 bg-white/80 border-2 border-gray-200 rounded-xl focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/10 transition-all duration-200 text-gray-900 placeholder-gray-400",
+                    placeholder: "username or full URL" %>
+              </div>
+
+              <!-- GitHub -->
+              <div class="space-y-2">
+                <%= form.label 'social_media[github]', class: "block text-sm font-semibold text-gray-700" do %>
+                  <svg class="inline w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 24 24">
+                    <path fill-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" clip-rule="evenodd"></path>
+                  </svg>
+                  GitHub Username
+                  <span class="text-gray-400 text-xs font-normal">(Optional)</span>
+                <% end %>
+                <%= form.text_field 'social_media[github]',
+                    value: @author.social_media&.dig('github'),
+                    class: "w-full px-4 py-3 bg-white/80 border-2 border-gray-200 rounded-xl focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/10 transition-all duration-200 text-gray-900 placeholder-gray-400",
+                    placeholder: "username or full URL" %>
+              </div>
+            </div>
+          </div>
+
+          <!-- Verification Section -->
+          <div class="space-y-4 pt-6 border-t border-gray-200/50">
+            <h3 class="text-lg font-bold text-gray-900 pb-2">Author Status</h3>
+
+            <div class="flex items-start gap-3">
+              <div class="flex items-center h-5">
+                <%= form.check_box :verified,
+                    class: "w-5 h-5 text-indigo-600 bg-white/80 border-gray-300 rounded focus:ring-indigo-500 focus:ring-2 transition-all" %>
+              </div>
+              <div class="flex-1">
+                <%= form.label :verified, class: "text-sm font-semibold text-gray-700" do %>
+                  Verified Author
+                <% end %>
+                <p class="text-xs text-gray-500 mt-1">
+                  Verified authors display a badge on their profile and posts. This indicates they are official contributors or trusted authors.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Warning Box if Author Has Posts -->
+          <% if @author.blog_posts.any? %>
+            <div class="bg-gradient-to-r from-amber-50/80 to-orange-50/80 backdrop-blur-sm border border-amber-200 rounded-xl p-4">
+              <div class="flex items-start gap-3">
+                <div class="flex-shrink-0">
+                  <svg class="w-5 h-5 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>
+                  </svg>
+                </div>
+                <div class="flex-1">
+                  <h4 class="text-sm font-semibold text-amber-900 mb-1">Author Has Posts</h4>
+                  <p class="text-xs text-amber-800">
+                    This author has <%= pluralize(@author.blog_posts.count, 'post') %>. Changes to the author's name and profile will be reflected on all their posts.
+                  </p>
+                </div>
+              </div>
+            </div>
+          <% end %>
+
+          <!-- Form Actions -->
+          <div class="flex items-center justify-between pt-6 border-t border-gray-200/50">
+            <%= link_to admin_blog_author_path(@author), class: "inline-flex items-center px-6 py-3 bg-white/80 hover:bg-gray-50/80 backdrop-blur-sm text-gray-700 font-semibold rounded-xl border-2 border-gray-300 hover:border-gray-400 transition-all shadow-sm hover:shadow" do %>
+              <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+              </svg>
+              Cancel
+            <% end %>
+
+            <%= form.submit "Update Author", class: "inline-flex items-center px-8 py-3 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white font-bold rounded-xl shadow-lg hover:shadow-xl transition-all transform hover:-translate-y-0.5 cursor-pointer" %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+
+    <!-- Help Card -->
+    <div class="mt-6 bg-white/70 backdrop-blur-sm rounded-xl md:rounded-2xl shadow-xl border border-white/20 overflow-hidden">
+      <div class="p-6">
+        <h3 class="text-lg font-bold text-gray-900 mb-4 flex items-center">
+          <svg class="w-5 h-5 mr-2 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+          </svg>
+          Editing Tips
+        </h3>
+        <div class="grid md:grid-cols-2 gap-4">
+          <div class="space-y-3">
+            <div>
+              <h4 class="text-sm font-semibold text-gray-900 mb-1">Profile Picture</h4>
+              <p class="text-sm text-gray-600">Upload a custom avatar or leave blank to use your Gravatar</p>
+            </div>
+            <div>
+              <h4 class="text-sm font-semibold text-gray-900 mb-1">Social Links</h4>
+              <p class="text-sm text-gray-600">Enter usernames or full URLs - both formats are accepted</p>
+            </div>
+          </div>
+          <div class="space-y-3">
+            <div>
+              <h4 class="text-sm font-semibold text-gray-900 mb-1">Verification Badge</h4>
+              <p class="text-sm text-gray-600">Enable for trusted contributors and official team members</p>
+            </div>
+            <div>
+              <h4 class="text-sm font-semibold text-gray-900 mb-1">Bio Guidelines</h4>
+              <p class="text-sm text-gray-600">Keep it concise and highlight relevant expertise</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  /* Custom styles for glassmorphism effects */
+  @supports ((-webkit-backdrop-filter: none) or (backdrop-filter: none)) {
+    .backdrop-blur-sm {
+      -webkit-backdrop-filter: blur(12px);
+      backdrop-filter: blur(12px);
+    }
+  }
+
+  /* Smooth gradient transitions */
+  .bg-gradient-to-r {
+    background-size: 200% 200%;
+    transition: background-position 0.5s ease;
+  }
+
+  /* Form focus styles */
+  input:focus, textarea:focus, select:focus {
+    outline: none;
+  }
+</style>

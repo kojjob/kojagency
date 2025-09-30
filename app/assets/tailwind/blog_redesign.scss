@@ -1,0 +1,348 @@
+// Blog Redesign Styles - Magazine-Style Layout
+
+// Magazine Hero Styles
+.magazine-hero {
+  &-content {
+    @apply relative z-10;
+
+    .category-badge {
+      @apply inline-block px-3 py-1 bg-indigo-600 text-white text-xs font-semibold uppercase tracking-wide rounded-full;
+      animation: slideInLeft 0.8s ease-out;
+    }
+  }
+
+  .hero-image-overlay {
+    background: linear-gradient(
+      135deg,
+      rgba(0, 0, 0, 0.7) 0%,
+      rgba(0, 0, 0, 0.4) 50%,
+      rgba(0, 0, 0, 0.2) 100%
+    );
+  }
+}
+
+// Drop Cap Typography
+.drop-cap {
+  &:first-letter {
+    @apply float-left text-6xl font-bold leading-none mr-2 mt-1 text-indigo-600 dark:text-indigo-400;
+    font-family: Georgia, serif;
+    line-height: 0.8;
+  }
+}
+
+// Prose Enhancements
+.prose-magazine {
+  @apply text-lg leading-relaxed;
+
+  h2 {
+    @apply relative mt-16 mb-8 text-3xl font-bold;
+
+    &:before {
+      content: '';
+      @apply absolute -left-8 top-0 w-1 h-full bg-gradient-to-b from-indigo-500 to-purple-500 rounded-full;
+    }
+  }
+
+  h3 {
+    @apply mt-12 mb-6 text-2xl font-semibold text-gray-800 dark:text-gray-200;
+  }
+
+  blockquote {
+    @apply relative pl-8 pr-4 py-6 my-8 bg-gradient-to-r from-indigo-50 to-transparent dark:from-indigo-900/20 border-l-4 border-indigo-500 italic;
+
+    &:before {
+      content: '"';
+      @apply absolute -top-4 left-4 text-6xl text-indigo-300 dark:text-indigo-700 font-serif;
+    }
+  }
+
+  img {
+    @apply rounded-xl shadow-2xl my-12;
+    transition: transform 0.3s ease;
+
+    &:hover {
+      transform: scale(1.02);
+    }
+  }
+
+  a {
+    @apply text-indigo-600 dark:text-indigo-400 no-underline relative;
+
+    &:after {
+      content: '';
+      @apply absolute bottom-0 left-0 w-0 h-0.5 bg-indigo-600 dark:bg-indigo-400 transition-all duration-300;
+    }
+
+    &:hover:after {
+      @apply w-full;
+    }
+  }
+}
+
+// Floating Action Bar
+#smart-action-bar {
+  backdrop-filter: blur(20px);
+  box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.3);
+
+  .progress-ring {
+    transition: stroke-dashoffset 0.3s ease;
+  }
+
+  button {
+    @apply relative overflow-hidden;
+
+    &:before {
+      content: '';
+      @apply absolute inset-0 bg-gradient-to-r from-indigo-500 to-purple-500 opacity-0 transition-opacity duration-300;
+    }
+
+    &:hover:before {
+      @apply opacity-10;
+    }
+  }
+}
+
+// Table of Contents Modern Style
+.toc-modern {
+  @apply bg-white dark:bg-gray-900 rounded-xl p-6 shadow-lg;
+
+  &.sticky {
+    @apply top-8;
+  }
+
+  h3 {
+    @apply text-lg font-bold mb-4 text-gray-900 dark:text-white;
+  }
+
+  ul {
+    @apply space-y-2;
+
+    li {
+      @apply relative;
+
+      a {
+        @apply block py-2 px-3 text-sm text-gray-600 dark:text-gray-400 rounded-lg transition-all duration-200;
+
+        &:hover {
+          @apply bg-indigo-50 dark:bg-indigo-900/20 text-indigo-600 dark:text-indigo-400 pl-4;
+        }
+
+        &.active {
+          @apply bg-indigo-100 dark:bg-indigo-900/30 text-indigo-700 dark:text-indigo-300 font-medium;
+
+          &:before {
+            content: '';
+            @apply absolute left-0 top-1/2 -translate-y-1/2 w-0.5 h-4 bg-indigo-600 dark:bg-indigo-400 rounded-full;
+          }
+        }
+      }
+    }
+  }
+}
+
+// Newsletter Signup Card
+.newsletter-card {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+
+  input {
+    @apply bg-white/90 backdrop-blur-sm;
+
+    &:focus {
+      @apply bg-white ring-2 ring-white/50;
+    }
+  }
+
+  button {
+    @apply bg-white text-indigo-600 font-bold shadow-lg;
+
+    &:hover {
+      @apply bg-gray-100 transform scale-105;
+    }
+  }
+}
+
+// Social Share Buttons
+.share-button-modern {
+  @apply relative overflow-hidden;
+
+  &:before {
+    content: '';
+    @apply absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full;
+    transition: transform 0.6s ease;
+  }
+
+  &:hover:before {
+    transform: translateX(200%);
+  }
+
+  &.twitter:hover {
+    @apply bg-blue-500 text-white;
+  }
+
+  &.linkedin:hover {
+    @apply bg-blue-700 text-white;
+  }
+
+  &.facebook:hover {
+    @apply bg-blue-600 text-white;
+  }
+}
+
+// Comment Section
+.comment-card {
+  @apply bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm hover:shadow-md transition-shadow duration-200;
+
+  .comment-avatar {
+    @apply w-12 h-12 rounded-full bg-gradient-to-br from-indigo-400 to-purple-500;
+  }
+
+  .comment-content {
+    @apply text-sm max-w-none;
+  }
+
+  .comment-actions {
+    @apply flex space-x-4 mt-4 text-sm;
+
+    button {
+      @apply text-gray-500 hover:text-indigo-600 dark:text-gray-400 dark:hover:text-indigo-400 transition-colors;
+    }
+  }
+}
+
+// Dark Mode Enhancements
+.dark {
+  .magazine-hero {
+    .hero-image-overlay {
+      background: linear-gradient(
+        135deg,
+        rgba(0, 0, 0, 0.8) 0%,
+        rgba(0, 0, 0, 0.6) 50%,
+        rgba(0, 0, 0, 0.4) 100%
+      );
+    }
+  }
+
+  .prose-magazine {
+    @apply text-gray-100;
+
+    h2, h3 {
+      @apply text-gray-100;
+    }
+
+    blockquote {
+      @apply border-indigo-400;
+    }
+  }
+}
+
+// Animations
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
+}
+
+.animate-slideInLeft {
+  animation: slideInLeft 0.8s ease-out;
+}
+
+.animate-fadeInUp {
+  animation: fadeInUp 0.8s ease-out;
+}
+
+.animate-pulse {
+  animation: pulse 2s ease-in-out infinite;
+}
+
+// Responsive Enhancements
+@media (max-width: 1024px) {
+  .magazine-hero {
+    .hero-content {
+      @apply px-6 py-12;
+    }
+  }
+
+  .prose-magazine {
+    h2:before {
+      @apply -left-4;
+    }
+  }
+
+  #smart-action-bar {
+    @apply bottom-4 scale-90;
+  }
+}
+
+@media (max-width: 640px) {
+  .drop-cap:first-letter {
+    @apply text-5xl mr-1;
+  }
+
+  .prose-magazine {
+    @apply text-base;
+
+    h2 {
+      @apply text-2xl mt-12 mb-6;
+    }
+
+    h3 {
+      @apply text-xl mt-8 mb-4;
+    }
+  }
+
+  #smart-action-bar {
+    @apply w-11/12 px-4 py-2;
+
+    .reading-time {
+      @apply hidden;
+    }
+  }
+}
+
+// Print Styles
+@media print {
+  #smart-action-bar,
+  .share-button-modern,
+  .newsletter-card,
+  .comment-form {
+    display: none !important;
+  }
+
+  .prose-magazine {
+    @apply max-w-none;
+
+    a {
+      @apply text-black underline;
+
+      &:after {
+        content: " (" attr(href) ")";
+        @apply text-xs;
+      }
+    }
+  }
+}

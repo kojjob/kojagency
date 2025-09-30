@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe BlogPost, type: :model do
   describe 'associations' do
-    it { should belong_to(:author) }
+    it { should belong_to(:author).optional }
     it { should belong_to(:category).class_name('BlogCategory').optional }
     it { should have_many(:blog_post_tags).dependent(:destroy) }
     it { should have_many(:tags).through(:blog_post_tags).source(:blog_tag) }
@@ -14,12 +14,83 @@ RSpec.describe BlogPost, type: :model do
     it { should have_rich_text(:rich_content) }
   end
 
+  describe 'polymorphic author association' do
+    let(:user) { create(:user, name: 'John Doe', email: 'john@example.com') }
+    let(:blog_author) { create(:blog_author, name: 'Jane Smith') }
+
+    describe 'with User as author' do
+      it 'can have a User as author' do
+        post = create(:blog_post, author: user)
+        expect(post.author).to eq(user)
+        expect(post.author_type).to eq('User')
+        expect(post.author_id).to eq(user.id)
+      end
+
+      it 'can access User methods through author association' do
+        post = create(:blog_post, author: user)
+        expect(post.author.name).to eq('John Doe')
+        expect(post.author.email).to eq('john@example.com')
+      end
+    end
+
+    describe 'with BlogAuthor as author' do
+      it 'can have a BlogAuthor as author' do
+        post = create(:blog_post, author: blog_author)
+        expect(post.author).to eq(blog_author)
+        expect(post.author_type).to eq('BlogAuthor')
+        expect(post.author_id).to eq(blog_author.id)
+      end
+
+      it 'can access BlogAuthor methods through author association' do
+        post = create(:blog_post, author: blog_author)
+        expect(post.author.name).to eq('Jane Smith')
+      end
+    end
+
+    describe 'without author' do
+      it 'can exist without an author' do
+        post = create(:blog_post, author: nil)
+        expect(post.author).to be_nil
+        expect(post.author_type).to be_nil
+        expect(post.author_id).to be_nil
+      end
+
+      it 'handles structured data generation when author is nil' do
+        post = create(:blog_post, author: nil)
+        expect { post.structured_data }.to raise_error(NoMethodError)
+      end
+    end
+
+    describe 'author display methods' do
+      context 'with User author' do
+        let(:post) { create(:blog_post, author: user) }
+
+        it 'provides author name for display' do
+          expect(post.author.name).to eq('John Doe')
+        end
+
+        it 'provides author initials for avatar fallback' do
+          initials = post.author.name.split.map(&:first).join.upcase
+          expect(initials).to eq('JD')
+        end
+      end
+
+      context 'with BlogAuthor' do
+        let(:post) { create(:blog_post, author: blog_author) }
+
+        it 'provides author name for display' do
+          expect(post.author.name).to eq('Jane Smith')
+        end
+      end
+    end
+  end
+
   describe 'validations' do
     subject { build(:blog_post) }
 
     it { should validate_presence_of(:title) }
     it { should validate_length_of(:title).is_at_most(255) }
-    it { should validate_presence_of(:content) }
+    it { should validate_presence_of(:rich_content) }
     # Slug is auto-generated from title, so presence is not directly validated
     it { should validate_uniqueness_of(:slug) }
     it { should validate_length_of(:meta_description).is_at_most(160).allow_blank }
@@ -192,13 +263,13 @@ RSpec.describe BlogPost, type: :model do
     let(:post) { build(:blog_post) }
 
     it 'calculates reading time based on word count' do
-      post.content = 'word ' * 250  # 250 words
+      post.rich_content = 'word ' * 250  # 250 words
       post.save
       expect(post.reading_time).to eq(1)
     end
 
     it 'rounds up for partial minutes' do
-      post.content = 'word ' * 300  # 300 words
+      post.rich_content = 'word ' * 300  # 300 words
       post.save
       expect(post.reading_time).to eq(2)
     end
@@ -270,7 +341,7 @@ RSpec.describe BlogPost, type: :model do
     let(:document) { create(:blog_media, media_type: 'document') }
 
     before do
-      post.media << [image, video, document]
+      post.media << [ image, video, document ]
     end
 
     describe '#images' do
@@ -308,7 +379,7 @@ RSpec.describe BlogPost, type: :model do
       let(:post) { build(:blog_post) }
 
       it 'calculates reading time before save' do
-        post.content = 'word ' * 500
+        post.rich_content = 'word ' * 500
         post.save
         expect(post.reading_time).to eq(2)
       end

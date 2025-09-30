@@ -3,15 +3,15 @@ class BlogPost < ApplicationRecord
   friendly_id :title, use: :slugged
 
   # For rich text editor
-  has_rich_text :rich_content
+  has_rich_text :content
 
   # Geocoding
   geocoded_by :location_string
   after_validation :geocode, if: :location_changed?
 
   # Associations
-  belongs_to :author, polymorphic: true
-  belongs_to :category, class_name: 'BlogCategory', optional: true
+  belongs_to :author, polymorphic: true, optional: true
+  belongs_to :category, class_name: "BlogCategory", optional: true
   has_many :blog_post_tags, dependent: :destroy
   has_many :tags, through: :blog_post_tags, source: :blog_tag
   has_many :blog_media_attachments, dependent: :destroy
@@ -19,8 +19,25 @@ class BlogPost < ApplicationRecord
   has_many :blog_related_posts, dependent: :destroy
   has_many :related_posts, through: :blog_related_posts, source: :related_post
   has_many :blog_comments, dependent: :destroy
-  has_many :approved_comments, -> { approved.root_comments }, class_name: 'BlogComment'
+  has_many :approved_comments, -> { approved.root_comments }, class_name: "BlogComment"
   has_one_attached :featured_image
+  has_many_attached :content_images
+
+  # Hero style options
+  enum :hero_style, {
+    standard: 0,
+    fullscreen: 1,
+    minimal: 2,
+    split: 3
+  }, prefix: true
+
+  # Content layout options
+  enum :content_layout, {
+    classic: 0,
+    magazine: 1,
+    minimal: 2,
+    cards: 3
+  }, prefix: true
 
   # Validations
   validates :title, presence: true, length: { maximum: 255 }
@@ -38,16 +55,16 @@ class BlogPost < ApplicationRecord
 
   # Scopes
   scope :published, -> {
-    where(status: 'published')
-      .where('published_at <= ?', Time.current)
+    where(status: "published")
+      .where("published_at <= ?", Time.current)
   }
   scope :scheduled, -> {
-    where(status: 'scheduled')
-      .or(where(status: 'published').where('published_at > ?', Time.current))
+    where(status: "scheduled")
+      .or(where(status: "published").where("published_at > ?", Time.current))
   }
-  scope :draft, -> { where(status: 'draft') }
-  scope :archived, -> { where(status: 'archived') }
-  scope :recent, -> { order(Arel.sql('COALESCE(blog_posts.published_at, blog_posts.created_at) DESC')) }
+  scope :draft, -> { where(status: "draft") }
+  scope :archived, -> { where(status: "archived") }
+  scope :recent, -> { order(Arel.sql("COALESCE(blog_posts.published_at, blog_posts.created_at) DESC")) }
   scope :popular, -> { order(views_count: :desc, shares_count: :desc) }
   scope :featured, -> { where(featured: true) }
 
@@ -60,8 +77,8 @@ class BlogPost < ApplicationRecord
   scope :for_sitemap, -> { published }
   scope :trending, ->(weeks = 1) {
     published
-      .where('published_at >= ?', weeks.weeks.ago)
-      .order(Arel.sql('(views_count * 0.6 + shares_count * 0.4) DESC'))
+      .where("published_at >= ?", weeks.weeks.ago)
+      .order(Arel.sql("(views_count * 0.6 + shares_count * 0.4) DESC"))
   }
 
   # Instance Methods
@@ -70,7 +87,7 @@ class BlogPost < ApplicationRecord
   end
 
   def seo_description
-    meta_description.presence || excerpt.presence || content.truncate(160)
+    meta_description.presence || excerpt.presence || (content.present? ? content.to_plain_text.truncate(160) : "")
   end
 
   def structured_data
@@ -101,27 +118,27 @@ class BlogPost < ApplicationRecord
   end
 
   def publish!
-    update!(status: 'published', published_at: published_at || Time.current)
+    update!(status: "published", published_at: published_at || Time.current)
   end
 
   def archive!
-    update!(status: 'archived')
+    update!(status: "archived")
   end
 
   def published?
-    status == 'published' && published_at.present? && published_at <= Time.current
+    status == "published" && published_at.present? && published_at <= Time.current
   end
 
   def scheduled?
-    status == 'scheduled' || (status == 'published' && published_at.present? && published_at > Time.current)
+    status == "scheduled" || (status == "published" && published_at.present? && published_at > Time.current)
   end
 
   def draft?
-    status == 'draft'
+    status == "draft"
   end
 
   def archived?
-    status == 'archived'
+    status == "archived"
   end
 
   def increment_views!
@@ -152,19 +169,19 @@ class BlogPost < ApplicationRecord
   def calculate_reading_time
     if content.present?
       words_per_minute = 250
-      word_count = content.split.size
+      word_count = content.to_plain_text.split.size
       self.reading_time = (word_count.to_f / words_per_minute).ceil
     end
   end
 
   def set_published_at
-    if status == 'published' && published_at.blank?
+    if status == "published" && published_at.blank?
       self.published_at = Time.current
     end
   end
 
   def location_string
-    [city, region, country_code].compact.join(', ')
+    [ city, region, country_code ].compact.join(", ")
   end
 
   def location_changed?

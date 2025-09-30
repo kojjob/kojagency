@@ -4,8 +4,8 @@ class BlogCategory < ApplicationRecord
 
   # Associations
   has_many :blog_posts, foreign_key: :category_id, dependent: :nullify
-  belongs_to :parent, class_name: 'BlogCategory', optional: true
-  has_many :subcategories, class_name: 'BlogCategory', foreign_key: 'parent_id'
+  belongs_to :parent, class_name: "BlogCategory", optional: true
+  has_many :subcategories, class_name: "BlogCategory", foreign_key: "parent_id"
 
   # Validations
   validates :name, presence: true, uniqueness: true
@@ -15,8 +15,8 @@ class BlogCategory < ApplicationRecord
   scope :top_level, -> { where(parent_id: nil) }
   scope :with_posts, -> {
     joins(:blog_posts)
-      .where(blog_posts: { status: 'published' })
-      .where('blog_posts.published_at <= ?', Time.current)
+      .where(blog_posts: { status: "published" })
+      .where("blog_posts.published_at <= ?", Time.current)
       .distinct
   }
 
@@ -32,6 +32,6 @@ class BlogCategory < ApplicationRecord
       ancestors.unshift(current.name)
       current = current.parent
     end
-    ancestors.join(' > ')
+    ancestors.join(" > ")
   end
 end

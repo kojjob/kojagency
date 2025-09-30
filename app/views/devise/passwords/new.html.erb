@@ -1,0 +1,84 @@
+<!-- Forgot Password Form -->
+<div class="min-h-screen bg-gradient-to-br from-indigo-50 via-white to-purple-50 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+  <div class="max-w-md w-full space-y-8">
+    <!-- Header -->
+    <div class="text-center">
+      <%= link_to root_path, class: "inline-block" do %>
+        <div class="flex items-center justify-center space-x-2">
+          <div class="w-10 h-10 bg-gradient-to-br from-indigo-600 to-purple-600 rounded-lg flex items-center justify-center">
+            <svg class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+            </svg>
+          </div>
+          <span class="text-2xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">KojAgency</span>
+        </div>
+      <% end %>
+      <h2 class="mt-6 text-3xl font-bold text-gray-900">Forgot your password?</h2>
+      <p class="mt-2 text-sm text-gray-600">
+        No worries! Enter your email address and we'll send you instructions to reset your password.
+      </p>
+    </div>
+
+    <!-- Forgot Password Form -->
+    <div class="bg-white py-8 px-6 shadow-xl rounded-2xl">
+      <%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post, class: "space-y-6" }) do |f| %>
+        <%= render "devise/shared/error_messages", resource: resource %>
+
+        <!-- Email Field -->
+        <div>
+          <%= f.label :email, class: "block text-sm font-medium text-gray-700 mb-2" %>
+          <div class="relative">
+            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+              <svg class="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 12a4 4 0 10-8 0 4 4 0 008 0zm0 0v1.5a2.5 2.5 0 005 0V12a9 9 0 10-9 9m4.5-1.206a8.959 8.959 0 01-4.5 1.207"/>
+              </svg>
+            </div>
+            <%= f.email_field :email,
+                placeholder: "Enter your email address",
+                autofocus: true,
+                autocomplete: "email",
+                class: "block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors sm:text-sm" %>
+          </div>
+        </div>
+
+        <!-- Submit Button -->
+        <div>
+          <%= f.submit "Send reset instructions",
+              class: "w-full flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-all duration-200 transform hover:scale-105" %>
+        </div>
+      <% end %>
+
+      <!-- Back to Login Link -->
+      <div class="mt-6 text-center">
+        <p class="text-sm text-gray-600">
+          Remember your password?
+          <%= link_to "Back to sign in", new_session_path(resource_name),
+              class: "font-medium text-indigo-600 hover:text-indigo-500 transition-colors" %>
+        </p>
+      </div>
+    </div>
+
+    <!-- Additional Information -->
+    <div class="text-center">
+      <div class="bg-blue-50 border border-blue-200 rounded-lg p-4">
+        <div class="flex items-center">
+          <svg class="w-5 h-5 text-blue-600 mr-2" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/>
+          </svg>
+          <p class="text-sm text-blue-700">
+            Check your spam folder if you don't receive the email within a few minutes.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Additional Options -->
+    <div class="text-center">
+      <p class="text-xs text-gray-500">
+        Need help?
+        <%= link_to "Contact support", contact_path,
+            class: "text-indigo-600 hover:text-indigo-500" %>
+      </p>
+    </div>
+  </div>
+</div>

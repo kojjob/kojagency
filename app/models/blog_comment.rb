@@ -1,7 +1,7 @@
 class BlogComment < ApplicationRecord
   belongs_to :blog_post, counter_cache: true
-  belongs_to :parent, class_name: 'BlogComment', optional: true
-  has_many :replies, class_name: 'BlogComment', foreign_key: 'parent_id', dependent: :destroy
+  belongs_to :parent, class_name: "BlogComment", optional: true
+  has_many :replies, class_name: "BlogComment", foreign_key: "parent_id", dependent: :destroy
 
   # Validations
   validates :author_name, presence: true, length: { maximum: 100 }
@@ -25,7 +25,7 @@ class BlogComment < ApplicationRecord
   end
 
   def approved?
-    status == 'approved'
+    status == "approved"
   end
 
   def has_replies?

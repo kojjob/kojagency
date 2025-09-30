@@ -1,55 +1,85 @@
 <!-- Testimonials Hero Section -->
-<section class="relative py-24 bg-gradient-to-br from-indigo-50 via-white to-purple-50">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-    <h1 class="text-4xl lg:text-5xl font-bold text-gray-900 mb-6">
-      What Our <span class="bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">Clients Say</span>
+<section class="relative py-32 bg-gradient-to-br from-indigo-50 via-white to-purple-50 overflow-hidden">
+  <!-- Animated Background Elements -->
+  <div class="absolute inset-0 overflow-hidden">
+    <div class="absolute -top-40 -left-40 w-96 h-96 bg-indigo-400 rounded-full opacity-20 blur-3xl animate-blob"></div>
+    <div class="absolute -bottom-40 -right-40 w-96 h-96 bg-purple-400 rounded-full opacity-20 blur-3xl animate-blob animation-delay-2000"></div>
+    <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-pink-400 rounded-full opacity-20 blur-3xl animate-blob animation-delay-4000"></div>
+  </div>
+
+  <!-- Grid Pattern Overlay -->
+  <div class="absolute inset-0 opacity-5">
+    <div class="w-full h-full" style="background-image: linear-gradient(rgba(99, 102, 241, 0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(99, 102, 241, 0.1) 1px, transparent 1px); background-size: 40px 40px;"></div>
+  </div>
+
+  <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+    <div class="inline-flex items-center bg-gradient-to-r from-indigo-100 to-purple-100 px-6 py-2 rounded-full mb-8">
+      <span class="text-indigo-600 font-semibold">💬 Client Testimonials</span>
+    </div>
+    <h1 class="text-5xl lg:text-7xl font-black text-gray-900 mb-8 leading-tight">
+      What Our <span class="bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 bg-clip-text text-transparent">Clients Say</span>
     </h1>
-    <p class="max-w-3xl mx-auto text-xl text-gray-600">
-      Discover how we've helped businesses transform their digital presence and achieve remarkable results.
+    <p class="max-w-4xl mx-auto text-xl lg:text-2xl text-gray-600 leading-relaxed">
+      Discover how we've helped businesses transform their digital presence and achieve remarkable results through innovation and dedication.
     </p>
   </div>
 </section>
 
 <!-- Testimonials Grid -->
-<section class="py-20 bg-white">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<section class="py-20 bg-gradient-to-br from-gray-50 via-white to-indigo-50 relative overflow-hidden">
+  <!-- Background Decoration -->
+  <div class="absolute inset-0 overflow-hidden pointer-events-none">
+    <div class="absolute top-20 right-10 w-72 h-72 bg-gradient-to-br from-indigo-100 to-purple-100 rounded-full filter blur-3xl opacity-20 animate-blob"></div>
+    <div class="absolute bottom-20 left-10 w-72 h-72 bg-gradient-to-br from-purple-100 to-pink-100 rounded-full filter blur-3xl opacity-20 animate-blob animation-delay-2000"></div>
+  </div>
+
+  <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
       <% @testimonials.each do |testimonial| %>
-        <div class="bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-shadow duration-300 overflow-hidden">
-          <!-- Rating Stars -->
-          <div class="px-8 pt-8 pb-4">
-            <div class="flex mb-4">
-              <% testimonial[:rating].times do %>
-                <svg class="w-5 h-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
-                  <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
-                </svg>
-              <% end %>
-            </div>
-          </div>
+        <div class="relative group">
+          <!-- Gradient Border Glow -->
+          <div class="absolute -inset-0.5 bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 rounded-3xl opacity-0 group-hover:opacity-100 blur transition-opacity duration-500"></div>
 
-          <!-- Content -->
-          <div class="px-8 pb-8">
-            <p class="text-gray-700 mb-6 italic">
-              "<%= testimonial[:content] %>"
-            </p>
-
-            <!-- Author Info -->
-            <div class="flex items-center">
-              <div class="w-12 h-12 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-full flex items-center justify-center text-white font-bold text-lg mr-4">
-                <%= testimonial[:author].split.map(&:first).join %>
-              </div>
-              <div>
-                <div class="font-bold text-gray-900"><%= testimonial[:author] %></div>
-                <div class="text-sm text-gray-600"><%= testimonial[:position] %>, <%= testimonial[:company] %></div>
+          <!-- Card Content -->
+          <div class="relative bg-white rounded-3xl shadow-xl hover:shadow-2xl transition-all duration-300 overflow-hidden">
+            <!-- Rating Stars -->
+            <div class="px-8 pt-8 pb-4">
+              <div class="flex gap-1 mb-4">
+                <% testimonial[:rating].times do %>
+                  <svg class="w-6 h-6 text-yellow-400 drop-shadow-sm" fill="currentColor" viewBox="0 0 20 20">
+                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                  </svg>
+                <% end %>
               </div>
             </div>
 
-            <!-- Project Tag -->
-            <div class="mt-4 pt-4 border-t border-gray-100">
-              <span class="inline-block px-3 py-1 bg-indigo-50 text-indigo-700 rounded-full text-sm font-medium">
-                <%= testimonial[:project] %>
-              </span>
-              <span class="text-sm text-gray-500 ml-2"><%= testimonial[:date] %></span>
+            <!-- Content -->
+            <div class="px-8 pb-8">
+              <div class="relative pl-6 mb-6">
+                <div class="absolute left-0 top-0 text-5xl text-indigo-200 leading-none font-serif">"</div>
+                <p class="text-gray-700 leading-relaxed italic">
+                  <%= testimonial[:content] %>
+                </p>
+              </div>
+
+              <!-- Author Info -->
+              <div class="flex items-center mb-4">
+                <div class="w-14 h-14 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-full flex items-center justify-center text-white font-bold text-lg mr-4 shadow-lg group-hover:scale-110 transition-transform duration-300">
+                  <%= testimonial[:author].split.map(&:first).join %>
+                </div>
+                <div>
+                  <div class="font-bold text-gray-900 text-lg"><%= testimonial[:author] %></div>
+                  <div class="text-sm text-gray-600"><%= testimonial[:position] %>, <%= testimonial[:company] %></div>
+                </div>
+              </div>
+
+              <!-- Project Tag -->
+              <div class="mt-4 pt-4 border-t border-gray-100 flex items-center justify-between">
+                <span class="inline-block px-4 py-2 bg-gradient-to-r from-indigo-50 to-purple-50 text-indigo-700 rounded-full text-sm font-semibold border border-indigo-100">
+                  <%= testimonial[:project] %>
+                </span>
+                <span class="text-sm text-gray-500 font-medium"><%= testimonial[:date] %></span>
+              </div>
             </div>
           </div>
         </div>
@@ -59,43 +89,74 @@
 </section>
 
 <!-- Video Testimonials Section -->
-<section class="py-20 bg-gray-50">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    <div class="text-center mb-12">
-      <h2 class="text-3xl lg:text-4xl font-bold text-gray-900 mb-4">
-        Video Testimonials
+<section class="py-24 bg-white relative overflow-hidden">
+  <!-- Background Decoration -->
+  <div class="absolute inset-0 overflow-hidden pointer-events-none">
+    <div class="absolute top-1/4 left-10 w-96 h-96 bg-gradient-to-br from-indigo-100 to-purple-100 rounded-full filter blur-3xl opacity-20 animate-blob"></div>
+    <div class="absolute bottom-1/4 right-10 w-96 h-96 bg-gradient-to-br from-purple-100 to-pink-100 rounded-full filter blur-3xl opacity-20 animate-blob animation-delay-3000"></div>
+  </div>
+
+  <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="text-center mb-16">
+      <div class="inline-flex items-center bg-gradient-to-r from-indigo-100 to-purple-100 px-6 py-2 rounded-full mb-6">
+        <span class="text-indigo-600 font-semibold">🎥 Video Testimonials</span>
+      </div>
+      <h2 class="text-4xl lg:text-6xl font-black text-gray-900 mb-6">
+        See Our <span class="bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 bg-clip-text text-transparent">Impact</span>
       </h2>
-      <p class="max-w-3xl mx-auto text-xl text-gray-600">
-        Hear directly from our clients about their experience working with us.
+      <p class="max-w-3xl mx-auto text-xl text-gray-600 leading-relaxed">
+        Hear directly from our clients about their experience working with us and the results we delivered.
       </p>
     </div>
 
     <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-      <div class="aspect-w-16 aspect-h-9 bg-gradient-to-br from-indigo-100 to-purple-100 rounded-2xl overflow-hidden relative group cursor-pointer">
-        <div class="absolute inset-0 flex items-center justify-center">
-          <div class="w-20 h-20 bg-white/90 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-            <svg class="w-10 h-10 text-indigo-600 ml-1" fill="currentColor" viewBox="0 0 20 20">
-              <path d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z"></path>
-            </svg>
+      <div class="relative group">
+        <!-- Gradient Border Glow -->
+        <div class="absolute -inset-1 bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 rounded-3xl opacity-0 group-hover:opacity-100 blur transition-opacity duration-500"></div>
+
+        <div class="relative aspect-w-16 aspect-h-9 bg-gradient-to-br from-indigo-100 via-purple-100 to-pink-100 rounded-3xl overflow-hidden cursor-pointer shadow-xl hover:shadow-2xl transition-shadow duration-300">
+          <!-- Play Button -->
+          <div class="absolute inset-0 flex items-center justify-center z-10">
+            <div class="w-24 h-24 bg-white rounded-full flex items-center justify-center group-hover:scale-110 transition-transform duration-300 shadow-2xl">
+              <svg class="w-12 h-12 text-indigo-600 ml-1" fill="currentColor" viewBox="0 0 20 20">
+                <path d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z"></path>
+              </svg>
+            </div>
           </div>
-        </div>
-        <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/60 to-transparent p-6 text-white">
-          <div class="font-bold">Sarah Chen, CEO of TechVentures</div>
-          <div class="text-sm opacity-90">How KojAgency transformed our digital presence</div>
+
+          <!-- Gradient Overlay -->
+          <div class="absolute inset-0 bg-gradient-to-br from-indigo-500/20 to-purple-500/20 group-hover:scale-105 transition-transform duration-700"></div>
+
+          <!-- Text Overlay -->
+          <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 via-black/60 to-transparent p-8 text-white">
+            <div class="font-bold text-xl mb-2">Sarah Chen, CEO of TechVentures</div>
+            <div class="text-sm opacity-90 leading-relaxed">How KojAgency transformed our digital presence with cutting-edge solutions</div>
+          </div>
         </div>
       </div>
 
-      <div class="aspect-w-16 aspect-h-9 bg-gradient-to-br from-purple-100 to-pink-100 rounded-2xl overflow-hidden relative group cursor-pointer">
-        <div class="absolute inset-0 flex items-center justify-center">
-          <div class="w-20 h-20 bg-white/90 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-            <svg class="w-10 h-10 text-purple-600 ml-1" fill="currentColor" viewBox="0 0 20 20">
-              <path d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z"></path>
-            </svg>
+      <div class="relative group">
+        <!-- Gradient Border Glow -->
+        <div class="absolute -inset-1 bg-gradient-to-r from-purple-600 via-pink-600 to-indigo-600 rounded-3xl opacity-0 group-hover:opacity-100 blur transition-opacity duration-500"></div>
+
+        <div class="relative aspect-w-16 aspect-h-9 bg-gradient-to-br from-purple-100 via-pink-100 to-indigo-100 rounded-3xl overflow-hidden cursor-pointer shadow-xl hover:shadow-2xl transition-shadow duration-300">
+          <!-- Play Button -->
+          <div class="absolute inset-0 flex items-center justify-center z-10">
+            <div class="w-24 h-24 bg-white rounded-full flex items-center justify-center group-hover:scale-110 transition-transform duration-300 shadow-2xl">
+              <svg class="w-12 h-12 text-purple-600 ml-1" fill="currentColor" viewBox="0 0 20 20">
+                <path d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z"></path>
+              </svg>
+            </div>
           </div>
-        </div>
-        <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/60 to-transparent p-6 text-white">
-          <div class="font-bold">Michael Rodriguez, CTO of DataFlow</div>
-          <div class="text-sm opacity-90">Building scalable data infrastructure</div>
+
+          <!-- Gradient Overlay -->
+          <div class="absolute inset-0 bg-gradient-to-br from-purple-500/20 to-pink-500/20 group-hover:scale-105 transition-transform duration-700"></div>
+
+          <!-- Text Overlay -->
+          <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 via-black/60 to-transparent p-8 text-white">
+            <div class="font-bold text-xl mb-2">Michael Rodriguez, CTO of DataFlow</div>
+            <div class="text-sm opacity-90 leading-relaxed">Building scalable data infrastructure that powers business growth</div>
+          </div>
         </div>
       </div>
     </div>
@@ -103,67 +164,114 @@
 </section>
 
 <!-- Statistics Section -->
-<section class="py-20 bg-white">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    <div class="text-center mb-12">
-      <h2 class="text-3xl lg:text-4xl font-bold text-gray-900 mb-4">
-        Client Success Metrics
+<section class="py-24 bg-gradient-to-br from-white via-indigo-50 to-purple-50 relative overflow-hidden">
+  <!-- Animated Background Elements -->
+  <div class="absolute inset-0 overflow-hidden pointer-events-none">
+    <div class="absolute top-20 -left-20 w-96 h-96 bg-gradient-to-br from-indigo-100 to-purple-100 rounded-full filter blur-3xl opacity-30 animate-blob"></div>
+    <div class="absolute -bottom-20 -right-20 w-96 h-96 bg-gradient-to-br from-purple-100 to-pink-100 rounded-full filter blur-3xl opacity-30 animate-blob animation-delay-2000"></div>
+    <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-gradient-to-br from-pink-100 to-indigo-100 rounded-full filter blur-3xl opacity-20 animate-blob animation-delay-4000"></div>
+  </div>
+
+  <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="text-center mb-16">
+      <div class="inline-flex items-center bg-gradient-to-r from-indigo-100 to-purple-100 px-6 py-2 rounded-full mb-6">
+        <span class="text-indigo-600 font-semibold">📊 Success Metrics</span>
+      </div>
+      <h2 class="text-4xl lg:text-6xl font-black text-gray-900 mb-6">
+        Client Success <span class="bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 bg-clip-text text-transparent">Metrics</span>
       </h2>
-      <p class="max-w-3xl mx-auto text-xl text-gray-600">
-        The numbers speak for themselves.
+      <p class="max-w-3xl mx-auto text-xl text-gray-600 leading-relaxed">
+        The numbers speak for themselves - proven results that drive real business growth.
       </p>
     </div>
 
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-      <div class="text-center">
-        <div class="text-5xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent mb-2">
-          98%
+      <div class="relative group">
+        <!-- Gradient Border Glow -->
+        <div class="absolute -inset-0.5 bg-gradient-to-r from-indigo-600 to-purple-600 rounded-3xl opacity-0 group-hover:opacity-100 blur transition-opacity duration-500"></div>
+
+        <div class="relative bg-white rounded-3xl p-8 text-center shadow-xl hover:shadow-2xl transition-all duration-300">
+          <div class="text-6xl font-black bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent mb-4 group-hover:scale-110 transition-transform duration-300">
+            98%
+          </div>
+          <div class="text-gray-700 font-semibold text-lg">Client Satisfaction Rate</div>
         </div>
-        <div class="text-gray-600">Client Satisfaction Rate</div>
       </div>
-      <div class="text-center">
-        <div class="text-5xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent mb-2">
-          85%
+
+      <div class="relative group">
+        <!-- Gradient Border Glow -->
+        <div class="absolute -inset-0.5 bg-gradient-to-r from-purple-600 to-pink-600 rounded-3xl opacity-0 group-hover:opacity-100 blur transition-opacity duration-500"></div>
+
+        <div class="relative bg-white rounded-3xl p-8 text-center shadow-xl hover:shadow-2xl transition-all duration-300">
+          <div class="text-6xl font-black bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent mb-4 group-hover:scale-110 transition-transform duration-300">
+            85%
+          </div>
+          <div class="text-gray-700 font-semibold text-lg">Clients Return for More Projects</div>
         </div>
-        <div class="text-gray-600">Clients Return for More Projects</div>
       </div>
-      <div class="text-center">
-        <div class="text-5xl font-bold bg-gradient-to-r from-pink-600 to-indigo-600 bg-clip-text text-transparent mb-2">
-          150+
+
+      <div class="relative group">
+        <!-- Gradient Border Glow -->
+        <div class="absolute -inset-0.5 bg-gradient-to-r from-pink-600 to-indigo-600 rounded-3xl opacity-0 group-hover:opacity-100 blur transition-opacity duration-500"></div>
+
+        <div class="relative bg-white rounded-3xl p-8 text-center shadow-xl hover:shadow-2xl transition-all duration-300">
+          <div class="text-6xl font-black bg-gradient-to-r from-pink-600 to-indigo-600 bg-clip-text text-transparent mb-4 group-hover:scale-110 transition-transform duration-300">
+            150+
+          </div>
+          <div class="text-gray-700 font-semibold text-lg">Successful Projects Delivered</div>
         </div>
-        <div class="text-gray-600">Successful Projects Delivered</div>
       </div>
-      <div class="text-center">
-        <div class="text-5xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent mb-2">
-          50+
+
+      <div class="relative group">
+        <!-- Gradient Border Glow -->
+        <div class="absolute -inset-0.5 bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 rounded-3xl opacity-0 group-hover:opacity-100 blur transition-opacity duration-500"></div>
+
+        <div class="relative bg-white rounded-3xl p-8 text-center shadow-xl hover:shadow-2xl transition-all duration-300">
+          <div class="text-6xl font-black bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 bg-clip-text text-transparent mb-4 group-hover:scale-110 transition-transform duration-300">
+            50+
+          </div>
+          <div class="text-gray-700 font-semibold text-lg">Five-Star Reviews</div>
         </div>
-        <div class="text-gray-600">Five-Star Reviews</div>
       </div>
     </div>
   </div>
 </section>
 
 <!-- Industries Section -->
-<section class="py-20 bg-gray-50">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    <div class="text-center mb-12">
-      <h2 class="text-3xl lg:text-4xl font-bold text-gray-900 mb-4">
-        Industries We Serve
+<section class="py-24 bg-gradient-to-br from-gray-50 via-white to-purple-50 relative overflow-hidden">
+  <!-- Background Decoration -->
+  <div class="absolute inset-0 overflow-hidden pointer-events-none">
+    <div class="absolute top-1/3 -right-20 w-96 h-96 bg-gradient-to-br from-indigo-100 to-purple-100 rounded-full filter blur-3xl opacity-20 animate-blob"></div>
+    <div class="absolute bottom-1/3 -left-20 w-96 h-96 bg-gradient-to-br from-purple-100 to-pink-100 rounded-full filter blur-3xl opacity-20 animate-blob animation-delay-3000"></div>
+  </div>
+
+  <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="text-center mb-16">
+      <div class="inline-flex items-center bg-gradient-to-r from-indigo-100 to-purple-100 px-6 py-2 rounded-full mb-6">
+        <span class="text-indigo-600 font-semibold">🏢 Industry Expertise</span>
+      </div>
+      <h2 class="text-4xl lg:text-6xl font-black text-gray-900 mb-6">
+        Industries <span class="bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 bg-clip-text text-transparent">We Serve</span>
       </h2>
-      <p class="max-w-3xl mx-auto text-xl text-gray-600">
-        Delivering excellence across diverse sectors.
+      <p class="max-w-3xl mx-auto text-xl text-gray-600 leading-relaxed">
+        Delivering excellence across diverse sectors with specialized domain expertise.
       </p>
     </div>
 
     <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
       <% ["Technology", "Healthcare", "Finance", "Retail", "Education", "Manufacturing"].each do |industry| %>
-        <div class="bg-white rounded-xl p-6 text-center hover:shadow-lg transition-shadow duration-300">
-          <div class="w-16 h-16 mx-auto bg-gradient-to-br from-indigo-100 to-purple-100 rounded-full flex items-center justify-center mb-4">
-            <svg class="w-8 h-8 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
-            </svg>
+        <div class="relative group">
+          <!-- Gradient Border Glow -->
+          <div class="absolute -inset-0.5 bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 rounded-2xl opacity-0 group-hover:opacity-100 blur transition-opacity duration-500"></div>
+
+          <div class="relative bg-white rounded-2xl p-6 text-center shadow-lg hover:shadow-xl transition-all duration-300">
+            <div class="w-16 h-16 mx-auto bg-gradient-to-br from-indigo-100 to-purple-100 rounded-full flex items-center justify-center mb-4 group-hover:scale-110 group-hover:rotate-6 transition-all duration-300">
+              <svg class="w-8 h-8 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
+              </svg>
+            </div>
+            <div class="font-bold text-gray-900 group-hover:bg-gradient-to-r group-hover:from-indigo-600 group-hover:via-purple-600 group-hover:to-pink-600 group-hover:bg-clip-text group-hover:text-transparent transition-all duration-300"><%= industry %></div>
           </div>
-          <div class="font-semibold text-gray-900"><%= industry %></div>
         </div>
       <% end %>
     </div>
@@ -171,19 +279,41 @@
 </section>
 
 <!-- CTA Section -->
-<section class="py-20 bg-gradient-to-r from-indigo-600 to-purple-600">
-  <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-    <h2 class="text-3xl lg:text-4xl font-bold text-white mb-6">
+<section class="relative py-32 bg-gradient-to-br from-indigo-600 via-purple-600 to-pink-600 overflow-hidden">
+  <!-- Animated Background Blobs -->
+  <div class="absolute inset-0 overflow-hidden">
+    <div class="absolute -top-40 -left-40 w-96 h-96 bg-white/10 rounded-full blur-3xl animate-blob"></div>
+    <div class="absolute -bottom-40 -right-40 w-96 h-96 bg-white/10 rounded-full blur-3xl animate-blob animation-delay-2000"></div>
+    <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-white/5 rounded-full blur-3xl animate-blob animation-delay-4000"></div>
+  </div>
+
+  <!-- Grid Pattern Overlay -->
+  <div class="absolute inset-0 opacity-10">
+    <div class="w-full h-full" style="background-image: linear-gradient(rgba(255, 255, 255, 0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, 0.1) 1px, transparent 1px); background-size: 40px 40px;"></div>
+  </div>
+
+  <div class="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+    <div class="inline-flex items-center bg-white/10 backdrop-blur-sm px-6 py-2 rounded-full mb-8">
+      <span class="text-white font-semibold">🚀 Ready to Get Started?</span>
+    </div>
+
+    <h2 class="text-4xl lg:text-6xl font-black text-white mb-6 leading-tight">
       Join Our Success Stories
     </h2>
-    <p class="text-xl text-indigo-100 mb-8">
-      Let us help you achieve your digital transformation goals.
+
+    <p class="text-xl lg:text-2xl text-indigo-100 mb-10 leading-relaxed max-w-2xl mx-auto">
+      Let us help you achieve your digital transformation goals and become our next success story.
     </p>
-    <%= link_to contact_path, class: "inline-flex items-center px-8 py-4 bg-white text-indigo-600 font-semibold rounded-full hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300" do %>
+
+    <%= link_to contact_path, class: "inline-flex items-center px-10 py-5 bg-white text-indigo-600 font-bold rounded-full hover:shadow-2xl hover:shadow-white/30 transform hover:-translate-y-1 hover:scale-105 transition-all duration-300 group" do %>
       Start Your Project
-      <svg class="ml-2 w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <svg class="ml-3 w-6 h-6 transform group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path>
       </svg>
     <% end %>
+
+    <p class="mt-8 text-indigo-100 text-sm">
+      Free consultation • No commitment required • Quick response time
+    </p>
   </div>
 </section>

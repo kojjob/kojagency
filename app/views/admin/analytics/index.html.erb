@@ -1,0 +1,323 @@
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+  <!-- Header with Date Range Filter -->
+  <div class="mb-8">
+    <div class="flex justify-between items-center">
+      <div>
+        <h1 class="text-3xl font-bold text-gray-900 dark:text-white">Analytics Dashboard</h1>
+        <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">
+          Showing data for <%= @period_label %>
+        </p>
+      </div>
+
+      <div class="flex items-center space-x-4">
+        <%= form_with url: admin_analytics_path, method: :get, local: true, class: "flex items-center space-x-2" do |f| %>
+          <%= f.select :period,
+              options_for_select([
+                ['Today', 'today'],
+                ['Last 7 Days', 'week'],
+                ['Last 30 Days', 'month'],
+                ['Last 90 Days', 'quarter'],
+                ['Last Year', 'year']
+              ], params[:period] || 'month'),
+              {},
+              class: "rounded-lg border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white focus:ring-blue-500 focus:border-blue-500" %>
+          <%= f.submit "Update", class: "px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors" %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+
+  <!-- Summary Cards -->
+  <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+    <!-- Total Leads Card -->
+    <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
+      <div class="flex items-center justify-between">
+        <div>
+          <p class="text-sm font-medium text-gray-600 dark:text-gray-400">Total Leads</p>
+          <p class="text-3xl font-bold text-gray-900 dark:text-white mt-2"><%= @total_leads %></p>
+        </div>
+        <div class="p-3 bg-blue-100 dark:bg-blue-900 rounded-full">
+          <svg class="w-8 h-8 text-blue-600 dark:text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
+          </svg>
+        </div>
+      </div>
+    </div>
+
+    <!-- Conversions Card -->
+    <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
+      <div class="flex items-center justify-between">
+        <div>
+          <p class="text-sm font-medium text-gray-600 dark:text-gray-400">Conversions</p>
+          <p class="text-3xl font-bold text-gray-900 dark:text-white mt-2"><%= @total_conversions %></p>
+        </div>
+        <div class="p-3 bg-green-100 dark:bg-green-900 rounded-full">
+          <svg class="w-8 h-8 text-green-600 dark:text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+          </svg>
+        </div>
+      </div>
+    </div>
+
+    <!-- Average Score Card -->
+    <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
+      <div class="flex items-center justify-between">
+        <div>
+          <p class="text-sm font-medium text-gray-600 dark:text-gray-400">Average Score</p>
+          <p class="text-3xl font-bold text-gray-900 dark:text-white mt-2"><%= @average_score %></p>
+        </div>
+        <div class="p-3 bg-yellow-100 dark:bg-yellow-900 rounded-full">
+          <svg class="w-8 h-8 text-yellow-600 dark:text-yellow-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"></path>
+          </svg>
+        </div>
+      </div>
+    </div>
+
+    <!-- Total Value Card -->
+    <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
+      <div class="flex items-center justify-between">
+        <div>
+          <p class="text-sm font-medium text-gray-600 dark:text-gray-400">Total Value</p>
+          <p class="text-3xl font-bold text-gray-900 dark:text-white mt-2">$<%= number_with_delimiter(@total_value) %></p>
+        </div>
+        <div class="p-3 bg-purple-100 dark:bg-purple-900 rounded-full">
+          <svg class="w-8 h-8 text-purple-600 dark:text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+          </svg>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Lead Conversion Funnel -->
+  <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-6 mb-8">
+    <h2 class="text-xl font-bold text-gray-900 dark:text-white mb-6">Lead Conversion Funnel</h2>
+    <div class="space-y-4">
+      <% funnel_stages = [
+        { label: 'Total Leads', count: @funnel_data[:total_leads], percentage: 100 },
+        { label: 'Contacted', count: @funnel_data[:contacted], percentage: @funnel_data[:conversion_rates][:contacted_rate] },
+        { label: 'Qualified', count: @funnel_data[:qualified], percentage: @funnel_data[:conversion_rates][:qualified_rate] },
+        { label: 'Proposal Sent', count: @funnel_data[:proposal_sent], percentage: @funnel_data[:conversion_rates][:proposal_rate] },
+        { label: 'Won', count: @funnel_data[:won], percentage: @funnel_data[:conversion_rates][:won_rate] }
+      ] %>
+
+      <% funnel_stages.each_with_index do |stage, index| %>
+        <div class="relative">
+          <div class="flex items-center justify-between mb-2">
+            <span class="text-sm font-medium text-gray-700 dark:text-gray-300"><%= stage[:label] %></span>
+            <span class="text-sm text-gray-600 dark:text-gray-400">
+              <%= stage[:count] %> (<%= stage[:percentage] %>%)
+            </span>
+          </div>
+          <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-4">
+            <div class="bg-gradient-to-r from-blue-600 to-blue-400 h-4 rounded-full transition-all duration-500"
+                 style="width: <%= stage[:percentage] %>%"></div>
+          </div>
+        </div>
+      <% end %>
+    </div>
+
+    <div class="mt-6 pt-6 border-t border-gray-200 dark:border-gray-700">
+      <div class="text-center">
+        <p class="text-sm text-gray-600 dark:text-gray-400">Overall Conversion Rate</p>
+        <p class="text-3xl font-bold text-blue-600 dark:text-blue-400 mt-2">
+          <%= @funnel_data[:conversion_rates][:overall_conversion] %>%
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Charts Grid -->
+  <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+    <!-- Daily Metrics Trend -->
+    <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
+      <h2 class="text-xl font-bold text-gray-900 dark:text-white mb-6">Daily Metrics Trend</h2>
+      <canvas id="dailyMetricsChart" height="300"></canvas>
+    </div>
+
+    <!-- Lead Scoring Distribution -->
+    <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
+      <h2 class="text-xl font-bold text-gray-900 dark:text-white mb-6">Lead Scoring Distribution</h2>
+      <canvas id="scoringDistributionChart" height="300"></canvas>
+    </div>
+  </div>
+
+  <!-- Source Attribution Table -->
+  <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-6 mb-8">
+    <h2 class="text-xl font-bold text-gray-900 dark:text-white mb-6">Source Attribution</h2>
+    <div class="overflow-x-auto">
+      <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+        <thead class="bg-gray-50 dark:bg-gray-900">
+          <tr>
+            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Source</th>
+            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Total Leads</th>
+            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">High Priority</th>
+            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Avg Score</th>
+            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Conversion Rate</th>
+            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Won Deals</th>
+          </tr>
+        </thead>
+        <tbody class="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
+          <% @source_attribution.each do |source_data| %>
+            <tr class="hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
+              <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-white">
+                <%= source_data[:source] || 'Direct' %>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600 dark:text-gray-400">
+                <%= source_data[:total_leads] %>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600 dark:text-gray-400">
+                <%= source_data[:high_priority_leads] %>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600 dark:text-gray-400">
+                <%= source_data[:average_score] %>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600 dark:text-gray-400">
+                <%= source_data[:conversion_rate] %>%
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600 dark:text-gray-400">
+                <%= source_data[:won_deals] %>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ROI by Channel -->
+  <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
+    <h2 class="text-xl font-bold text-gray-900 dark:text-white mb-6">ROI by Marketing Channel</h2>
+    <div class="overflow-x-auto">
+      <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+        <thead class="bg-gray-50 dark:bg-gray-900">
+          <tr>
+            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Channel</th>
+            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Total Leads</th>
+            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Won Deals</th>
+            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Total Value</th>
+            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Avg Deal Value</th>
+            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Conversion Rate</th>
+          </tr>
+        </thead>
+        <tbody class="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
+          <% @roi_by_channel.each do |channel_data| %>
+            <tr class="hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
+              <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-white">
+                <%= channel_data[:channel] || 'Direct' %>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600 dark:text-gray-400">
+                <%= channel_data[:total_leads] %>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600 dark:text-gray-400">
+                <%= channel_data[:won_deals] %>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600 dark:text-gray-400">
+                $<%= number_with_delimiter(channel_data[:total_value]) %>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600 dark:text-gray-400">
+                $<%= number_with_delimiter(channel_data[:average_deal_value]) %>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600 dark:text-gray-400">
+                <%= channel_data[:conversion_rate] %>%
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- Chart.js Script -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<script>
+  // Daily Metrics Chart
+  const dailyMetricsCtx = document.getElementById('dailyMetricsChart').getContext('2d');
+  const dailyMetricsData = <%= raw @daily_metrics.to_json %>;
+
+  new Chart(dailyMetricsCtx, {
+    type: 'line',
+    data: {
+      labels: dailyMetricsData.map(d => d.date),
+      datasets: [
+        {
+          label: 'Leads',
+          data: dailyMetricsData.map(d => d.leads),
+          borderColor: 'rgb(59, 130, 246)',
+          backgroundColor: 'rgba(59, 130, 246, 0.1)',
+          tension: 0.4
+        },
+        {
+          label: 'Page Views',
+          data: dailyMetricsData.map(d => d.page_views),
+          borderColor: 'rgb(16, 185, 129)',
+          backgroundColor: 'rgba(16, 185, 129, 0.1)',
+          tension: 0.4
+        },
+        {
+          label: 'Conversions',
+          data: dailyMetricsData.map(d => d.conversions),
+          borderColor: 'rgb(139, 92, 246)',
+          backgroundColor: 'rgba(139, 92, 246, 0.1)',
+          tension: 0.4
+        }
+      ]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: {
+          position: 'top',
+        },
+        title: {
+          display: false
+        }
+      },
+      scales: {
+        y: {
+          beginAtZero: true
+        }
+      }
+    }
+  });
+
+  // Scoring Distribution Chart
+  const scoringCtx = document.getElementById('scoringDistributionChart').getContext('2d');
+  const scoringData = <%= raw @scoring_data.to_json %>;
+
+  new Chart(scoringCtx, {
+    type: 'doughnut',
+    data: {
+      labels: ['High Priority (80+)', 'Medium Priority (60-79)', 'Low Priority (<60)'],
+      datasets: [{
+        data: [
+          scoringData.high_priority.count,
+          scoringData.medium_priority.count,
+          scoringData.low_priority.count
+        ],
+        backgroundColor: [
+          'rgb(239, 68, 68)',
+          'rgb(245, 158, 11)',
+          'rgb(34, 197, 94)'
+        ],
+        borderWidth: 2,
+        borderColor: '#fff'
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: {
+          position: 'bottom',
+        },
+        title: {
+          display: false
+        }
+      }
+    }
+  });
+</script>
