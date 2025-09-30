@@ -2,13 +2,13 @@ module PerformanceHelper
   # Optimized image tag with lazy loading and responsive images
   def optimized_image_tag(source, options = {})
     # Set default loading strategy
-    options[:loading] ||= 'lazy'
-    options[:decoding] ||= 'async'
+    options[:loading] ||= "lazy"
+    options[:decoding] ||= "async"
 
     # Add importance hint for above-the-fold images
     if options.delete(:eager)
-      options[:loading] = 'eager'
-      options[:fetchpriority] = 'high'
+      options[:loading] = "eager"
+      options[:fetchpriority] = "high"
     end
 
     # Generate responsive srcset if requested
@@ -28,22 +28,22 @@ module PerformanceHelper
 
   # Generate srcset for responsive images
   def generate_srcset(source, custom_sizes = nil)
-    sizes = custom_sizes || [320, 640, 768, 1024, 1280, 1920]
+    sizes = custom_sizes || [ 320, 640, 768, 1024, 1280, 1920 ]
 
     # For Active Storage images
     if source.respond_to?(:variant)
       sizes.map do |width|
-        variant = source.variant(resize_to_limit: [width, nil])
+        variant = source.variant(resize_to_limit: [ width, nil ])
         "#{url_for(variant)} #{width}w"
-      end.join(', ')
+      end.join(", ")
     else
       # For regular asset images
-      base_path = source.gsub(/\.\w+$/, '')
+      base_path = source.gsub(/\.\w+$/, "")
       extension = source.match(/\.(\w+)$/)[1]
 
       sizes.map do |width|
         "#{base_path}-#{width}w.#{extension} #{width}w"
-      end.join(', ')
+      end.join(", ")
     end
   end
 
@@ -55,17 +55,17 @@ module PerformanceHelper
       "(max-width: 1024px) 80vw",
       "(max-width: 1280px) 70vw",
       "1200px"
-    ].join(', ')
+    ].join(", ")
   end
 
   # Preload critical resources
   def preload_link_tag(source, options = {})
-    options[:rel] = 'preload'
+    options[:rel] = "preload"
     options[:as] ||= detect_resource_type(source)
 
     # Add crossorigin for fonts
-    if options[:as] == 'font'
-      options[:crossorigin] = 'anonymous'
+    if options[:as] == "font"
+      options[:crossorigin] = "anonymous"
       options[:type] ||= detect_font_type(source)
     end
 
@@ -76,7 +76,7 @@ module PerformanceHelper
   def lazy_stylesheet_link_tag(source, options = {})
     # Create a print stylesheet that loads as normal stylesheet onload
     print_options = options.merge(
-      media: 'print',
+      media: "print",
       onload: "this.media='all'; this.onload=null;"
     )
 
@@ -104,7 +104,7 @@ module PerformanceHelper
   # Inline critical CSS
   def inline_critical_css
     # Read critical CSS file if it exists
-    critical_css_path = Rails.root.join('app', 'assets', 'stylesheets', 'critical.css')
+    critical_css_path = Rails.root.join("app", "assets", "stylesheets", "critical.css")
 
     if File.exist?(critical_css_path)
       content_tag(:style) do
@@ -121,10 +121,10 @@ module PerformanceHelper
       # Add WebP source
       if source.respond_to?(:variant)
         webp_source = source.variant(format: :webp)
-        output << tag(:source, srcset: url_for(webp_source), type: 'image/webp')
+        output << tag(:source, srcset: url_for(webp_source), type: "image/webp")
       else
-        webp_path = source.gsub(/\.\w+$/, '.webp')
-        output << tag(:source, srcset: webp_path, type: 'image/webp')
+        webp_path = source.gsub(/\.\w+$/, ".webp")
+        output << tag(:source, srcset: webp_path, type: "image/webp")
       end
 
       # Add original format as fallback
@@ -139,32 +139,32 @@ module PerformanceHelper
   def detect_resource_type(source)
     case source
     when /\.css$/i
-      'style'
+      "style"
     when /\.js$/i
-      'script'
+      "script"
     when /\.(woff2?|ttf|otf|eot)$/i
-      'font'
+      "font"
     when /\.(jpg|jpeg|png|gif|svg|webp)$/i
-      'image'
+      "image"
     when /\.(mp4|webm|ogg)$/i
-      'video'
+      "video"
     else
-      'fetch'
+      "fetch"
     end
   end
 
   def detect_font_type(source)
     case source
     when /\.woff2$/i
-      'font/woff2'
+      "font/woff2"
     when /\.woff$/i
-      'font/woff'
+      "font/woff"
     when /\.ttf$/i
-      'font/ttf'
+      "font/ttf"
     when /\.otf$/i
-      'font/otf'
+      "font/otf"
     else
-      'font/woff2'
+      "font/woff2"
     end
   end
 

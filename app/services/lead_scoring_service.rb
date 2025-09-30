@@ -33,17 +33,17 @@ class LeadScoringService
 
   def calculate_budget_score
     case lead.budget
-    when '250k_plus'
+    when "250k_plus"
       100.0
-    when '100k_250k'
+    when "100k_250k"
       85.0
-    when '50k_100k'
+    when "50k_100k"
       70.0
-    when '25k_50k'
+    when "25k_50k"
       55.0
-    when '10k_25k'
+    when "10k_25k"
       35.0
-    when 'under_10k'
+    when "under_10k"
       15.0
     else
       0.0
@@ -52,17 +52,17 @@ class LeadScoringService
 
   def calculate_timeline_score
     case lead.timeline
-    when 'asap'
+    when "asap"
       100.0
-    when '1_month'
+    when "1_month"
       85.0
-    when '3_months'
+    when "3_months"
       70.0
-    when '6_months'
+    when "6_months"
       50.0
-    when '1_year'
+    when "1_year"
       30.0
-    when 'flexible'
+    when "flexible"
       20.0
     else
       0.0
@@ -71,17 +71,17 @@ class LeadScoringService
 
   def calculate_complexity_score
     base_score = case lead.project_type
-    when 'data_engineering'
+    when "data_engineering"
       100.0  # Highest complexity, highest value
-    when 'analytics_platform'
+    when "analytics_platform"
       90.0   # High complexity, custom solutions
-    when 'technical_consulting'
+    when "technical_consulting"
       85.0   # Strategic, high-value engagements
-    when 'web_development'
+    when "web_development"
       70.0   # Medium complexity, good margins
-    when 'mobile_development'
+    when "mobile_development"
       75.0   # Medium-high complexity
-    when 'other'
+    when "other"
       50.0   # Unknown complexity
     else
       50.0
@@ -89,7 +89,7 @@ class LeadScoringService
 
     # Adjust based on project description complexity indicators
     description_bonus = analyze_description_complexity
-    [base_score + description_bonus, 100.0].min
+    [ base_score + description_bonus, 100.0 ].min
   end
 
   def calculate_quality_score
@@ -111,13 +111,13 @@ class LeadScoringService
     score += 20.0 if detailed_description?
 
     # Contact preference indicates engagement level
-    score += 10.0 if lead.preferred_contact_method == 'both'
-    score += 5.0 if lead.preferred_contact_method == 'phone'
+    score += 10.0 if lead.preferred_contact_method == "both"
+    score += 5.0 if lead.preferred_contact_method == "phone"
 
     # Source quality (referrals are highest quality)
     score += source_quality_bonus
 
-    [score, 100.0].min
+    [ score, 100.0 ].min
   end
 
   def analyze_description_complexity
@@ -128,25 +128,25 @@ class LeadScoringService
 
     # Technical complexity indicators
     complex_terms = [
-      'api', 'integration', 'machine learning', 'ai', 'automation',
-      'microservices', 'cloud', 'aws', 'azure', 'gcp', 'kubernetes',
-      'real-time', 'scalability', 'performance', 'security',
-      'compliance', 'analytics', 'dashboard', 'reporting',
-      'database', 'data warehouse', 'etl', 'pipeline'
+      "api", "integration", "machine learning", "ai", "automation",
+      "microservices", "cloud", "aws", "azure", "gcp", "kubernetes",
+      "real-time", "scalability", "performance", "security",
+      "compliance", "analytics", "dashboard", "reporting",
+      "database", "data warehouse", "etl", "pipeline"
     ]
 
     technical_mentions = complex_terms.count { |term| description.include?(term) }
-    bonus += [technical_mentions * 3, 15].min
+    bonus += [ technical_mentions * 3, 15 ].min
 
     # Urgency indicators
-    urgent_terms = ['urgent', 'asap', 'immediately', 'critical', 'priority']
+    urgent_terms = [ "urgent", "asap", "immediately", "critical", "priority" ]
     urgent_mentions = urgent_terms.count { |term| description.include?(term) }
-    bonus += [urgent_mentions * 2, 8].min
+    bonus += [ urgent_mentions * 2, 8 ].min
 
     # Scale indicators
-    scale_terms = ['enterprise', 'large scale', 'million', 'thousand users', 'global']
+    scale_terms = [ "enterprise", "large scale", "million", "thousand users", "global" ]
     scale_mentions = scale_terms.count { |term| description.include?(term) }
-    bonus += [scale_mentions * 4, 12].min
+    bonus += [ scale_mentions * 4, 12 ].min
 
     bonus
   end
@@ -154,7 +154,7 @@ class LeadScoringService
   def professional_email_domain?
     return false if lead.email.blank?
 
-    email_domain = lead.email.split('@').last&.downcase
+    email_domain = lead.email.split("@").last&.downcase
     return false if email_domain.blank?
 
     # Common personal email domains
@@ -181,9 +181,9 @@ class LeadScoringService
 
     # Look for specific requirements, features, or technical details
     detail_indicators = [
-      'requirement', 'feature', 'functionality', 'user', 'system',
-      'platform', 'technology', 'framework', 'tool', 'integrate',
-      'connect', 'sync', 'automate', 'custom', 'specific'
+      "requirement", "feature", "functionality", "user", "system",
+      "platform", "technology", "framework", "tool", "integrate",
+      "connect", "sync", "automate", "custom", "specific"
     ]
 
     detail_indicators.any? { |indicator| description.include?(indicator) }
@@ -191,17 +191,17 @@ class LeadScoringService
 
   def source_quality_bonus
     case lead.source
-    when 'referral'
+    when "referral"
       15.0
-    when 'linkedin'
+    when "linkedin"
       10.0
-    when 'google_organic'
+    when "google_organic"
       8.0
-    when 'direct'
+    when "direct"
       5.0
-    when 'social_media'
+    when "social_media"
       3.0
-    when 'website'
+    when "website"
       0.0
     else
       0.0

@@ -1,7 +1,7 @@
 module Admin
   class UsersController < BaseController
-    before_action :require_super_admin, only: [:new, :create, :edit, :update, :destroy]
-    before_action :set_user, only: [:show, :edit, :update, :destroy]
+    before_action :require_super_admin, only: [ :new, :create, :edit, :update, :destroy ]
+    before_action :set_user, only: [ :show, :edit, :update, :destroy ]
 
     def index
       @users = User.includes(:blog_posts, :blog_comments)
@@ -13,7 +13,7 @@ module Admin
 
       # Search functionality
       if params[:q].present?
-        @users = @users.where('email LIKE ? OR name LIKE ?', "%#{params[:q]}%", "%#{params[:q]}%")
+        @users = @users.where("email LIKE ? OR name LIKE ?", "%#{params[:q]}%", "%#{params[:q]}%")
       end
     end
 
@@ -30,7 +30,7 @@ module Admin
       @user = User.new(user_params)
 
       if @user.save
-        redirect_to admin_users_path, notice: 'User was successfully created.'
+        redirect_to admin_users_path, notice: "User was successfully created."
       else
         render :new, status: :unprocessable_entity
       end
@@ -41,8 +41,8 @@ module Admin
 
     def update
       # Prevent downgrading own super admin status
-      if @user == current_user && @user.super_admin? && user_params[:role] != 'super_admin'
-        redirect_to admin_users_path, alert: 'You cannot remove your own super admin privileges.'
+      if @user == current_user && @user.super_admin? && user_params[:role] != "super_admin"
+        redirect_to admin_users_path, alert: "You cannot remove your own super admin privileges."
         return
       end
 
@@ -55,7 +55,7 @@ module Admin
       end
 
       if success
-        redirect_to admin_users_path, notice: 'User was successfully updated.'
+        redirect_to admin_users_path, notice: "User was successfully updated."
       else
         render :edit, status: :unprocessable_entity
       end
@@ -64,18 +64,18 @@ module Admin
     def destroy
       # Prevent self-deletion
       if @user == current_user
-        redirect_to admin_users_path, alert: 'You cannot delete your own account.'
+        redirect_to admin_users_path, alert: "You cannot delete your own account."
         return
       end
 
       # Prevent deletion of last super admin
       if @user.super_admin? && User.super_admins.count == 1
-        redirect_to admin_users_path, alert: 'Cannot delete the last super admin.'
+        redirect_to admin_users_path, alert: "Cannot delete the last super admin."
         return
       end
 
       @user.destroy!
-      redirect_to admin_users_path, notice: 'User was successfully deleted.'
+      redirect_to admin_users_path, notice: "User was successfully deleted."
     end
 
     private

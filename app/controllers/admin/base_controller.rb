@@ -2,7 +2,7 @@ module Admin
   class BaseController < ApplicationController
     before_action :authenticate_admin!
     before_action :authorize_admin_access!
-    layout 'admin'
+    layout "admin"
 
     protected
 
@@ -22,7 +22,7 @@ module Admin
       return true if super_admin_signed_in?
 
       # Regular admins can manage most things except User model
-      if model_name == 'User'
+      if model_name == "User"
         false
       else
         admin_signed_in?

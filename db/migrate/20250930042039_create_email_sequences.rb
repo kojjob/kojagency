@@ -13,7 +13,7 @@ class CreateEmailSequences < ActiveRecord::Migration[8.1]
     end
 
     add_index :email_sequences, :status
-    add_index :email_sequences, [:lead_id, :sequence_name], unique: true
+    add_index :email_sequences, [ :lead_id, :sequence_name ], unique: true
     add_index :email_sequences, :started_at
   end
 end

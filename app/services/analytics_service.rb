@@ -73,10 +73,10 @@ class AnalyticsService
                                   .where.not(time_to_convert: nil)
 
     {
-      average_time_to_contact: average_conversion_time('lead_contacted'),
-      average_time_to_qualified: average_conversion_time('lead_qualified'),
-      average_time_to_proposal: average_conversion_time('proposal_sent'),
-      average_time_to_won: average_conversion_time('deal_won'),
+      average_time_to_contact: average_conversion_time("lead_contacted"),
+      average_time_to_qualified: average_conversion_time("lead_qualified"),
+      average_time_to_proposal: average_conversion_time("proposal_sent"),
+      average_time_to_won: average_conversion_time("deal_won"),
       by_score_tier: {
         high_priority: conversion_time_by_score(80..100),
         medium_priority: conversion_time_by_score(60...80),
@@ -98,7 +98,7 @@ class AnalyticsService
       # Calculate total value from conversion events
       total_value = ConversionEvent.joins(:lead)
                                    .where(leads: { source: channel })
-                                   .where('conversion_events.created_at >= ? AND conversion_events.created_at <= ?', @start_date, @end_date)
+                                   .where("conversion_events.created_at >= ? AND conversion_events.created_at <= ?", @start_date, @end_date)
                                    .sum(:value) || 0
 
       {
@@ -148,8 +148,8 @@ class AnalyticsService
 
       {
         campaign: campaign,
-        page_views: campaign_analytics.by_event_type('page_view').count,
-        form_submits: campaign_analytics.by_event_type('form_submit').count,
+        page_views: campaign_analytics.by_event_type("page_view").count,
+        form_submits: campaign_analytics.by_event_type("form_submit").count,
         leads_generated: campaign_leads.count,
         qualified_leads: campaign_leads.qualified.count,
         won_deals: campaign_leads.won.count,
@@ -165,9 +165,9 @@ class AnalyticsService
       day_end = date.end_of_day
 
       {
-        date: date.strftime('%Y-%m-%d'),
+        date: date.strftime("%Y-%m-%d"),
         leads: Lead.where(created_at: day_start..day_end).count,
-        page_views: Analytic.where(event_type: 'page_view', created_at: day_start..day_end).count,
+        page_views: Analytic.where(event_type: "page_view", created_at: day_start..day_end).count,
         conversions: ConversionEvent.where(created_at: day_start..day_end).count,
         average_score: Lead.where(created_at: day_start..day_end).average(:score)&.round(2) || 0
       }
@@ -186,7 +186,7 @@ class AnalyticsService
                                  .for_date_range(@start_date, @end_date)
                                  .average(:time_to_convert)
 
-    return 'N/A' if avg_seconds.nil?
+    return "N/A" if avg_seconds.nil?
 
     format_time_duration(avg_seconds.to_i)
   end
@@ -194,10 +194,10 @@ class AnalyticsService
   def conversion_time_by_score(score_range)
     leads = Lead.where(score: score_range, created_at: @start_date..@end_date)
     conversions = ConversionEvent.where(lead_id: leads.pluck(:id))
-                                 .where(event_name: 'deal_won')
+                                 .where(event_name: "deal_won")
 
     avg_seconds = conversions.average(:time_to_convert)
-    return 'N/A' if avg_seconds.nil?
+    return "N/A" if avg_seconds.nil?
 
     format_time_duration(avg_seconds.to_i)
   end

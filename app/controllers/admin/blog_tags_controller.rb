@@ -2,7 +2,7 @@ module Admin
   class BlogTagsController < ApplicationController
     before_action :authenticate_user!
     before_action :require_admin
-    before_action :set_tag, only: [:show, :edit, :update, :destroy]
+    before_action :set_tag, only: [ :show, :edit, :update, :destroy ]
 
     def index
       @tags = BlogTag.includes(:posts)
@@ -28,7 +28,7 @@ module Admin
       @tag = BlogTag.new(tag_params)
 
       if @tag.save
-        redirect_to admin_blog_tag_path(@tag), notice: 'Tag was successfully created.'
+        redirect_to admin_blog_tag_path(@tag), notice: "Tag was successfully created."
       else
         render :new, status: :unprocessable_entity
       end
@@ -39,7 +39,7 @@ module Admin
 
     def update
       if @tag.update(tag_params)
-        redirect_to admin_blog_tag_path(@tag), notice: 'Tag was successfully updated.'
+        redirect_to admin_blog_tag_path(@tag), notice: "Tag was successfully updated."
       else
         render :edit, status: :unprocessable_entity
       end
@@ -47,10 +47,10 @@ module Admin
 
     def destroy
       if @tag.posts.any?
-        redirect_to admin_blog_tags_path, alert: 'Cannot delete tag with associated posts.'
+        redirect_to admin_blog_tags_path, alert: "Cannot delete tag with associated posts."
       else
         @tag.destroy
-        redirect_to admin_blog_tags_path, notice: 'Tag was successfully deleted.'
+        redirect_to admin_blog_tags_path, notice: "Tag was successfully deleted."
       end
     end
 

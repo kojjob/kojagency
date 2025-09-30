@@ -36,13 +36,13 @@ class ApplicationController < ActionController::Base
 
   def authenticate_admin!
     unless admin_signed_in?
-      redirect_to root_path, alert: 'Admin access required'
+      redirect_to root_path, alert: "Admin access required"
     end
   end
 
   def require_admin
     unless admin_current_user&.admin?
-      redirect_to root_path, alert: 'Admin access required'
+      redirect_to root_path, alert: "Admin access required"
     end
   end
 
@@ -52,7 +52,7 @@ class ApplicationController < ActionController::Base
 
   def require_super_admin
     unless super_admin_signed_in?
-      redirect_to root_path, alert: 'Super Admin access required'
+      redirect_to root_path, alert: "Super Admin access required"
     end
   end
 
@@ -78,7 +78,7 @@ class ApplicationController < ActionController::Base
 
   def authenticate_blog_author!
     unless blog_author_signed_in?
-      redirect_to root_path, alert: 'Blog author access required'
+      redirect_to root_path, alert: "Blog author access required"
     end
   end
 

@@ -16,7 +16,7 @@ class ServicesController < ApplicationController
           "API Development & Integration",
           "Cloud Deployment & DevOps"
         ],
-        technologies: ["Ruby on Rails", "React", "Vue.js", "Node.js", "PostgreSQL", "AWS"],
+        technologies: [ "Ruby on Rails", "React", "Vue.js", "Node.js", "PostgreSQL", "AWS" ],
         process: [
           "Requirements Analysis",
           "UI/UX Design",
@@ -49,7 +49,7 @@ class ServicesController < ApplicationController
           "App Store Optimization",
           "Push Notifications & Analytics"
         ],
-        technologies: ["Swift", "Kotlin", "React Native", "Flutter", "Firebase", "GraphQL"],
+        technologies: [ "Swift", "Kotlin", "React Native", "Flutter", "Firebase", "GraphQL" ],
         process: [
           "Concept & Strategy",
           "Wireframing & Prototyping",
@@ -82,7 +82,7 @@ class ServicesController < ApplicationController
           "Stream Processing",
           "Data Quality & Governance"
         ],
-        technologies: ["Apache Spark", "Apache Kafka", "Airflow", "Snowflake", "Python", "SQL"],
+        technologies: [ "Apache Spark", "Apache Kafka", "Airflow", "Snowflake", "Python", "SQL" ],
         process: [
           "Data Assessment",
           "Architecture Design",
@@ -115,7 +115,7 @@ class ServicesController < ApplicationController
           "Real-time Reporting",
           "Data Visualization"
         ],
-        technologies: ["Tableau", "Power BI", "D3.js", "Python", "R", "TensorFlow"],
+        technologies: [ "Tableau", "Power BI", "D3.js", "Python", "R", "TensorFlow" ],
         process: [
           "KPI Definition",
           "Data Integration",
@@ -148,7 +148,7 @@ class ServicesController < ApplicationController
           "Security Assessment",
           "Team Training"
         ],
-        technologies: ["Cloud Platforms", "Microservices", "DevOps", "Security", "Agile", "Best Practices"],
+        technologies: [ "Cloud Platforms", "Microservices", "DevOps", "Security", "Agile", "Best Practices" ],
         process: [
           "Discovery & Assessment",
           "Gap Analysis",
@@ -190,7 +190,7 @@ class ServicesController < ApplicationController
           "API Development & Integration",
           "Cloud Deployment & DevOps"
         ],
-        technologies: ["Ruby on Rails", "React", "Vue.js", "Node.js", "PostgreSQL", "AWS"],
+        technologies: [ "Ruby on Rails", "React", "Vue.js", "Node.js", "PostgreSQL", "AWS" ],
         process: [
           "Requirements Analysis",
           "UI/UX Design",
@@ -223,7 +223,7 @@ class ServicesController < ApplicationController
           "App Store Optimization",
           "Push Notifications & Analytics"
         ],
-        technologies: ["Swift", "Kotlin", "React Native", "Flutter", "Firebase", "GraphQL"],
+        technologies: [ "Swift", "Kotlin", "React Native", "Flutter", "Firebase", "GraphQL" ],
         process: [
           "Concept & Strategy",
           "Wireframing & Prototyping",
@@ -256,7 +256,7 @@ class ServicesController < ApplicationController
           "Stream Processing",
           "Data Quality & Governance"
         ],
-        technologies: ["Apache Spark", "Apache Kafka", "Airflow", "Snowflake", "Python", "SQL"],
+        technologies: [ "Apache Spark", "Apache Kafka", "Airflow", "Snowflake", "Python", "SQL" ],
         process: [
           "Data Assessment",
           "Architecture Design",
@@ -289,7 +289,7 @@ class ServicesController < ApplicationController
           "Real-time Reporting",
           "Data Visualization"
         ],
-        technologies: ["Tableau", "Power BI", "D3.js", "Python", "R", "TensorFlow"],
+        technologies: [ "Tableau", "Power BI", "D3.js", "Python", "R", "TensorFlow" ],
         process: [
           "KPI Definition",
           "Data Integration",
@@ -322,7 +322,7 @@ class ServicesController < ApplicationController
           "Security Assessment",
           "Team Training"
         ],
-        technologies: ["Cloud Platforms", "Microservices", "DevOps", "Security", "Agile", "Best Practices"],
+        technologies: [ "Cloud Platforms", "Microservices", "DevOps", "Security", "Agile", "Best Practices" ],
         process: [
           "Discovery & Assessment",
           "Gap Analysis",
@@ -348,7 +348,7 @@ class ServicesController < ApplicationController
     # If service not found, redirect to services index
     unless @service
       redirect_to services_path, alert: "Service not found"
-      return
+      nil
     end
   end
 end

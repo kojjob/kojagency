@@ -32,9 +32,9 @@ class Lead < ApplicationRecord
   validates :score, numericality: { greater_than_or_equal_to: 0, less_than_or_equal_to: 100 }
 
   # Scopes
-  scope :high_priority, -> { where('score >= ?', 80) }
-  scope :medium_priority, -> { where('score >= ? AND score < ?', 60, 80) }
-  scope :low_priority, -> { where('score < ?', 60) }
+  scope :high_priority, -> { where("score >= ?", 80) }
+  scope :medium_priority, -> { where("score >= ? AND score < ?", 60, 80) }
+  scope :low_priority, -> { where("score < ?", 60) }
   scope :recent, -> { order(created_at: :desc) }
   scope :uncontacted, -> { where(contacted_at: nil) }
   scope :by_source, ->(source) { where(source: source) }
@@ -54,39 +54,39 @@ class Lead < ApplicationRecord
   def priority_level
     case score
     when 80..100
-      'high'
+      "high"
     when 60...80
-      'medium'
+      "medium"
     else
-      'low'
+      "low"
     end
   end
 
   def priority_color
     case priority_level
-    when 'high'
-      'text-red-600 bg-red-100'
-    when 'medium'
-      'text-yellow-600 bg-yellow-100'
+    when "high"
+      "text-red-600 bg-red-100"
+    when "medium"
+      "text-yellow-600 bg-yellow-100"
     else
-      'text-green-600 bg-green-100'
+      "text-green-600 bg-green-100"
     end
   end
 
   def budget_range_display
     case budget
-    when 'under_10k'
-      'Under $10,000'
-    when '10k_25k'
-      '$10,000 - $25,000'
-    when '25k_50k'
-      '$25,000 - $50,000'
-    when '50k_100k'
-      '$50,000 - $100,000'
-    when '100k_250k'
-      '$100,000 - $250,000'
-    when '250k_plus'
-      '$250,000+'
+    when "under_10k"
+      "Under $10,000"
+    when "10k_25k"
+      "$10,000 - $25,000"
+    when "25k_50k"
+      "$25,000 - $50,000"
+    when "50k_100k"
+      "$50,000 - $100,000"
+    when "100k_250k"
+      "$100,000 - $250,000"
+    when "250k_plus"
+      "$250,000+"
     else
       budget.humanize
     end
@@ -94,18 +94,18 @@ class Lead < ApplicationRecord
 
   def timeline_display
     case timeline
-    when 'asap'
-      'ASAP'
-    when '1_month'
-      '1 Month'
-    when '3_months'
-      '3 Months'
-    when '6_months'
-      '6 Months'
-    when '1_year'
-      '1 Year'
-    when 'flexible'
-      'Flexible'
+    when "asap"
+      "ASAP"
+    when "1_month"
+      "1 Month"
+    when "3_months"
+      "3 Months"
+    when "6_months"
+      "6 Months"
+    when "1_year"
+      "1 Year"
+    when "flexible"
+      "Flexible"
     else
       timeline.humanize
     end
@@ -113,16 +113,16 @@ class Lead < ApplicationRecord
 
   def project_type_display
     case project_type
-    when 'web_development'
-      'Web Development'
-    when 'mobile_development'
-      'Mobile Development'
-    when 'data_engineering'
-      'Data Engineering'
-    when 'analytics_platform'
-      'Analytics Platform'
-    when 'technical_consulting'
-      'Technical Consulting'
+    when "web_development"
+      "Web Development"
+    when "mobile_development"
+      "Mobile Development"
+    when "data_engineering"
+      "Data Engineering"
+    when "analytics_platform"
+      "Analytics Platform"
+    when "technical_consulting"
+      "Technical Consulting"
     else
       project_type.humanize
     end
@@ -130,21 +130,21 @@ class Lead < ApplicationRecord
 
   def response_time_target
     case priority_level
-    when 'high'
-      'Immediate (within 1 hour)'
-    when 'medium'
-      'Priority (within 2 hours)'
+    when "high"
+      "Immediate (within 1 hour)"
+    when "medium"
+      "Priority (within 2 hours)"
     else
-      'Standard (within 24 hours)'
+      "Standard (within 24 hours)"
     end
   end
 
   def mark_as_contacted!
-    update!(contacted_at: Time.current, lead_status: 'contacted')
+    update!(contacted_at: Time.current, lead_status: "contacted")
   end
 
   def mark_as_qualified!
-    update!(qualified_at: Time.current, lead_status: 'qualified')
+    update!(qualified_at: Time.current, lead_status: "qualified")
   end
 
   def days_since_creation
@@ -155,9 +155,9 @@ class Lead < ApplicationRecord
     return false if contacted_at.present?
 
     case priority_level
-    when 'high'
+    when "high"
       days_since_creation > 0.04 # 1 hour
-    when 'medium'
+    when "medium"
       days_since_creation > 0.08 # 2 hours
     else
       days_since_creation > 1 # 24 hours
@@ -181,8 +181,8 @@ class Lead < ApplicationRecord
   end
 
   def update_contacted_status
-    if contacted_at_changed? && contacted_at.present? && lead_status == 'pending'
-      self.update_column(:lead_status, 'contacted')
+    if contacted_at_changed? && contacted_at.present? && lead_status == "pending"
+      self.update_column(:lead_status, "contacted")
     end
   end
 end

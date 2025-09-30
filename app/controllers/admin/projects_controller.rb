@@ -1,7 +1,7 @@
 class Admin::ProjectsController < ApplicationController
   before_action :authenticate_user!
   before_action :require_admin!
-  before_action :set_project, only: [:show, :edit, :update, :destroy]
+  before_action :set_project, only: [ :show, :edit, :update, :destroy ]
 
   def index
     @projects = Project.includes(:technologies, :services)
@@ -24,7 +24,7 @@ class Admin::ProjectsController < ApplicationController
     @project = Project.new(project_params)
 
     if @project.save
-      redirect_to admin_project_path(@project), notice: 'Project was successfully created.'
+      redirect_to admin_project_path(@project), notice: "Project was successfully created."
     else
       render :new, status: :unprocessable_entity
     end
@@ -32,7 +32,7 @@ class Admin::ProjectsController < ApplicationController
 
   def update
     if @project.update(project_params)
-      redirect_to admin_project_path(@project), notice: 'Project was successfully updated.'
+      redirect_to admin_project_path(@project), notice: "Project was successfully updated."
     else
       render :edit, status: :unprocessable_entity
     end
@@ -40,7 +40,7 @@ class Admin::ProjectsController < ApplicationController
 
   def destroy
     @project.destroy
-    redirect_to admin_projects_path, notice: 'Project was successfully deleted.'
+    redirect_to admin_projects_path, notice: "Project was successfully deleted."
   end
 
   private
@@ -59,6 +59,6 @@ class Admin::ProjectsController < ApplicationController
   end
 
   def require_admin!
-    redirect_to root_path, alert: 'Access denied.' unless current_user&.admin?
+    redirect_to root_path, alert: "Access denied." unless current_user&.admin?
   end
 end

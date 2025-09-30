@@ -15,9 +15,9 @@ class Analytic < ApplicationRecord
   scope :by_campaign, ->(campaign) { where(campaign: campaign) }
   scope :recent, -> { order(created_at: :desc) }
   scope :for_date_range, ->(start_date, end_date) { where(created_at: start_date..end_date) }
-  scope :this_week, -> { where('created_at >= ?', 1.week.ago) }
-  scope :this_month, -> { where('created_at >= ?', 1.month.ago) }
-  scope :this_year, -> { where('created_at >= ?', 1.year.ago) }
+  scope :this_week, -> { where("created_at >= ?", 1.week.ago) }
+  scope :this_month, -> { where("created_at >= ?", 1.month.ago) }
+  scope :this_year, -> { where("created_at >= ?", 1.year.ago) }
 
   # Class methods
   def self.event_types
@@ -26,10 +26,10 @@ class Analytic < ApplicationRecord
 
   def self.funnel_metrics
     {
-      page_views: where(event_type: 'page_view').count,
-      form_starts: where(event_type: 'form_start').count,
-      form_submits: where(event_type: 'form_submit').count,
-      conversions: where(event_type: 'conversion').count
+      page_views: where(event_type: "page_view").count,
+      form_starts: where(event_type: "form_start").count,
+      form_submits: where(event_type: "form_submit").count,
+      conversions: where(event_type: "conversion").count
     }
   end
 

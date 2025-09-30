@@ -341,7 +341,7 @@ RSpec.describe BlogPost, type: :model do
     let(:document) { create(:blog_media, media_type: 'document') }
 
     before do
-      post.media << [image, video, document]
+      post.media << [ image, video, document ]
     end
 
     describe '#images' do

@@ -1,6 +1,6 @@
 module CRM
   class SalesforceService
-    SALESFORCE_API_VERSION = 'v59.0'
+    SALESFORCE_API_VERSION = "v59.0"
 
     def initialize(lead)
       @lead = lead
@@ -10,9 +10,9 @@ module CRM
     end
 
     def sync_contact
-      return failure('Salesforce credentials not configured') if credentials_missing?
+      return failure("Salesforce credentials not configured") if credentials_missing?
 
-      @crm_sync.update!(sync_status: 'syncing')
+      @crm_sync.update!(sync_status: "syncing")
 
       begin
         response = create_or_update_contact
@@ -33,7 +33,7 @@ module CRM
     end
 
     def sync_opportunity
-      return failure('Contact not synced') if @crm_sync.crm_id.blank?
+      return failure("Contact not synced") if @crm_sync.crm_id.blank?
 
       begin
         response = create_or_update_opportunity
@@ -51,7 +51,7 @@ module CRM
     end
 
     def update_opportunity_stage
-      return failure('Opportunity not synced') if opportunity_id.blank?
+      return failure("Opportunity not synced") if opportunity_id.blank?
 
       stage = map_lead_status_to_stage
 
@@ -73,7 +73,7 @@ module CRM
     end
 
     def create_task(subject, description)
-      return failure('Contact not synced') if @crm_sync.crm_id.blank?
+      return failure("Contact not synced") if @crm_sync.crm_id.blank?
 
       begin
         response = create_salesforce_task(subject, description)
@@ -90,7 +90,7 @@ module CRM
     end
 
     def fetch_contact_history
-      return failure('Contact not synced') if @crm_sync.crm_id.blank?
+      return failure("Contact not synced") if @crm_sync.crm_id.blank?
 
       begin
         response = query_contact_history
@@ -113,7 +113,7 @@ module CRM
     end
 
     def find_or_create_sync
-      @lead.crm_syncs.find_or_create_by!(crm_system: 'salesforce')
+      @lead.crm_syncs.find_or_create_by!(crm_system: "salesforce")
     end
 
     def create_or_update_contact
@@ -176,10 +176,10 @@ module CRM
         ContactId: @crm_sync.crm_id,
         Amount: estimate_opportunity_value,
         StageName: map_lead_status_to_stage,
-        CloseDate: estimate_close_date.strftime('%Y-%m-%d'),
+        CloseDate: estimate_close_date.strftime("%Y-%m-%d"),
         Probability: stage_probability(map_lead_status_to_stage),
         LeadSource: map_lead_source,
-        Type: 'New Business',
+        Type: "New Business",
         Project_Type__c: @lead.project_type_display,
         Budget_Range__c: @lead.budget_range_display,
         Timeline__c: @lead.timeline_display,
@@ -208,9 +208,9 @@ module CRM
         Subject: subject,
         Description: description,
         WhoId: @crm_sync.crm_id,
-        Status: 'Not Started',
+        Status: "Not Started",
         Priority: priority_level,
-        ActivityDate: Time.current.strftime('%Y-%m-%d')
+        ActivityDate: Time.current.strftime("%Y-%m-%d")
       }
 
       HTTParty.post(
@@ -234,43 +234,43 @@ module CRM
 
     def map_lead_source
       source_mapping = {
-        'website' => 'Web',
-        'referral' => 'Referral',
-        'linkedin' => 'Social Media',
-        'google_ads' => 'Advertisement',
-        'other' => 'Other'
+        "website" => "Web",
+        "referral" => "Referral",
+        "linkedin" => "Social Media",
+        "google_ads" => "Advertisement",
+        "other" => "Other"
       }
 
-      source_mapping[@lead.source] || 'Web'
+      source_mapping[@lead.source] || "Web"
     end
 
     def map_lead_status_to_stage
       case @lead.lead_status
-      when 'pending', 'contacted'
-        'Prospecting'
-      when 'qualified'
-        'Qualification'
-      when 'proposal_sent'
-        'Proposal/Price Quote'
-      when 'negotiating'
-        'Negotiation/Review'
-      when 'won'
-        'Closed Won'
-      when 'lost', 'unqualified'
-        'Closed Lost'
+      when "pending", "contacted"
+        "Prospecting"
+      when "qualified"
+        "Qualification"
+      when "proposal_sent"
+        "Proposal/Price Quote"
+      when "negotiating"
+        "Negotiation/Review"
+      when "won"
+        "Closed Won"
+      when "lost", "unqualified"
+        "Closed Lost"
       else
-        'Prospecting'
+        "Prospecting"
       end
     end
 
     def stage_probability(stage)
       probabilities = {
-        'Prospecting' => 10,
-        'Qualification' => 25,
-        'Proposal/Price Quote' => 50,
-        'Negotiation/Review' => 75,
-        'Closed Won' => 100,
-        'Closed Lost' => 0
+        "Prospecting" => 10,
+        "Qualification" => 25,
+        "Proposal/Price Quote" => 50,
+        "Negotiation/Review" => 75,
+        "Closed Won" => 100,
+        "Closed Lost" => 0
       }
 
       probabilities[stage] || 10
@@ -278,17 +278,17 @@ module CRM
 
     def estimate_opportunity_value
       case @lead.budget
-      when 'under_10k'
+      when "under_10k"
         5000
-      when '10k_25k'
+      when "10k_25k"
         17500
-      when '25k_50k'
+      when "25k_50k"
         37500
-      when '50k_100k'
+      when "50k_100k"
         75000
-      when '100k_250k'
+      when "100k_250k"
         175000
-      when '250k_plus'
+      when "250k_plus"
         400000
       else
         50000
@@ -299,15 +299,15 @@ module CRM
       base_date = Time.current
 
       case @lead.timeline
-      when 'asap'
+      when "asap"
         base_date + 1.month
-      when '1_month'
+      when "1_month"
         base_date + 1.month
-      when '3_months'
+      when "3_months"
         base_date + 3.months
-      when '6_months'
+      when "6_months"
         base_date + 6.months
-      when '1_year'
+      when "1_year"
         base_date + 1.year
       else
         base_date + 3.months
@@ -316,21 +316,21 @@ module CRM
 
     def priority_level
       case @lead.priority_level
-      when 'high'
-        'High'
-      when 'medium'
-        'Normal'
+      when "high"
+        "High"
+      when "medium"
+        "Normal"
       else
-        'Low'
+        "Low"
       end
     end
 
     def opportunity_id
-      @crm_sync.metadata['opportunity_id']
+      @crm_sync.metadata["opportunity_id"]
     end
 
     def account_id
-      @crm_sync.metadata['account_id']
+      @crm_sync.metadata["account_id"]
     end
 
     def update_sync_metadata(data)
@@ -341,24 +341,24 @@ module CRM
     end
 
     def extract_record_id(response)
-      JSON.parse(response.body)['id']
+      JSON.parse(response.body)["id"]
     end
 
     def extract_error_message(response)
       body = JSON.parse(response.body) rescue {}
-      errors = body.is_a?(Array) ? body : [body]
-      errors.map { |e| e['message'] || e['errorCode'] }.join(', ') || 'Unknown Salesforce API error'
+      errors = body.is_a?(Array) ? body : [ body ]
+      errors.map { |e| e["message"] || e["errorCode"] }.join(", ") || "Unknown Salesforce API error"
     end
 
     def parse_history(response)
       body = JSON.parse(response.body) rescue {}
-      body['records'] || []
+      body["records"] || []
     end
 
     def headers
       {
-        'Authorization' => "Bearer #{@access_token}",
-        'Content-Type' => 'application/json'
+        "Authorization" => "Bearer #{@access_token}",
+        "Content-Type" => "application/json"
       }
     end
 

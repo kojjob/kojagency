@@ -13,7 +13,7 @@ class CreateAnalytics < ActiveRecord::Migration[8.1]
 
     add_index :analytics, :event_type
     add_index :analytics, :source
-    add_index :analytics, [:lead_id, :event_type]
+    add_index :analytics, [ :lead_id, :event_type ]
     add_index :analytics, :created_at
   end
 end

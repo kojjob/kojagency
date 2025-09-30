@@ -126,7 +126,7 @@ RSpec.describe Admin::BlogPostsController, type: :controller do
           tag2 = create(:blog_tag)
 
           post :create, params: {
-            blog_post: valid_attributes.merge(tag_ids: [tag1.id, tag2.id])
+            blog_post: valid_attributes.merge(tag_ids: [ tag1.id, tag2.id ])
           }
 
           new_post = BlogPost.last

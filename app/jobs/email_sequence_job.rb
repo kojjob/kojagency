@@ -10,17 +10,17 @@ class EmailSequenceJob < ApplicationJob
 
     # Send appropriate email based on sequence type and step
     case @sequence.sequence_name
-    when 'welcome'
+    when "welcome"
       send_welcome_sequence(current_step)
-    when 'nurture'
+    when "nurture"
       send_nurture_sequence(current_step)
-    when 'qualification'
+    when "qualification"
       send_qualification_sequence(current_step)
-    when 'proposal'
+    when "proposal"
       send_proposal_sequence(current_step)
-    when 'follow_up'
+    when "follow_up"
       send_follow_up_sequence(current_step)
-    when 'reengagement'
+    when "reengagement"
       send_reengagement_sequence(current_step)
     end
 
@@ -77,7 +77,7 @@ class EmailSequenceJob < ApplicationJob
 
   def track_email_sent(step)
     @lead.analytics.create!(
-      event_type: 'email_sent',
+      event_type: "email_sent",
       source: @sequence.sequence_name,
       metadata: {
         sequence_name: @sequence.sequence_name,

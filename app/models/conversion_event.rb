@@ -15,9 +15,9 @@ class ConversionEvent < ApplicationRecord
   scope :by_event_name, ->(event_name) { where(event_name: event_name) }
   scope :recent, -> { order(created_at: :desc) }
   scope :for_date_range, ->(start_date, end_date) { where(created_at: start_date..end_date) }
-  scope :this_week, -> { where('created_at >= ?', 1.week.ago) }
-  scope :this_month, -> { where('created_at >= ?', 1.month.ago) }
-  scope :this_year, -> { where('created_at >= ?', 1.year.ago) }
+  scope :this_week, -> { where("created_at >= ?", 1.week.ago) }
+  scope :this_month, -> { where("created_at >= ?", 1.month.ago) }
+  scope :this_year, -> { where("created_at >= ?", 1.year.ago) }
   scope :with_value, -> { where.not(value: nil) }
 
   # Callbacks
@@ -43,7 +43,7 @@ class ConversionEvent < ApplicationRecord
 
   # Instance methods
   def formatted_time_to_convert
-    return 'N/A' if time_to_convert.nil?
+    return "N/A" if time_to_convert.nil?
 
     seconds = time_to_convert
     days = seconds / 86400
@@ -60,7 +60,7 @@ class ConversionEvent < ApplicationRecord
   end
 
   def formatted_value
-    return 'N/A' if value.nil?
+    return "N/A" if value.nil?
 
     "$#{value.round(2)}"
   end

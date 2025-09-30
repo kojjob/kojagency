@@ -2,7 +2,7 @@ module Admin
   class BlogCategoriesController < ApplicationController
     before_action :authenticate_user!
     before_action :require_admin
-    before_action :set_category, only: [:show, :edit, :update, :destroy]
+    before_action :set_category, only: [ :show, :edit, :update, :destroy ]
 
     def index
       @categories = BlogCategory.includes(:parent, :blog_posts)
@@ -29,7 +29,7 @@ module Admin
       @category = BlogCategory.new(category_params)
 
       if @category.save
-        redirect_to admin_blog_category_path(@category), notice: 'Category was successfully created.'
+        redirect_to admin_blog_category_path(@category), notice: "Category was successfully created."
       else
         @parent_categories = BlogCategory.top_level.order(:name)
         render :new, status: :unprocessable_entity
@@ -42,7 +42,7 @@ module Admin
 
     def update
       if @category.update(category_params)
-        redirect_to admin_blog_category_path(@category), notice: 'Category was successfully updated.'
+        redirect_to admin_blog_category_path(@category), notice: "Category was successfully updated."
       else
         @parent_categories = BlogCategory.where.not(id: @category.id).top_level.order(:name)
         render :edit, status: :unprocessable_entity
@@ -51,10 +51,10 @@ module Admin
 
     def destroy
       if @category.blog_posts.any?
-        redirect_to admin_blog_categories_path, alert: 'Cannot delete category with associated posts.'
+        redirect_to admin_blog_categories_path, alert: "Cannot delete category with associated posts."
       else
         @category.destroy
-        redirect_to admin_blog_categories_path, notice: 'Category was successfully deleted.'
+        redirect_to admin_blog_categories_path, notice: "Category was successfully deleted."
       end
     end
 

@@ -7,6 +7,6 @@ class CreateProjectServices < ActiveRecord::Migration[8.1]
       t.timestamps
     end
 
-    add_index :project_services, [:project_id, :service_id], unique: true, name: 'index_project_services_on_project_and_service'
+    add_index :project_services, [ :project_id, :service_id ], unique: true, name: 'index_project_services_on_project_and_service'
   end
 end

@@ -45,7 +45,7 @@ class BlogAuthor < ApplicationRecord
 
   def display_title
     return nil if title.blank? && company.blank?
-    [title, company].compact.join(" at ")
+    [ title, company ].compact.join(" at ")
   end
 
   def has_social_media?

@@ -1,7 +1,7 @@
 module Blog
   class TagsController < ApplicationController
-    layout 'blog'
-    before_action :set_tag, only: [:show]
+    layout "blog"
+    before_action :set_tag, only: [ :show ]
 
     def index
       @tags = BlogTag.order(usage_count: :desc).limit(50)

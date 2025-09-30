@@ -27,6 +27,6 @@ class ProjectsController < ApplicationController
                       .friendly
                       .find(params[:id])
   rescue ActiveRecord::RecordNotFound
-    redirect_to projects_path, alert: 'Project not found.'
+    redirect_to projects_path, alert: "Project not found."
   end
 end

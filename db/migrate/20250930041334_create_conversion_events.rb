@@ -10,7 +10,7 @@ class CreateConversionEvents < ActiveRecord::Migration[8.1]
     end
 
     add_index :conversion_events, :event_name
-    add_index :conversion_events, [:lead_id, :event_name]
+    add_index :conversion_events, [ :lead_id, :event_name ]
     add_index :conversion_events, :created_at
   end
 end

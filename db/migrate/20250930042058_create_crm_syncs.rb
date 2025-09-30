@@ -13,7 +13,7 @@ class CreateCrmSyncs < ActiveRecord::Migration[8.1]
     end
 
     add_index :crm_syncs, :sync_status
-    add_index :crm_syncs, [:lead_id, :crm_system], unique: true
+    add_index :crm_syncs, [ :lead_id, :crm_system ], unique: true
     add_index :crm_syncs, :crm_id
     add_index :crm_syncs, :last_synced_at
   end

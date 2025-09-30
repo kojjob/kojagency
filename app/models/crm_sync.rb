@@ -4,10 +4,10 @@ class CrmSync < ApplicationRecord
 
   # Enums
   enum :sync_status, {
-    pending: 'pending',
-    syncing: 'syncing',
-    synced: 'synced',
-    failed: 'failed'
+    pending: "pending",
+    syncing: "syncing",
+    synced: "synced",
+    failed: "failed"
   }, suffix: true
 
   # Validations
@@ -20,10 +20,10 @@ class CrmSync < ApplicationRecord
 
   # Scopes
   scope :by_crm_system, ->(system) { where(crm_system: system) }
-  scope :pending_syncs, -> { where(sync_status: 'pending') }
-  scope :failed_syncs, -> { where(sync_status: 'failed') }
-  scope :synced_records, -> { where(sync_status: 'synced') }
-  scope :recent_syncs, -> { where('last_synced_at >= ?', 24.hours.ago) }
+  scope :pending_syncs, -> { where(sync_status: "pending") }
+  scope :failed_syncs, -> { where(sync_status: "failed") }
+  scope :synced_records, -> { where(sync_status: "synced") }
+  scope :recent_syncs, -> { where("last_synced_at >= ?", 24.hours.ago) }
 
   # Callbacks
   after_update :track_sync_time, if: :saved_change_to_sync_status?
@@ -35,20 +35,20 @@ class CrmSync < ApplicationRecord
       pending: pending_syncs.count,
       synced: synced_records.count,
       failed: failed_syncs.count,
-      hubspot_syncs: by_crm_system('hubspot').count,
-      salesforce_syncs: by_crm_system('salesforce').count,
+      hubspot_syncs: by_crm_system("hubspot").count,
+      salesforce_syncs: by_crm_system("salesforce").count,
       recent_sync_rate: recent_syncs.count
     }
   end
 
   def self.needs_retry
-    failed_syncs.where('updated_at < ?', 1.hour.ago)
+    failed_syncs.where("updated_at < ?", 1.hour.ago)
   end
 
   # Instance methods
   def mark_as_synced!(crm_id)
     update!(
-      sync_status: 'synced',
+      sync_status: "synced",
       crm_id: crm_id,
       sync_error: nil,
       last_synced_at: Time.current
@@ -57,11 +57,11 @@ class CrmSync < ApplicationRecord
 
   def mark_as_failed!(error_message)
     update!(
-      sync_status: 'failed',
+      sync_status: "failed",
       sync_error: error_message,
       metadata: metadata.merge(
         failed_at: Time.current,
-        retry_count: (metadata['retry_count'] || 0) + 1
+        retry_count: (metadata["retry_count"] || 0) + 1
       )
     )
   end
@@ -70,7 +70,7 @@ class CrmSync < ApplicationRecord
     return false if synced?
 
     update!(
-      sync_status: 'pending',
+      sync_status: "pending",
       sync_error: nil,
       metadata: metadata.merge(retry_requested_at: Time.current)
     )
@@ -88,7 +88,7 @@ class CrmSync < ApplicationRecord
   end
 
   def retry_count
-    metadata['retry_count'] || 0
+    metadata["retry_count"] || 0
   end
 
   def can_retry?

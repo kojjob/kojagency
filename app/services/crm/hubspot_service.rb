@@ -1,6 +1,6 @@
 module CRM
   class HubspotService
-    HUBSPOT_API_BASE = 'https://api.hubapi.com'
+    HUBSPOT_API_BASE = "https://api.hubapi.com"
 
     def initialize(lead)
       @lead = lead
@@ -9,9 +9,9 @@ module CRM
     end
 
     def sync_contact
-      return failure('HubSpot API key not configured') if @api_key.blank?
+      return failure("HubSpot API key not configured") if @api_key.blank?
 
-      @crm_sync.update!(sync_status: 'syncing')
+      @crm_sync.update!(sync_status: "syncing")
 
       begin
         response = create_or_update_contact
@@ -32,7 +32,7 @@ module CRM
     end
 
     def sync_deal
-      return failure('Contact not synced') if @crm_sync.crm_id.blank?
+      return failure("Contact not synced") if @crm_sync.crm_id.blank?
 
       begin
         response = create_or_update_deal
@@ -50,7 +50,7 @@ module CRM
     end
 
     def update_deal_stage
-      return failure('Deal not synced') if deal_id.blank?
+      return failure("Deal not synced") if deal_id.blank?
 
       stage = map_lead_status_to_deal_stage
 
@@ -69,7 +69,7 @@ module CRM
     end
 
     def add_note(note_content)
-      return failure('Contact not synced') if @crm_sync.crm_id.blank?
+      return failure("Contact not synced") if @crm_sync.crm_id.blank?
 
       begin
         response = create_note(note_content)
@@ -86,7 +86,7 @@ module CRM
     end
 
     def fetch_contact_activity
-      return failure('Contact not synced') if @crm_sync.crm_id.blank?
+      return failure("Contact not synced") if @crm_sync.crm_id.blank?
 
       begin
         response = get_contact_activity
@@ -105,7 +105,7 @@ module CRM
     private
 
     def find_or_create_sync
-      @lead.crm_syncs.find_or_create_by!(crm_system: 'hubspot')
+      @lead.crm_syncs.find_or_create_by!(crm_system: "hubspot")
     end
 
     def create_or_update_contact
@@ -170,7 +170,7 @@ module CRM
           dealname: "#{@lead.company || @lead.full_name} - #{@lead.project_type_display}",
           amount: estimate_deal_value,
           dealstage: map_lead_status_to_deal_stage,
-          pipeline: 'default',
+          pipeline: "default",
           closedate: estimate_close_date.to_i * 1000, # HubSpot uses milliseconds
           lead_source: @lead.source,
           project_type: @lead.project_type_display
@@ -178,7 +178,7 @@ module CRM
         associations: [
           {
             to: { id: @crm_sync.crm_id },
-            types: [{ associationCategory: 'HUBSPOT_DEFINED', associationTypeId: 3 }] # Contact to Deal
+            types: [ { associationCategory: "HUBSPOT_DEFINED", associationTypeId: 3 } ] # Contact to Deal
           }
         ]
       }
@@ -209,7 +209,7 @@ module CRM
         associations: [
           {
             to: { id: @crm_sync.crm_id },
-            types: [{ associationCategory: 'HUBSPOT_DEFINED', associationTypeId: 10 }] # Note to Contact
+            types: [ { associationCategory: "HUBSPOT_DEFINED", associationTypeId: 10 } ] # Note to Contact
           }
         ]
       }
@@ -230,36 +230,36 @@ module CRM
 
     def map_lead_status_to_deal_stage
       case @lead.lead_status
-      when 'pending', 'contacted'
-        'appointmentscheduled' # Initial contact stage
-      when 'qualified'
-        'qualifiedtobuy' # Qualified lead stage
-      when 'proposal_sent'
-        'presentationscheduled' # Proposal stage
-      when 'negotiating'
-        'decisionmakerboughtin' # Negotiation stage
-      when 'won'
-        'closedwon' # Deal won
-      when 'lost', 'unqualified'
-        'closedlost' # Deal lost
+      when "pending", "contacted"
+        "appointmentscheduled" # Initial contact stage
+      when "qualified"
+        "qualifiedtobuy" # Qualified lead stage
+      when "proposal_sent"
+        "presentationscheduled" # Proposal stage
+      when "negotiating"
+        "decisionmakerboughtin" # Negotiation stage
+      when "won"
+        "closedwon" # Deal won
+      when "lost", "unqualified"
+        "closedlost" # Deal lost
       else
-        'appointmentscheduled' # Default to initial stage
+        "appointmentscheduled" # Default to initial stage
       end
     end
 
     def estimate_deal_value
       case @lead.budget
-      when 'under_10k'
+      when "under_10k"
         5000
-      when '10k_25k'
+      when "10k_25k"
         17500
-      when '25k_50k'
+      when "25k_50k"
         37500
-      when '50k_100k'
+      when "50k_100k"
         75000
-      when '100k_250k'
+      when "100k_250k"
         175000
-      when '250k_plus'
+      when "250k_plus"
         400000
       else
         50000
@@ -270,15 +270,15 @@ module CRM
       base_date = Time.current
 
       case @lead.timeline
-      when 'asap'
+      when "asap"
         base_date + 1.month
-      when '1_month'
+      when "1_month"
         base_date + 1.month
-      when '3_months'
+      when "3_months"
         base_date + 3.months
-      when '6_months'
+      when "6_months"
         base_date + 6.months
-      when '1_year'
+      when "1_year"
         base_date + 1.year
       else
         base_date + 3.months
@@ -286,7 +286,7 @@ module CRM
     end
 
     def deal_id
-      @crm_sync.metadata['deal_id']
+      @crm_sync.metadata["deal_id"]
     end
 
     def update_sync_metadata(data)
@@ -297,31 +297,31 @@ module CRM
     end
 
     def extract_contact_id(response)
-      JSON.parse(response.body)['id']
+      JSON.parse(response.body)["id"]
     end
 
     def extract_deal_id(response)
-      JSON.parse(response.body)['id']
+      JSON.parse(response.body)["id"]
     end
 
     def extract_note_id(response)
-      JSON.parse(response.body)['id']
+      JSON.parse(response.body)["id"]
     end
 
     def extract_error_message(response)
       body = JSON.parse(response.body) rescue {}
-      body.dig('message') || body.dig('error') || 'Unknown HubSpot API error'
+      body.dig("message") || body.dig("error") || "Unknown HubSpot API error"
     end
 
     def parse_activities(response)
       body = JSON.parse(response.body) rescue {}
-      body['results'] || []
+      body["results"] || []
     end
 
     def headers
       {
-        'Authorization' => "Bearer #{@api_key}",
-        'Content-Type' => 'application/json'
+        "Authorization" => "Bearer #{@api_key}",
+        "Content-Type" => "application/json"
       }
     end
 

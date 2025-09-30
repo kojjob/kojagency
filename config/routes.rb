@@ -1,8 +1,8 @@
 Rails.application.routes.draw do
   devise_for :users, controllers: {
-    sessions: 'users/sessions',
-    registrations: 'users/registrations',
-    passwords: 'users/passwords'
+    sessions: "users/sessions",
+    registrations: "users/registrations",
+    passwords: "users/passwords"
   }
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
@@ -26,29 +26,29 @@ Rails.application.routes.draw do
   get "thank_you", to: "leads#thank_you"
 
   # Resources
-  resources :projects, only: [:index, :show]
-  resources :services, only: [:index, :show]
-  resources :leads, only: [:new, :create, :show]
-  resources :testimonials, only: [:index]
+  resources :projects, only: [ :index, :show ]
+  resources :services, only: [ :index, :show ]
+  resources :leads, only: [ :new, :create, :show ]
+  resources :testimonials, only: [ :index ]
 
   # Blog routes
   namespace :blog do
-    resources :posts, only: [:index, :show] do
-      resources :comments, only: [:create, :destroy]
+    resources :posts, only: [ :index, :show ] do
+      resources :comments, only: [ :create, :destroy ]
       collection do
-        get :feed, defaults: { format: 'rss' }
-        get :sitemap, defaults: { format: 'xml' }
+        get :feed, defaults: { format: "rss" }
+        get :sitemap, defaults: { format: "xml" }
         post :subscribe
       end
     end
 
-    resources :categories, only: [:index, :show]
-    resources :tags, only: [:index, :show] do
+    resources :categories, only: [ :index, :show ]
+    resources :tags, only: [ :index, :show ] do
       collection do
         get :cloud
       end
     end
-    resources :authors, only: [:index, :show]
+    resources :authors, only: [ :index, :show ]
   end
 
   # Admin routes
@@ -57,7 +57,7 @@ Rails.application.routes.draw do
     root "dashboard#index"
 
     # Analytics routes
-    resources :analytics, only: [:index] do
+    resources :analytics, only: [ :index ] do
       collection do
         get :funnel
         get :sources
@@ -79,14 +79,14 @@ Rails.application.routes.draw do
     resources :blog_tags
     resources :blog_authors
     resources :blog_media
-    resources :blog_comments, only: [:index, :show, :destroy] do
+    resources :blog_comments, only: [ :index, :show, :destroy ] do
       member do
         patch :approve
         patch :reject
       end
     end
 
-    resources :leads, only: [:index, :show, :edit, :update, :destroy] do
+    resources :leads, only: [ :index, :show, :edit, :update, :destroy ] do
       collection do
         get :export
       end
@@ -100,7 +100,7 @@ Rails.application.routes.draw do
     end
 
     # CRM Sync monitoring
-    resources :crm_syncs, only: [:index, :show] do
+    resources :crm_syncs, only: [ :index, :show ] do
       collection do
         get :dashboard
         post :retry_failed
@@ -129,12 +129,12 @@ Rails.application.routes.draw do
         post :unpublish
       end
     end
-    resources :test, only: [:index]
+    resources :test, only: [ :index ]
   end
 
   # Redirect /blog to blog posts index
-  get 'blog', to: redirect('/blog/posts')
+  get "blog", to: redirect("/blog/posts")
 
   # Redirect common incorrect blog routes
-  get 'blog/author', to: redirect('/blog/authors')
+  get "blog/author", to: redirect("/blog/authors")
 end

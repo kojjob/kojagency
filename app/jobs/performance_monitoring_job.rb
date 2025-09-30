@@ -30,7 +30,7 @@ class PerformanceMonitoringJob < ApplicationJob
     Lead.where(created_at: today).find_each do |lead|
       Analytic.create!(
         lead: lead,
-        event_type: 'contact',
+        event_type: "contact",
         source: lead.source,
         metadata: {
           score: lead.score,
@@ -103,7 +103,7 @@ class PerformanceMonitoringJob < ApplicationJob
   end
 
   def generate_daily_report
-    service = AnalyticsService.new(date_range: [1.day.ago, Time.current])
+    service = AnalyticsService.new(date_range: [ 1.day.ago, Time.current ])
 
     report = {
       date: Date.current,
@@ -123,7 +123,7 @@ class PerformanceMonitoringJob < ApplicationJob
   end
 
   def check_database_connection
-    ActiveRecord::Base.connection.execute('SELECT 1').present?
+    ActiveRecord::Base.connection.execute("SELECT 1").present?
   rescue => e
     Rails.logger.error "[PerformanceMonitoring] Database connection failed: #{e.message}"
     false

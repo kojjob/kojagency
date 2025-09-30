@@ -1,6 +1,6 @@
 class Service < ApplicationRecord
   extend FriendlyId
-  friendly_id :name, use: [:slugged, :history]
+  friendly_id :name, use: [ :slugged, :history ]
 
   # Associations
   has_many :project_services, dependent: :destroy

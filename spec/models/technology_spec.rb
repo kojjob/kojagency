@@ -24,8 +24,8 @@ RSpec.describe Technology, type: :model do
 
     describe '.by_category' do
       it 'returns technologies in specified category' do
-        expect(Technology.by_category('Frontend')).to eq([frontend_tech])
-        expect(Technology.by_category('Backend')).to eq([backend_tech])
+        expect(Technology.by_category('Frontend')).to eq([ frontend_tech ])
+        expect(Technology.by_category('Backend')).to eq([ backend_tech ])
       end
     end
 
@@ -35,7 +35,7 @@ RSpec.describe Technology, type: :model do
         tech_z = create(:technology, name: 'Zend')
         tech_m = create(:technology, name: 'MongoDB')
 
-        expect(Technology.ordered_by_name.pluck(:name)).to eq(['Angular', 'MongoDB', 'Zend', frontend_tech.name, backend_tech.name, database_tech.name].sort)
+        expect(Technology.ordered_by_name.pluck(:name)).to eq([ 'Angular', 'MongoDB', 'Zend', frontend_tech.name, backend_tech.name, database_tech.name ].sort)
       end
     end
   end

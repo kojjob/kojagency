@@ -20,13 +20,13 @@ gem "tailwindcss-rails"
 gem "jbuilder"
 
 # Modern rich text editor for Rails [https://github.com/basecamp/lexxy]
-gem 'lexxy', '~> 0.1.4.beta' # Need to specify the version since it's a pre-release
+gem "lexxy", "~> 0.1.4.beta" # Need to specify the version since it's a pre-release
 
 # Use Active Model has_secure_password [https://guides.rubyonrails.org/active_model_basics.html#securepassword]
 gem "bcrypt", "~> 3.1.7"
 
 # Authentication
-gem 'devise', '~> 4.9'
+gem "devise", "~> 4.9"
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem "tzinfo-data", platforms: %i[ windows jruby ]
@@ -62,8 +62,8 @@ group :development, :test do
   gem "rubocop-rails-omakase", require: false
 
   # Testing
-  gem 'rspec-rails', '~> 6.0'
-  gem 'factory_bot_rails', '~> 6.2'
+  gem "rspec-rails", "~> 6.0"
+  gem "factory_bot_rails", "~> 6.2"
 end
 
 group :development do
@@ -75,38 +75,38 @@ group :test do
   # Use system testing [https://guides.rubyonrails.org/testing.html#system-testing]
   gem "capybara"
   gem "selenium-webdriver"
-  gem 'faker', '~> 3.0'
-  gem 'shoulda-matchers', '~> 5.0'
-  gem 'database_cleaner-active_record', '~> 2.0'
-  gem 'simplecov', '~> 0.22', require: false
-  gem 'rails-controller-testing', '~> 1.0'
+  gem "faker", "~> 3.0"
+  gem "shoulda-matchers", "~> 5.0"
+  gem "database_cleaner-active_record", "~> 2.0"
+  gem "simplecov", "~> 0.22", require: false
+  gem "rails-controller-testing", "~> 1.0"
 end
 
 # SEO and Meta Tags
-gem 'meta-tags', '~> 2.18'
-gem 'sitemap_generator', '~> 6.3'
-gem 'friendly_id', '~> 5.5'
+gem "meta-tags", "~> 2.18"
+gem "sitemap_generator", "~> 6.3"
+gem "friendly_id", "~> 5.5"
 
 # Image and Media Processing
 # image_processing is already declared above with version ~> 1.2
-gem 'mini_magick', '~> 4.12'
-gem 'active_storage_validations', '~> 1.0'
+gem "mini_magick", "~> 4.12"
+gem "active_storage_validations", "~> 1.0"
 
 # Search
-gem 'pg_search', '~> 2.3' # For PostgreSQL full-text search
+gem "pg_search", "~> 2.3" # For PostgreSQL full-text search
 
 # Geolocation
-gem 'geocoder', '~> 1.8'
-gem 'maxminddb', '~> 0.1' # For IP-based geolocation
+gem "geocoder", "~> 1.8"
+gem "maxminddb", "~> 0.1" # For IP-based geolocation
 
 # Pagination
-gem 'kaminari', '~> 1.2'
+gem "kaminari", "~> 1.2"
 
 # Performance and Security
-gem 'rack-attack', '~> 6.6' # Rate limiting
-gem 'redis', '~> 5.0' # For caching and sessions
+gem "rack-attack", "~> 6.6" # Rate limiting
+gem "redis", "~> 5.0" # For caching and sessions
 
 group :development do
   # gem 'bullet', '~> 7.0' # N+1 query detection - not yet compatible with Rails 8.1
-  gem 'letter_opener', '~> 1.8' # Preview emails in browser
+  gem "letter_opener", "~> 1.8" # Preview emails in browser
 end

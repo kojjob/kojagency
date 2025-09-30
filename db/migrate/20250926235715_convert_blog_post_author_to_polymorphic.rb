@@ -10,12 +10,12 @@ class ConvertBlogPostAuthorToPolymorphic < ActiveRecord::Migration[8.1]
     execute "UPDATE blog_posts SET author_type = 'BlogAuthor' WHERE author_id IS NOT NULL"
 
     # Add index for polymorphic association
-    add_index :blog_posts, [:author_type, :author_id]
+    add_index :blog_posts, [ :author_type, :author_id ]
   end
 
   def down
     # Remove polymorphic index
-    remove_index :blog_posts, [:author_type, :author_id] if index_exists?(:blog_posts, [:author_type, :author_id])
+    remove_index :blog_posts, [ :author_type, :author_id ] if index_exists?(:blog_posts, [ :author_type, :author_id ])
 
     # Remove polymorphic type column
     remove_column :blog_posts, :author_type

@@ -1,5 +1,5 @@
 class BlogMedia < ApplicationRecord
-  self.table_name = 'blog_media'
+  self.table_name = "blog_media"
 
   # Associations
   has_many :blog_media_attachments, dependent: :destroy
@@ -10,29 +10,29 @@ class BlogMedia < ApplicationRecord
   validates :media_type, presence: true, inclusion: { in: %w[image video audio document] }
 
   # Scopes
-  scope :images, -> { where(media_type: 'image') }
-  scope :videos, -> { where(media_type: 'video') }
-  scope :audio, -> { where(media_type: 'audio') }
-  scope :documents, -> { where(media_type: 'document') }
+  scope :images, -> { where(media_type: "image") }
+  scope :videos, -> { where(media_type: "video") }
+  scope :audio, -> { where(media_type: "audio") }
+  scope :documents, -> { where(media_type: "document") }
 
   # Callbacks
   before_save :set_file_attributes
 
   # Instance Methods
   def image?
-    media_type == 'image'
+    media_type == "image"
   end
 
   def video?
-    media_type == 'video'
+    media_type == "video"
   end
 
   def audio?
-    media_type == 'audio'
+    media_type == "audio"
   end
 
   def document?
-    media_type == 'document'
+    media_type == "document"
   end
 
   private

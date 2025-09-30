@@ -1,6 +1,6 @@
 class Blog::CommentsController < ApplicationController
   before_action :find_blog_post
-  before_action :find_comment, only: [:destroy]
+  before_action :find_comment, only: [ :destroy ]
 
   def create
     @comment = @blog_post.blog_comments.build(comment_params)
@@ -15,7 +15,7 @@ class Blog::CommentsController < ApplicationController
       end
     else
       respond_to do |format|
-        format.html { redirect_to blog_post_path(@blog_post), alert: 'Error submitting comment. Please try again.' }
+        format.html { redirect_to blog_post_path(@blog_post), alert: "Error submitting comment. Please try again." }
         format.turbo_stream { render turbo_stream: turbo_stream.update("comment-form-errors", partial: "blog/comments/errors", locals: { comment: @comment }) }
       end
     end
@@ -25,11 +25,11 @@ class Blog::CommentsController < ApplicationController
     if admin_signed_in?
       @comment.destroy
       respond_to do |format|
-        format.html { redirect_to blog_post_path(@blog_post), notice: 'Comment deleted successfully.' }
+        format.html { redirect_to blog_post_path(@blog_post), notice: "Comment deleted successfully." }
         format.turbo_stream
       end
     else
-      redirect_to blog_post_path(@blog_post), alert: 'You are not authorized to delete this comment.'
+      redirect_to blog_post_path(@blog_post), alert: "You are not authorized to delete this comment."
     end
   end
 
@@ -49,9 +49,9 @@ class Blog::CommentsController < ApplicationController
 
   def comment_notice_message
     if @comment.approved?
-      'Thank you for your comment!'
+      "Thank you for your comment!"
     else
-      'Your comment has been submitted and is awaiting moderation.'
+      "Your comment has been submitted and is awaiting moderation."
     end
   end
 

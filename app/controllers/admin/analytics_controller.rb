@@ -86,23 +86,23 @@ class Admin::AnalyticsController < Admin::BaseController
       ]
     elsif params[:period].present?
       @date_range = case params[:period]
-                   when 'today'
-                     [Time.current.beginning_of_day, Time.current.end_of_day]
-                   when 'week'
-                     [1.week.ago, Time.current]
-                   when 'month'
-                     [1.month.ago, Time.current]
-                   when 'quarter'
-                     [3.months.ago, Time.current]
-                   when 'year'
-                     [1.year.ago, Time.current]
-                   else
-                     [30.days.ago, Time.current]
-                   end
+      when "today"
+                     [ Time.current.beginning_of_day, Time.current.end_of_day ]
+      when "week"
+                     [ 1.week.ago, Time.current ]
+      when "month"
+                     [ 1.month.ago, Time.current ]
+      when "quarter"
+                     [ 3.months.ago, Time.current ]
+      when "year"
+                     [ 1.year.ago, Time.current ]
+      else
+                     [ 30.days.ago, Time.current ]
+      end
     else
-      @date_range = [30.days.ago, Time.current]
+      @date_range = [ 30.days.ago, Time.current ]
     end
 
-    @period_label = params[:period] || 'Last 30 Days'
+    @period_label = params[:period] || "Last 30 Days"
   end
 end

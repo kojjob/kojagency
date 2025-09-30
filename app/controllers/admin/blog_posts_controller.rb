@@ -1,16 +1,16 @@
 module Admin
   class BlogPostsController < ApplicationController
     before_action :authenticate_admin_or_blog_author!
-    before_action :set_post, only: [:show, :edit, :update, :destroy, :publish, :archive, :preview]
-    before_action :authorize_post_access!, only: [:show, :edit, :update, :destroy, :publish, :archive, :preview]
-    before_action :load_form_data, only: [:new, :edit]
+    before_action :set_post, only: [ :show, :edit, :update, :destroy, :publish, :archive, :preview ]
+    before_action :authorize_post_access!, only: [ :show, :edit, :update, :destroy, :publish, :archive, :preview ]
+    before_action :load_form_data, only: [ :new, :edit ]
 
     def index
       @posts = current_blog_author ? current_blog_author.blog_posts : BlogPost.all
       @posts = @posts.where(status: params[:status]) if params[:status].present?
       if params[:q].present?
         @posts = @posts.joins(:rich_text_content)
-                       .where('title ILIKE :q OR action_text_rich_texts.body ILIKE :q', q: "%#{params[:q]}%")
+                       .where("title ILIKE :q OR action_text_rich_texts.body ILIKE :q", q: "%#{params[:q]}%")
       end
       @posts = @posts.order(created_at: :desc).page(params[:page]).per(20)
     end
@@ -37,18 +37,18 @@ module Admin
             a.title = params[:new_author_title] if params[:new_author_title].present?
             a.company = params[:new_author_company] if params[:new_author_company].present?
             a.location = params[:new_author_location] if params[:new_author_location].present?
-            a.expertise = params[:new_author_expertise].split(',').map(&:strip) if params[:new_author_expertise].present?
+            a.expertise = params[:new_author_expertise].split(",").map(&:strip) if params[:new_author_expertise].present?
             a.follower_count = params[:new_author_follower_count].to_i if params[:new_author_follower_count].present?
-            a.verified = params[:new_author_verified] == '1'
+            a.verified = params[:new_author_verified] == "1"
 
             # Social media
             if a.social_media.nil?
               a.social_media = {}
             end
-            a.social_media['twitter'] = params[:new_author_twitter] if params[:new_author_twitter].present?
-            a.social_media['linkedin'] = params[:new_author_linkedin] if params[:new_author_linkedin].present?
-            a.social_media['github'] = params[:new_author_github] if params[:new_author_github].present?
-            a.social_media['website'] = params[:new_author_website] if params[:new_author_website].present?
+            a.social_media["twitter"] = params[:new_author_twitter] if params[:new_author_twitter].present?
+            a.social_media["linkedin"] = params[:new_author_linkedin] if params[:new_author_linkedin].present?
+            a.social_media["github"] = params[:new_author_github] if params[:new_author_github].present?
+            a.social_media["website"] = params[:new_author_website] if params[:new_author_website].present?
           end
           @post.author = author
         else
@@ -57,7 +57,7 @@ module Admin
       end
 
       if @post.save
-        redirect_to admin_blog_post_path(@post), notice: 'Blog post was successfully created.'
+        redirect_to admin_blog_post_path(@post), notice: "Blog post was successfully created."
       else
         load_form_data
         render :new
@@ -76,18 +76,18 @@ module Admin
           a.title = params[:new_author_title] if params[:new_author_title].present?
           a.company = params[:new_author_company] if params[:new_author_company].present?
           a.location = params[:new_author_location] if params[:new_author_location].present?
-          a.expertise = params[:new_author_expertise].split(',').map(&:strip) if params[:new_author_expertise].present?
+          a.expertise = params[:new_author_expertise].split(",").map(&:strip) if params[:new_author_expertise].present?
           a.follower_count = params[:new_author_follower_count].to_i if params[:new_author_follower_count].present?
-          a.verified = params[:new_author_verified] == '1'
+          a.verified = params[:new_author_verified] == "1"
 
           # Social media
           if a.social_media.nil?
             a.social_media = {}
           end
-          a.social_media['twitter'] = params[:new_author_twitter] if params[:new_author_twitter].present?
-          a.social_media['linkedin'] = params[:new_author_linkedin] if params[:new_author_linkedin].present?
-          a.social_media['github'] = params[:new_author_github] if params[:new_author_github].present?
-          a.social_media['website'] = params[:new_author_website] if params[:new_author_website].present?
+          a.social_media["twitter"] = params[:new_author_twitter] if params[:new_author_twitter].present?
+          a.social_media["linkedin"] = params[:new_author_linkedin] if params[:new_author_linkedin].present?
+          a.social_media["github"] = params[:new_author_github] if params[:new_author_github].present?
+          a.social_media["website"] = params[:new_author_website] if params[:new_author_website].present?
         end
         @post.author = author
       else
@@ -95,7 +95,7 @@ module Admin
       end
 
       if @post.update(post_params)
-        redirect_to admin_blog_post_path(@post), notice: 'Blog post was successfully updated.'
+        redirect_to admin_blog_post_path(@post), notice: "Blog post was successfully updated."
       else
         load_form_data
         render :edit
@@ -104,17 +104,17 @@ module Admin
 
     def destroy
       @post.destroy
-      redirect_to admin_blog_posts_path, notice: 'Blog post was successfully deleted.'
+      redirect_to admin_blog_posts_path, notice: "Blog post was successfully deleted."
     end
 
     def publish
       @post.publish!
-      redirect_to admin_blog_posts_path, notice: 'Blog post was successfully published.'
+      redirect_to admin_blog_posts_path, notice: "Blog post was successfully published."
     end
 
     def archive
       @post.archive!
-      redirect_to admin_blog_posts_path, notice: 'Blog post was successfully archived.'
+      redirect_to admin_blog_posts_path, notice: "Blog post was successfully archived."
     end
 
     def preview
@@ -148,7 +148,7 @@ module Admin
 
     def set_author_from_params
       if params[:blog_post][:author_id].present?
-        author_type, author_id = params[:blog_post][:author_id].split('-')
+        author_type, author_id = params[:blog_post][:author_id].split("-")
         @post.author_type = author_type
         @post.author_id = author_id.to_i if author_id.present?
       else
@@ -159,7 +159,7 @@ module Admin
 
     def authenticate_admin_or_blog_author!
       unless admin_signed_in? || blog_author_signed_in?
-        redirect_to root_path, alert: 'Access denied'
+        redirect_to root_path, alert: "Access denied"
       end
     end
 
@@ -168,9 +168,9 @@ module Admin
 
       # Blog authors can only access their own posts
       if current_blog_author && @post.author != current_blog_author
-        redirect_to admin_blog_posts_path, alert: 'Not authorized to access this post'
+        redirect_to admin_blog_posts_path, alert: "Not authorized to access this post"
       elsif !current_blog_author
-        redirect_to root_path, alert: 'Not authorized'
+        redirect_to root_path, alert: "Not authorized"
       end
     end
   end

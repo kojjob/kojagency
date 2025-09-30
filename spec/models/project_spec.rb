@@ -90,7 +90,7 @@ RSpec.describe Project, type: :model do
 
     describe '.featured' do
       it 'returns only featured projects' do
-        expect(Project.featured).to eq([featured_project])
+        expect(Project.featured).to eq([ featured_project ])
       end
     end
 

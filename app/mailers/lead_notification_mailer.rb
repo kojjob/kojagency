@@ -1,12 +1,12 @@
 class LeadNotificationMailer < ApplicationMailer
-  default from: ENV.fetch('ADMIN_EMAIL', 'noreply@kojagency.com')
+  default from: ENV.fetch("ADMIN_EMAIL", "noreply@kojagency.com")
 
   # Admin notification when new lead is created
   def new_lead_notification(lead)
     @lead = lead
     @admin_lead_url = admin_lead_url(@lead)
 
-    admin_emails = ENV.fetch('ADMIN_EMAILS', 'admin@kojagency.com').split(',')
+    admin_emails = ENV.fetch("ADMIN_EMAILS", "admin@kojagency.com").split(",")
 
     mail(
       to: admin_emails,
@@ -17,7 +17,7 @@ class LeadNotificationMailer < ApplicationMailer
   # Welcome email - sent immediately after lead creation
   def welcome_email(lead)
     @lead = lead
-    @company_name = ENV.fetch('COMPANY_NAME', 'KOJ Agency')
+    @company_name = ENV.fetch("COMPANY_NAME", "KOJ Agency")
 
     mail(
       to: @lead.email,
@@ -29,18 +29,18 @@ class LeadNotificationMailer < ApplicationMailer
   def nurture_email(lead, step)
     @lead = lead
     @step = step
-    @company_name = ENV.fetch('COMPANY_NAME', 'KOJ Agency')
+    @company_name = ENV.fetch("COMPANY_NAME", "KOJ Agency")
 
     subject = case step
-              when 1
+    when 1
                 "How we approach #{@lead.project_type_display} projects"
-              when 2
+    when 2
                 "Case study: Similar #{@lead.project_type_display} projects we've completed"
-              when 3
+    when 3
                 "Technical insights for your #{@lead.project_type_display} project"
-              else
+    else
                 "More about #{@company_name} and our process"
-              end
+    end
 
     mail(
       to: @lead.email,
@@ -52,18 +52,18 @@ class LeadNotificationMailer < ApplicationMailer
   def qualification_email(lead, step)
     @lead = lead
     @step = step
-    @company_name = ENV.fetch('COMPANY_NAME', 'KOJ Agency')
+    @company_name = ENV.fetch("COMPANY_NAME", "KOJ Agency")
 
     subject = case step
-              when 1
+    when 1
                 "Let's discuss your #{@lead.project_type_display} project in detail"
-              when 2
+    when 2
                 "Technical requirements for your project"
-              when 3
+    when 3
                 "Timeline and budget considerations"
-              else
+    else
                 "Next steps for your project"
-              end
+    end
 
     mail(
       to: @lead.email,
@@ -75,18 +75,18 @@ class LeadNotificationMailer < ApplicationMailer
   def proposal_email(lead, step)
     @lead = lead
     @step = step
-    @company_name = ENV.fetch('COMPANY_NAME', 'KOJ Agency')
+    @company_name = ENV.fetch("COMPANY_NAME", "KOJ Agency")
 
     subject = case step
-              when 1
+    when 1
                 "Your custom proposal for #{@lead.project_type_display}"
-              when 2
+    when 2
                 "Questions about your proposal?"
-              when 3
+    when 3
                 "Let's schedule a call to discuss"
-              else
+    else
                 "Ready to move forward?"
-              end
+    end
 
     mail(
       to: @lead.email,
@@ -98,18 +98,18 @@ class LeadNotificationMailer < ApplicationMailer
   def follow_up_email(lead, step)
     @lead = lead
     @step = step
-    @company_name = ENV.fetch('COMPANY_NAME', 'KOJ Agency')
+    @company_name = ENV.fetch("COMPANY_NAME", "KOJ Agency")
 
     subject = case step
-              when 1
+    when 1
                 "Following up on your #{@lead.project_type_display} inquiry"
-              when 2
+    when 2
                 "Still interested in #{@lead.project_type_display}?"
-              when 3
+    when 3
                 "Any updates on your project plans?"
-              else
+    else
                 "We're here when you're ready"
-              end
+    end
 
     mail(
       to: @lead.email,
@@ -121,16 +121,16 @@ class LeadNotificationMailer < ApplicationMailer
   def reengagement_email(lead, step)
     @lead = lead
     @step = step
-    @company_name = ENV.fetch('COMPANY_NAME', 'KOJ Agency')
+    @company_name = ENV.fetch("COMPANY_NAME", "KOJ Agency")
 
     subject = case step
-              when 1
+    when 1
                 "New capabilities for #{@lead.project_type_display} projects"
-              when 2
+    when 2
                 "Special offer: #{@lead.project_type_display} consultation"
-              else
+    else
                 "Would you like to reconnect?"
-              end
+    end
 
     mail(
       to: @lead.email,

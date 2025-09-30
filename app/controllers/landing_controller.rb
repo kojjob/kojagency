@@ -5,25 +5,25 @@ class LandingController < ApplicationController
         title: "Web Development",
         description: "Custom web applications and SaaS platforms built with cutting-edge technologies",
         icon: "web",
-        features: ["React/Vue.js", "Ruby on Rails", "API Development", "Cloud Deployment"]
+        features: [ "React/Vue.js", "Ruby on Rails", "API Development", "Cloud Deployment" ]
       },
       {
         title: "Mobile Applications",
         description: "Native and cross-platform mobile apps that delight users",
         icon: "mobile",
-        features: ["iOS Development", "Android Apps", "React Native", "Flutter"]
+        features: [ "iOS Development", "Android Apps", "React Native", "Flutter" ]
       },
       {
         title: "Data Pipelines",
         description: "Robust ETL systems and data engineering solutions for scale",
         icon: "data",
-        features: ["ETL Systems", "Real-time Processing", "Data Warehousing", "Apache Spark"]
+        features: [ "ETL Systems", "Real-time Processing", "Data Warehousing", "Apache Spark" ]
       },
       {
         title: "Analytics Platforms",
         description: "Business intelligence and data visualization that drives decisions",
         icon: "analytics",
-        features: ["Custom Dashboards", "Predictive Analytics", "ML Integration", "Real-time Insights"]
+        features: [ "Custom Dashboards", "Predictive Analytics", "ML Integration", "Real-time Insights" ]
       }
     ]
 

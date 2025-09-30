@@ -8,9 +8,9 @@ class CrmSyncJob < ApplicationJob
     @lead = @crm_sync.lead
 
     case @crm_sync.crm_system
-    when 'hubspot'
+    when "hubspot"
       sync_to_hubspot
-    when 'salesforce'
+    when "salesforce"
       sync_to_salesforce
     else
       Rails.logger.error("Unknown CRM system: #{@crm_sync.crm_system}")
@@ -35,7 +35,7 @@ class CrmSyncJob < ApplicationJob
       Rails.logger.info("Successfully synced lead #{@lead.id} to HubSpot: #{contact_result[:data][:contact_id]}")
 
       # Sync deal if lead is qualified or further along
-      if ['qualified', 'proposal_sent', 'negotiating', 'won'].include?(@lead.lead_status)
+      if [ "qualified", "proposal_sent", "negotiating", "won" ].include?(@lead.lead_status)
         deal_result = service.sync_deal
 
         if deal_result[:success]
@@ -67,7 +67,7 @@ class CrmSyncJob < ApplicationJob
       Rails.logger.info("Successfully synced lead #{@lead.id} to Salesforce: #{contact_result[:data][:contact_id]}")
 
       # Sync opportunity if lead is qualified or further along
-      if ['qualified', 'proposal_sent', 'negotiating', 'won'].include?(@lead.lead_status)
+      if [ "qualified", "proposal_sent", "negotiating", "won" ].include?(@lead.lead_status)
         opportunity_result = service.sync_opportunity
 
         if opportunity_result[:success]

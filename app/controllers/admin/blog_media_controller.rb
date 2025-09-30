@@ -2,7 +2,7 @@ module Admin
   class BlogMediaController < ApplicationController
     before_action :authenticate_user!
     before_action :require_admin
-    before_action :set_media, only: [:show, :edit, :update, :destroy]
+    before_action :set_media, only: [ :show, :edit, :update, :destroy ]
 
     def index
       @media_items = BlogMedia.includes(:posts)
@@ -34,7 +34,7 @@ module Admin
       @media = BlogMedia.new(media_params)
 
       if @media.save
-        redirect_to admin_blog_medium_path(@media), notice: 'Media was successfully uploaded.'
+        redirect_to admin_blog_medium_path(@media), notice: "Media was successfully uploaded."
       else
         render :new, status: :unprocessable_entity
       end
@@ -45,7 +45,7 @@ module Admin
 
     def update
       if @media.update(media_params)
-        redirect_to admin_blog_medium_path(@media), notice: 'Media was successfully updated.'
+        redirect_to admin_blog_medium_path(@media), notice: "Media was successfully updated."
       else
         render :edit, status: :unprocessable_entity
       end
@@ -53,7 +53,7 @@ module Admin
 
     def destroy
       @media.destroy
-      redirect_to admin_blog_media_index_path, notice: 'Media was successfully deleted.'
+      redirect_to admin_blog_media_index_path, notice: "Media was successfully deleted."
     end
 
     private

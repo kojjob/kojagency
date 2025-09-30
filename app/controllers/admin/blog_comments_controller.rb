@@ -1,7 +1,7 @@
 class Admin::BlogCommentsController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_comment, only: [:show, :approve, :reject, :destroy]
-  layout 'admin'
+  before_action :set_comment, only: [ :show, :approve, :reject, :destroy ]
+  layout "admin"
 
   def index
     @comments = BlogComment.includes(:blog_post, :parent, :replies).order(created_at: :desc)
@@ -28,25 +28,25 @@ class Admin::BlogCommentsController < ApplicationController
 
   def approve
     if @comment.update(status: :approved)
-      redirect_to admin_blog_comments_path, notice: 'Comment approved successfully.'
+      redirect_to admin_blog_comments_path, notice: "Comment approved successfully."
     else
-      redirect_to admin_blog_comments_path, alert: 'Failed to approve comment.'
+      redirect_to admin_blog_comments_path, alert: "Failed to approve comment."
     end
   end
 
   def reject
     if @comment.update(status: :rejected)
-      redirect_to admin_blog_comments_path, notice: 'Comment rejected.'
+      redirect_to admin_blog_comments_path, notice: "Comment rejected."
     else
-      redirect_to admin_blog_comments_path, alert: 'Failed to reject comment.'
+      redirect_to admin_blog_comments_path, alert: "Failed to reject comment."
     end
   end
 
   def destroy
     if @comment.destroy
-      redirect_to admin_blog_comments_path, notice: 'Comment deleted successfully.'
+      redirect_to admin_blog_comments_path, notice: "Comment deleted successfully."
     else
-      redirect_to admin_blog_comments_path, alert: 'Failed to delete comment.'
+      redirect_to admin_blog_comments_path, alert: "Failed to delete comment."
     end
   end
 

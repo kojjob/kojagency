@@ -35,7 +35,7 @@ RSpec.describe Service, type: :model do
 
     describe '#features_list' do
       it 'returns features as an array' do
-        expect(service.features_list).to eq(['Feature 1', 'Feature 2', 'Feature 3'])
+        expect(service.features_list).to eq([ 'Feature 1', 'Feature 2', 'Feature 3' ])
       end
 
       it 'returns empty array when features is nil' do
@@ -45,7 +45,7 @@ RSpec.describe Service, type: :model do
 
       it 'removes empty lines' do
         service.update(features: "Feature 1\n\nFeature 2\n\n")
-        expect(service.features_list).to eq(['Feature 1', 'Feature 2'])
+        expect(service.features_list).to eq([ 'Feature 1', 'Feature 2' ])
       end
     end
   end

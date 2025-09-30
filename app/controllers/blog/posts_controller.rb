@@ -1,8 +1,8 @@
 module Blog
   class PostsController < ApplicationController
-    layout 'blog'
-    before_action :set_post, only: [:show]
-    before_action :set_meta_tags_for_index, only: [:index]
+    layout "blog"
+    before_action :set_post, only: [ :show ]
+    before_action :set_meta_tags_for_index, only: [ :index ]
 
     rescue_from ActiveRecord::RecordNotFound, with: :handle_record_not_found
 
@@ -18,13 +18,13 @@ module Blog
       @tags = BlogTag.joins(:blog_post_tags)
                      .joins("JOIN blog_posts ON blog_post_tags.blog_post_id = blog_posts.id")
                      .where("blog_posts.status = 'published'")
-                     .group('blog_tags.id, blog_tags.name, blog_tags.slug')
-                     .order('COUNT(blog_post_tags.id) DESC')
+                     .group("blog_tags.id, blog_tags.name, blog_tags.slug")
+                     .order("COUNT(blog_post_tags.id) DESC")
                      .limit(6)
       @categories = BlogCategory.joins(:blog_posts)
                                 .where("blog_posts.status = 'published'")
-                                .group('blog_categories.id')
-                                .order('COUNT(blog_posts.id) DESC')
+                                .group("blog_categories.id")
+                                .order("COUNT(blog_posts.id) DESC")
       @recent_posts = BlogPost.published.recent.limit(5)
 
       respond_to do |format|
@@ -63,12 +63,12 @@ module Blog
       @subscription = BlogSubscription.new(email: params[:email])
 
       if @subscription.save
-        render json: { status: 'success', message: 'Successfully subscribed!' }
+        render json: { status: "success", message: "Successfully subscribed!" }
       else
-        if @subscription.errors[:email].include?('has already been taken')
-          render json: { status: 'error', message: 'Email already subscribed' }, status: :unprocessable_entity
+        if @subscription.errors[:email].include?("has already been taken")
+          render json: { status: "error", message: "Email already subscribed" }, status: :unprocessable_entity
         else
-          render json: { status: 'error', message: @subscription.errors.full_messages.join(', ') }, status: :unprocessable_entity
+          render json: { status: "error", message: @subscription.errors.full_messages.join(", ") }, status: :unprocessable_entity
         end
       end
     end
@@ -90,18 +90,18 @@ module Blog
     end
 
     def search_posts
-      @posts.where('title ILIKE :q OR content ILIKE :q', q: "%#{params[:q]}%")
+      @posts.where("title ILIKE :q OR content ILIKE :q", q: "%#{params[:q]}%")
     end
 
     def set_meta_tags_for_index
       @meta_tags = {
-        title: 'Blog - Koj Agency',
-        description: 'Latest insights on web development, mobile apps, data engineering, and digital transformation',
-        keywords: 'blog, technology, web development, mobile apps, data engineering',
+        title: "Blog - Koj Agency",
+        description: "Latest insights on web development, mobile apps, data engineering, and digital transformation",
+        keywords: "blog, technology, web development, mobile apps, data engineering",
         og: {
-          title: 'Blog - Koj Agency',
-          description: 'Latest insights on web development, mobile apps, data engineering, and digital transformation',
-          type: 'website',
+          title: "Blog - Koj Agency",
+          description: "Latest insights on web development, mobile apps, data engineering, and digital transformation",
+          type: "website",
           url: request.original_url
         }
       }
@@ -111,11 +111,11 @@ module Blog
       @meta_tags = {
         title: @post.seo_title,
         description: @post.seo_description,
-        keywords: @post.tags.pluck(:name).join(', '),
+        keywords: @post.tags.pluck(:name).join(", "),
         og: {
           title: @post.seo_title,
           description: @post.seo_description,
-          type: 'article',
+          type: "article",
           url: request.original_url,
           article: {
             published_time: @post.published_at&.iso8601,
@@ -128,7 +128,7 @@ module Blog
     end
 
     def handle_record_not_found
-      redirect_to blog_posts_path, alert: 'Blog post not found.'
+      redirect_to blog_posts_path, alert: "Blog post not found."
     end
   end
 end

@@ -62,7 +62,7 @@ module Admin
       # Recent leads
       Lead.limit(5).order(created_at: :desc).each do |lead|
         activities << {
-          type: 'lead',
+          type: "lead",
           message: "New lead: #{lead.full_name} (#{lead.company})",
           time: lead.created_at,
           priority: lead.priority_level,
@@ -73,21 +73,21 @@ module Admin
       # Recent user registrations
       User.limit(3).order(created_at: :desc).each do |user|
         activities << {
-          type: 'user',
+          type: "user",
           message: "New user registered: #{user.name}",
           time: user.created_at,
-          priority: 'medium',
-          link: '#'
+          priority: "medium",
+          link: "#"
         }
       end
 
       # Recent blog posts
       BlogPost.limit(3).order(created_at: :desc).each do |post|
         activities << {
-          type: 'blog',
+          type: "blog",
           message: "Blog post: #{post.title}",
           time: post.created_at,
-          priority: 'low',
+          priority: "low",
           link: blog_post_path(post)
         }
       end
@@ -101,7 +101,7 @@ module Admin
         week_start = (6 - i).weeks.ago.beginning_of_week
         week_end = week_start.end_of_week
         trends << {
-          week: week_start.strftime('%b %d'),
+          week: week_start.strftime("%b %d"),
           leads: Lead.where(created_at: week_start..week_end).count,
           qualified: Lead.qualified.where(created_at: week_start..week_end).count
         }

@@ -1,6 +1,6 @@
 class LeadsController < ApplicationController
-  before_action :set_lead, only: [:show]
-  before_action :check_rate_limit, only: [:create]
+  before_action :set_lead, only: [ :show ]
+  before_action :check_rate_limit, only: [ :create ]
 
   def create
     # Spam prevention: Check honeypot field
