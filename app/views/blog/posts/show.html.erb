@@ -12,11 +12,11 @@
 <% content_for :twitter_description, @post.excerpt %>
 <% content_for :twitter_image, url_for(@post.featured_image) if @post.featured_image.attached? %>
 
-<%# Modern Magazine-Style Blog Post Layout %>
-<div class="blog-post-redesign min-h-screen bg-gradient-to-b from-white to-gray-50 dark:from-gray-900 dark:to-gray-950 transition-colors duration-300" data-controller="dark-mode">
+<%# Professional Blog Post Layout %>
+<div class="blog-post-redesign min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100" data-controller="blog-post">
 
   <%# Reading Progress Bar %>
-  <div class="fixed top-0 left-0 w-full h-1 bg-gray-200 dark:bg-gray-800 z-50">
+  <div class="fixed top-0 left-0 w-full h-1 bg-gray-200 z-50">
     <div id="reading-progress"
          class="h-full bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 w-0 transition-all duration-100"
          data-controller="reading-progress"
@@ -25,15 +25,15 @@
 
   <%# Floating Smart Action Bar %>
   <div id="smart-action-bar"
-       class="fixed bottom-4 md:bottom-8 left-1/2 transform -translate-x-1/2 bg-white/80 dark:bg-gray-900/80 backdrop-blur-xl rounded-full shadow-2xl px-3 sm:px-4 md:px-6 py-2 md:py-3 z-40 opacity-0 translate-y-20 transition-all duration-300"
+       class="fixed bottom-4 md:bottom-8 left-1/2 transform -translate-x-1/2 bg-white/90 backdrop-blur-xl rounded-full shadow-2xl px-3 sm:px-4 md:px-6 py-2 md:py-3 z-40 opacity-0 translate-y-20 transition-all duration-300 border border-gray-200"
        data-controller="floating-actions"
        data-floating-actions-scroll-threshold="300">
     <div class="flex items-center space-x-2 sm:space-x-4 md:space-x-6">
       <%# Reading Progress Ring %>
       <button class="relative group" data-action="click->floating-actions#scrollToTop">
         <svg class="w-8 h-8 md:w-12 md:h-12 transform -rotate-90">
-          <circle cx="16" cy="16" r="12" stroke="currentColor" stroke-width="2" fill="none" class="text-gray-200 dark:text-gray-700 md:hidden" />
-          <circle cx="24" cy="24" r="20" stroke="currentColor" stroke-width="2" fill="none" class="text-gray-200 dark:text-gray-700 hidden md:block" />
+          <circle cx="16" cy="16" r="12" stroke="currentColor" stroke-width="2" fill="none" class="text-gray-200 md:hidden" />
+          <circle cx="24" cy="24" r="20" stroke="currentColor" stroke-width="2" fill="none" class="text-gray-200 hidden md:block" />
           <circle cx="16" cy="16" r="12" stroke="currentColor" stroke-width="2" fill="none"
                   class="text-indigo-500 transition-all duration-300 md:hidden"
                   stroke-dasharray="75"
@@ -45,33 +45,28 @@
                   stroke-dashoffset="126"
                   data-floating-actions-target="progressRing" />
         </svg>
-        <i class="fas fa-arrow-up absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-xs md:text-sm text-gray-600 dark:text-gray-300 group-hover:text-indigo-500 transition-colors"></i>
+        <i class="fas fa-arrow-up absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-xs md:text-sm text-gray-600 group-hover:text-indigo-500 transition-colors"></i>
       </button>
 
-      <div class="h-6 md:h-8 w-px bg-gray-300 dark:bg-gray-600"></div>
+      <div class="h-6 md:h-8 w-px bg-gray-300"></div>
 
       <%# Quick Actions %>
-      <button data-action="click->floating-actions#share" class="p-1.5 md:p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-full transition-colors group">
-        <i class="fas fa-share-alt text-sm md:text-base text-gray-600 dark:text-gray-300 group-hover:text-indigo-500"></i>
+      <button data-action="click->floating-actions#share" class="p-1.5 md:p-2 hover:bg-gray-100 rounded-full transition-colors group">
+        <i class="fas fa-share-alt text-sm md:text-base text-gray-600 group-hover:text-indigo-500"></i>
       </button>
 
-      <button data-action="click->floating-actions#bookmark" class="p-1.5 md:p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-full transition-colors group">
-        <i class="far fa-bookmark text-sm md:text-base text-gray-600 dark:text-gray-300 group-hover:text-indigo-500"></i>
+      <button data-action="click->floating-actions#bookmark" class="p-1.5 md:p-2 hover:bg-gray-100 rounded-full transition-colors group">
+        <i class="far fa-bookmark text-sm md:text-base text-gray-600 group-hover:text-indigo-500"></i>
       </button>
 
-      <button data-action="click->floating-actions#adjustFontSize" class="hidden sm:block p-1.5 md:p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-full transition-colors group">
-        <i class="fas fa-text-height text-sm md:text-base text-gray-600 dark:text-gray-300 group-hover:text-indigo-500"></i>
+      <button data-action="click->floating-actions#adjustFontSize" class="hidden sm:block p-1.5 md:p-2 hover:bg-gray-100 rounded-full transition-colors group">
+        <i class="fas fa-text-height text-sm md:text-base text-gray-600 group-hover:text-indigo-500"></i>
       </button>
 
-      <button data-action="click->dark-mode#toggle" class="p-1.5 md:p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-full transition-colors group">
-        <i class="fas fa-moon text-sm md:text-base text-gray-600 dark:text-gray-300 group-hover:text-indigo-500 dark:hidden"></i>
-        <i class="fas fa-sun hidden dark:block text-sm md:text-base text-gray-300 group-hover:text-yellow-400"></i>
-      </button>
-
-      <div class="h-6 md:h-8 w-px bg-gray-300 dark:bg-gray-600"></div>
+      <div class="h-6 md:h-8 w-px bg-gray-300"></div>
 
       <%# Reading Time Countdown %>
-      <div class="text-xs md:text-sm text-gray-600 dark:text-gray-300 font-medium">
+      <div class="text-xs md:text-sm text-gray-700 font-semibold">
         <span data-floating-actions-target="readingTime"><%= @post.reading_time || 5 %></span><span class="hidden sm:inline"> min left</span>
       </div>
     </div>
@@ -80,7 +75,7 @@
   <%# Modern Split-Screen Hero Section %>
   <header class="relative min-h-screen flex flex-col lg:flex-row overflow-hidden">
     <%# Image Section - 60% on desktop %>
-    <div class="lg:w-full relative h-80 sm:h-96 md:h-[32rem] lg:h-auto flex-shrink-0">
+    <div class="lg:w-3/5 relative h-80 sm:h-96 md:h-[32rem] lg:h-auto flex-shrink-0">
       <% if @post.featured_image.attached? %>
         <div class="absolute inset-0 overflow-hidden">
           <%= image_tag @post.featured_image,
@@ -102,7 +97,7 @@
       <%# Floating Category Badges %>
       <div class="absolute top-4 left-4 md:top-8 md:left-8 flex flex-wrap gap-2 md:gap-3">
         <% if @post.category %>
-          <span class="px-3 py-1.5 md:px-4 md:py-2 bg-white/90 dark:bg-gray-900/90 backdrop-blur-md rounded-full text-xs md:text-sm font-medium text-gray-800 dark:text-gray-200 shadow-lg transform hover:scale-105 transition-transform">
+          <span class="px-3 py-1.5 md:px-4 md:py-2 bg-white/95 backdrop-blur-md rounded-full text-xs md:text-sm font-semibold text-gray-800 shadow-lg transform hover:scale-105 transition-transform border border-gray-200">
             <%= @post.category.name %>
           </span>
         <% end %>
@@ -115,7 +110,7 @@
     </div>
 
     <%# Content Section - 40% on desktop %>
-    <div class="lg:w-2/5 bg-white dark:bg-gray-900 flex items-center relative flex-grow min-h-0">
+    <div class="lg:w-2/5 bg-white flex items-center relative flex-grow min-h-0">
       <%# Decorative Background Pattern %>
       <div class="absolute inset-0 opacity-5">
         <div class="absolute inset-0" style="background-image: url('data:image/svg+xml,%3Csvg width="60" height="60" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg"%3E%3Cg fill="none" fill-rule="evenodd"%3E%3Cg fill="%239C92AC" fill-opacity="0.4"%3E%3Cpath d="M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z"/%3E%3C/g%3E%3C/g%3E%3C/svg%3E');"></div>
@@ -125,38 +120,30 @@
         <%# Animated Text Reveals %>
         <div data-controller="text-reveal">
           <%# Publication Date %>
-          <div class="mb-6 overflow-hidden">
-            <p class="text-sm text-gray-500 dark:text-gray-400 uppercase tracking-widest transform translate-y-full opacity-0"
-               data-text-reveal-target="element"
-               data-text-reveal-delay="100">
+          <div class="mb-6">
+            <p class="text-sm text-gray-600 uppercase tracking-widest font-semibold">
               <%= @post.published_at&.strftime("%B %d, %Y") || Date.current.strftime("%B %d, %Y") %>
             </p>
           </div>
 
           <%# Title %>
-          <div class="mb-6 md:mb-8 overflow-hidden">
-            <h1 class="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-gray-900 dark:text-white leading-tight transform translate-y-full opacity-0"
-                data-text-reveal-target="element"
-                data-text-reveal-delay="200">
+          <div class="mb-6 md:mb-8">
+            <h1 class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold text-gray-900 leading-tight tracking-tight">
               <%= @post.title %>
             </h1>
           </div>
 
           <%# Excerpt %>
           <% if @post.excerpt.present? %>
-            <div class="mb-6 md:mb-8 overflow-hidden">
-              <p class="text-base md:text-lg lg:text-xl text-gray-600 dark:text-gray-300 leading-relaxed transform translate-y-full opacity-0"
-                 data-text-reveal-target="element"
-                 data-text-reveal-delay="300">
+            <div class="mb-6 md:mb-8">
+              <p class="text-base md:text-lg lg:text-xl text-gray-700 leading-relaxed">
                 <%= @post.excerpt %>
               </p>
             </div>
           <% end %>
 
           <%# Reading Stats Bar %>
-          <div class="flex items-center space-x-6 text-sm text-gray-500 dark:text-gray-400 transform translate-y-full opacity-0"
-               data-text-reveal-target="element"
-               data-text-reveal-delay="400">
+          <div class="flex items-center space-x-6 text-sm text-gray-600 font-medium">
             <div class="flex items-center space-x-2">
               <i class="far fa-clock"></i>
               <span><%= @post.reading_time || 5 %> min read</span>
@@ -172,9 +159,7 @@
           </div>
 
           <%# Call to Action - Read Article Button %>
-          <div class="mt-8 transform translate-y-full opacity-0"
-               data-text-reveal-target="element"
-               data-text-reveal-delay="500">
+          <div class="mt-8">
             <a href="#article-content"
                class="inline-flex items-center px-6 py-3 bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-semibold rounded-full shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300 group">
               <span>Start Reading</span>
@@ -184,17 +169,15 @@
 
           <%# Tags Preview %>
           <% if @post.tags.any? %>
-            <div class="mt-6 transform translate-y-full opacity-0"
-                 data-text-reveal-target="element"
-                 data-text-reveal-delay="600">
+            <div class="mt-6">
               <div class="flex flex-wrap gap-2">
                 <% @post.tags.limit(3).each do |tag| %>
-                  <span class="px-3 py-1 bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 text-xs font-medium rounded-full">
+                  <span class="px-3 py-1 bg-gray-100 text-gray-700 text-xs font-semibold rounded-full border border-gray-200">
                     #<%= tag.name %>
                   </span>
                 <% end %>
                 <% if @post.tags.count > 3 %>
-                  <span class="px-3 py-1 text-gray-500 dark:text-gray-400 text-xs">
+                  <span class="px-3 py-1 text-gray-600 text-xs font-medium">
                     +<%= @post.tags.count - 3 %> more
                   </span>
                 <% end %>
@@ -203,26 +186,26 @@
           <% end %>
 
           <%# Author Info %>
-          <div class="mt-8 pt-8 border-t border-gray-200 dark:border-gray-700 transform translate-y-full opacity-0"
+          <div class="mt-8 pt-8 border-t border-gray-200 transform translate-y-full opacity-0"
                data-text-reveal-target="element"
                data-text-reveal-delay="700">
             <div class="flex items-center space-x-4">
               <% if @post.author.present? %>
-                <div class="w-14 h-14 rounded-full bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center ring-2 ring-white dark:ring-gray-800 shadow-lg">
+                <div class="w-14 h-14 rounded-full bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center ring-2 ring-white shadow-lg">
                   <span class="text-white font-bold text-lg">
                     <%= @post.author.name.split.map(&:first).join.upcase %>
                   </span>
                 </div>
                 <div>
                   <div class="flex items-center space-x-2">
-                    <p class="font-semibold text-gray-900 dark:text-white"><%= @post.author.name %></p>
+                    <p class="font-semibold text-gray-900"><%= @post.author.name %></p>
                     <% if @post.author.respond_to?(:admin?) && @post.author.admin? %>
                       <span class="text-blue-500" title="Admin Author">
                         <i class="fas fa-check-circle text-sm"></i>
                       </span>
                     <% end %>
                   </div>
-                  <p class="text-sm text-gray-500 dark:text-gray-400">
+                  <p class="text-sm text-gray-500">
                     <%= @post.author.respond_to?(:admin?) && @post.author.admin? ? "Admin" : "Contributor" %>
                   </p>
                 </div>
@@ -233,8 +216,8 @@
       </div>
 
       <%# Decorative Elements %>
-      <div class="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-indigo-100 to-purple-100 dark:from-indigo-900/20 dark:to-purple-900/20 rounded-full blur-3xl"></div>
-      <div class="absolute bottom-0 left-0 w-48 h-48 bg-gradient-to-tr from-pink-100 to-orange-100 dark:from-pink-900/20 dark:to-orange-900/20 rounded-full blur-3xl"></div>
+      <div class="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-indigo-100 to-purple-100 rounded-full blur-3xl"></div>
+      <div class="absolute bottom-0 left-0 w-48 h-48 bg-gradient-to-tr from-pink-100 to-orange-100 rounded-full blur-3xl"></div>
     </div>
   </header>
 
@@ -243,16 +226,19 @@
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 md:gap-8 lg:gap-12">
 
       <%# Article Content - Main Column %>
-      <article class="lg:col-span-8 order-2 lg:order-1" data-controller="content-interactions blog-post" data-blog-post-title-value="<%= @post.title %>">
+      <article class="lg:col-span-8 order-2 lg:order-1 bg-white rounded-2xl shadow-lg p-6 sm:p-8 lg:p-10 border border-gray-200" data-controller="content-interactions blog-post" data-blog-post-title-value="<%= @post.title %>">
         <%# Enhanced Typography Content %>
-        <div class="prose prose-sm sm:prose prose-lg lg:prose-xl dark:prose-invert max-w-none
-                    prose-headings:font-bold prose-headings:text-gray-900 dark:prose-headings:text-white
-                    prose-p:text-gray-700 dark:prose-p:text-gray-300 prose-p:leading-relaxed
-                    prose-a:text-indigo-600 dark:prose-a:text-indigo-400 prose-a:no-underline hover:prose-a:underline
-                    prose-blockquote:border-l-4 prose-blockquote:border-indigo-500 prose-blockquote:bg-gray-50 dark:prose-blockquote:bg-gray-800/50 prose-blockquote:rounded-r-lg prose-blockquote:py-2 sm:prose-blockquote:py-4
-                    prose-code:bg-gray-100 dark:prose-code:bg-gray-800 prose-code:text-indigo-600 dark:prose-code:text-indigo-400 prose-code:px-1 sm:prose-code:px-2 prose-code:py-1 prose-code:rounded prose-code:text-xs sm:prose-code:text-sm
-                    prose-pre:bg-gray-900 prose-pre:shadow-xl sm:prose-pre:shadow-2xl prose-pre:rounded-lg sm:prose-pre:rounded-xl prose-pre:border prose-pre:border-gray-700 prose-pre:text-xs sm:prose-pre:text-sm
-                    prose-img:rounded-lg sm:prose-img:rounded-xl prose-img:shadow-lg sm:prose-img:shadow-xl prose-img:my-4 sm:prose-img:my-6 lg:prose-img:my-8"
+        <div class="prose prose-sm sm:prose prose-lg lg:prose-xl max-w-none overflow-hidden break-words
+                    prose-headings:font-bold prose-headings:text-gray-900
+                    prose-p:text-gray-700 prose-p:leading-relaxed prose-p:break-words
+                    prose-a:text-indigo-600 prose-a:no-underline hover:prose-a:underline prose-a:break-words
+                    prose-blockquote:border-l-4 prose-blockquote:border-indigo-500 prose-blockquote:bg-indigo-50/50 prose-blockquote:rounded-r-lg prose-blockquote:py-2 sm:prose-blockquote:py-4
+                    prose-code:bg-indigo-50 prose-code:text-indigo-600 prose-code:px-1 sm:prose-code:px-2 prose-code:py-1 prose-code:rounded prose-code:text-xs sm:prose-code:text-sm prose-code:font-semibold prose-code:break-words
+                    prose-pre:bg-gray-900 prose-pre:shadow-xl sm:prose-pre:shadow-2xl prose-pre:rounded-lg sm:prose-pre:rounded-xl prose-pre:border prose-pre:border-gray-700 prose-pre:text-xs sm:prose-pre:text-sm prose-pre:overflow-x-auto
+                    prose-img:rounded-lg sm:prose-img:rounded-xl prose-img:shadow-lg sm:prose-img:shadow-xl prose-img:my-4 sm:prose-img:my-6 lg:prose-img:my-8 prose-img:max-w-full prose-img:h-auto
+                    prose-strong:text-gray-900 prose-strong:font-bold
+                    prose-ul:text-gray-700 prose-ol:text-gray-700
+                    prose-li:text-gray-700 prose-li:break-words prose-table:overflow-x-auto prose-table:block"
              id="article-content"
              data-blog-post-target="articleContent"
              data-content-interactions-target="content">
@@ -284,9 +270,11 @@
 
           <%# Rich Text Content %>
           <% if @post.content.present? %>
-            <%= @post.content %>
+            <%= raw @post.content %>
           <% else %>
-            <%= simple_format(@post.excerpt || "No content available") %>
+            <div class="text-gray-700">
+              <%= simple_format(@post.excerpt || "No content available") %>
+            </div>
           <% end %>
 
           <%# Interactive Elements for Content %>
@@ -301,11 +289,11 @@
 
         <%# Tags Section %>
         <% if @post.tags.any? %>
-          <div class="mt-8 sm:mt-10 md:mt-12 pt-6 sm:pt-8 border-t border-gray-200 dark:border-gray-700">
+          <div class="mt-8 sm:mt-10 md:mt-12 pt-6 sm:pt-8 border-t border-gray-200">
             <div class="flex flex-wrap gap-2 sm:gap-3">
               <% @post.tags.each do |tag| %>
                 <%= link_to blog_tag_path(tag),
-                    class: "px-3 sm:px-4 py-1.5 sm:py-2 bg-gray-100 dark:bg-gray-800 hover:bg-indigo-100 dark:hover:bg-indigo-900/30 text-gray-700 dark:text-gray-300 rounded-full text-xs sm:text-sm font-medium transition-all duration-300 transform hover:scale-105 hover:shadow-md" do %>
+                    class: "px-3 sm:px-4 py-1.5 sm:py-2 bg-gray-100 hover:bg-indigo-100 text-gray-700 rounded-full text-xs sm:text-sm font-medium transition-all duration-300 transform hover:scale-105 hover:shadow-md" do %>
                   <i class="fas fa-hashtag mr-1 text-xs opacity-50"></i><%= tag.name %>
                 <% end %>
               <% end %>
@@ -314,12 +302,12 @@
         <% end %>
 
         <%# Enhanced Author Bio Card %>
-        <div class="mt-12 p-8 bg-gradient-to-br from-gray-50 to-white dark:from-gray-800 dark:to-gray-900 rounded-2xl shadow-xl border border-gray-100 dark:border-gray-700">
+        <div class="mt-12 p-8 bg-gradient-to-br from-gray-50 to-white rounded-2xl shadow-xl border border-gray-100">
           <% if @post.author.present? %>
             <div class="flex flex-col sm:flex-row items-start space-y-4 sm:space-y-0 sm:space-x-6">
               <%# Author Avatar %>
               <div class="flex-shrink-0">
-                <div class="w-20 h-20 rounded-2xl bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center shadow-lg ring-4 ring-white dark:ring-gray-800">
+                <div class="w-20 h-20 rounded-2xl bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center shadow-lg ring-4 ring-white">
                   <span class="text-white font-bold text-2xl">
                     <%= @post.author.name.split.map(&:first).join.upcase %>
                   </span>
@@ -329,7 +317,7 @@
               <%# Author Details %>
               <div class="flex-grow">
                 <div class="flex items-center space-x-3 mb-2">
-                  <h3 class="text-xl font-bold text-gray-900 dark:text-white">
+                  <h3 class="text-xl font-bold text-gray-900">
                     <%= @post.author.name %>
                   </h3>
                   <% if @post.author.respond_to?(:admin?) && @post.author.admin? %>
@@ -342,17 +330,17 @@
                   </button>
                 </div>
 
-                <p class="text-gray-600 dark:text-gray-400 font-medium mb-3">
+                <p class="text-gray-600 font-medium mb-3">
                   <%= @post.author.respond_to?(:admin?) && @post.author.admin? ? "Admin & Content Creator" : "Content Contributor" %>
                 </p>
 
-                <p class="text-gray-600 dark:text-gray-300 leading-relaxed mb-4">
+                <p class="text-gray-600 leading-relaxed mb-4">
                   Passionate about sharing insights on technology, development, and digital innovation.
                   Contributing to <strong>KojAgency</strong> with expert knowledge and real-world experience.
                 </p>
 
                 <%# Author Stats %>
-                <div class="flex items-center space-x-6 text-sm text-gray-500 dark:text-gray-400">
+                <div class="flex items-center space-x-6 text-sm text-gray-500">
                   <div class="flex items-center space-x-1">
                     <i class="fas fa-edit"></i>
                     <span><%= @post.author.blog_posts.published.count %> Articles</span>
@@ -372,16 +360,16 @@
             <%# Fallback for posts without authors %>
             <div class="flex flex-col sm:flex-row items-start space-y-4 sm:space-y-0 sm:space-x-6">
               <div class="flex-shrink-0">
-                <div class="w-20 h-20 rounded-2xl bg-gradient-to-br from-gray-400 to-gray-600 flex items-center justify-center shadow-lg ring-4 ring-white dark:ring-gray-800">
+                <div class="w-20 h-20 rounded-2xl bg-gradient-to-br from-gray-400 to-gray-600 flex items-center justify-center shadow-lg ring-4 ring-white">
                   <span class="text-white font-bold text-2xl">KA</span>
                 </div>
               </div>
               <div class="flex-grow">
                 <div class="flex items-center space-x-3 mb-2">
-                  <h3 class="text-xl font-bold text-gray-900 dark:text-white">KojAgency Team</h3>
+                  <h3 class="text-xl font-bold text-gray-900">KojAgency Team</h3>
                 </div>
-                <p class="text-gray-600 dark:text-gray-400 font-medium mb-3">Editorial Team</p>
-                <p class="text-gray-600 dark:text-gray-300 leading-relaxed mb-4">
+                <p class="text-gray-600 font-medium mb-3">Editorial Team</p>
+                <p class="text-gray-600 leading-relaxed mb-4">
                   Articles written by our expert team of developers, designers, and digital strategists at KojAgency.
                 </p>
               </div>
@@ -390,8 +378,8 @@
         </div>
 
         <%# Modern Share Section %>
-        <div class="mt-8 sm:mt-10 md:mt-12 p-4 sm:p-6 bg-indigo-50 dark:bg-indigo-900/20 rounded-xl sm:rounded-2xl border border-indigo-100 dark:border-indigo-800">
-          <h3 class="text-base sm:text-lg font-bold text-gray-900 dark:text-white mb-3 sm:mb-4">Share this article</h3>
+        <div class="mt-8 sm:mt-10 md:mt-12 p-4 sm:p-6 bg-indigo-50 rounded-xl sm:rounded-2xl border border-indigo-100">
+          <h3 class="text-base sm:text-lg font-bold text-gray-900 mb-3 sm:mb-4">Share this article</h3>
           <div class="flex flex-wrap gap-2 sm:gap-3">
             <button data-action="click->blog-post#shareOnTwitter"
                     class="flex items-center space-x-1 sm:space-x-2 px-3 sm:px-4 py-2 bg-[#1DA1F2] hover:bg-[#1a8cd8] text-white rounded-lg transition-colors text-sm">
@@ -422,7 +410,7 @@
         <%# Comments Section with Threading %>
         <section class="mt-12 sm:mt-14 md:mt-16" id="comments">
           <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-6 sm:mb-8 space-y-3 sm:space-y-0">
-            <h2 class="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white">
+            <h2 class="text-xl sm:text-2xl font-bold text-gray-900">
               Comments (<%= @post.blog_comments.approved.count %>)
             </h2>
             <button class="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg text-sm font-medium transition-colors self-start sm:self-auto">
@@ -431,21 +419,21 @@
           </div>
 
           <%# Comment Form %>
-          <div class="mb-6 sm:mb-8 p-4 sm:p-6 bg-gray-50 dark:bg-gray-800 rounded-xl">
+          <div class="mb-6 sm:mb-8 p-4 sm:p-6 bg-gray-50 rounded-xl">
             <%= form_with model: [@post, BlogComment.new], url: blog_post_comments_path(@post), local: false,
                           data: { controller: "comment-form" } do |f| %>
               <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                 <%= f.text_field :author_name,
                     placeholder: "Your Name",
-                    class: "px-4 py-3 bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500" %>
+                    class: "px-4 py-3 bg-white border border-gray-200 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900 placeholder-gray-400" %>
                 <%= f.email_field :author_email,
                     placeholder: "Your Email",
-                    class: "px-4 py-3 bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500" %>
+                    class: "px-4 py-3 bg-white border border-gray-200 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900 placeholder-gray-400" %>
               </div>
               <%= f.text_area :content,
                   rows: 4,
                   placeholder: "Share your thoughts...",
-                  class: "w-full px-4 py-3 bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 resize-none" %>
+                  class: "w-full px-4 py-3 bg-white border border-gray-200 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900 placeholder-gray-400 resize-none" %>
               <div class="mt-4 flex justify-end">
                 <%= f.submit "Post Comment",
                     class: "px-6 py-3 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg font-medium transition-colors cursor-pointer" %>
@@ -468,15 +456,15 @@
         <div class="lg:sticky lg:top-24 space-y-6 sm:space-y-8">
 
           <%# Dynamic Table of Contents %>
-          <div class="bg-white dark:bg-gray-800 rounded-xl sm:rounded-2xl shadow-lg sm:shadow-xl p-4 sm:p-6 border border-gray-100 dark:border-gray-700">
-            <h3 class="text-base sm:text-lg font-bold text-gray-900 dark:text-white mb-3 sm:mb-4 flex items-center">
+          <div class="bg-white rounded-xl sm:rounded-2xl shadow-lg sm:shadow-xl p-4 sm:p-6 border border-gray-100">
+            <h3 class="text-base sm:text-lg font-bold text-gray-900 mb-3 sm:mb-4 flex items-center">
               <i class="fas fa-list-ul mr-2 text-indigo-500"></i>
               Table of Contents
             </h3>
             <nav id="table-of-contents" class="space-y-2" data-controller="toc">
               <ul id="toc-list"
                   data-blog-post-target="tocList"
-                  class="space-y-1 max-h-64 sm:max-h-80 lg:max-h-96 overflow-y-auto scrollbar-thin scrollbar-thumb-gray-300 dark:scrollbar-thumb-gray-600">
+                  class="space-y-1 max-h-64 sm:max-h-80 lg:max-h-96 overflow-y-auto scrollbar-thin scrollbar-thumb-gray-300">
                 <%# Dynamically populated by JavaScript %>
               </ul>
             </nav>
@@ -502,12 +490,12 @@
           </div>
 
           <%# Related Posts Carousel %>
-          <div class="bg-white dark:bg-gray-800 rounded-xl sm:rounded-2xl shadow-lg sm:shadow-xl p-4 sm:p-6 border border-gray-100 dark:border-gray-700">
-            <h3 class="text-base sm:text-lg font-bold text-gray-900 dark:text-white mb-3 sm:mb-4">Related Articles</h3>
+          <div class="bg-white rounded-xl sm:rounded-2xl shadow-lg sm:shadow-xl p-4 sm:p-6 border border-gray-100">
+            <h3 class="text-base sm:text-lg font-bold text-gray-900 mb-3 sm:mb-4">Related Articles</h3>
             <div class="space-y-4">
               <% BlogPost.published.where.not(id: @post.id).limit(3).each do |related_post| %>
                 <%= link_to blog_post_path(related_post),
-                    class: "group block p-3 -m-3 rounded-xl hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors" do %>
+                    class: "group block p-3 -m-3 rounded-xl hover:bg-gray-50 transition-colors" do %>
                   <div class="flex space-x-3">
                     <% if related_post.featured_image.attached? %>
                       <%= image_tag related_post.featured_image,
@@ -517,10 +505,10 @@
                       <div class="w-16 h-16 rounded-lg bg-gradient-to-br from-indigo-500 to-purple-600 flex-shrink-0"></div>
                     <% end %>
                     <div class="flex-grow min-w-0">
-                      <h4 class="text-sm font-semibold text-gray-900 dark:text-white group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors line-clamp-2">
+                      <h4 class="text-sm font-semibold text-gray-900 group-hover:text-indigo-600 transition-colors line-clamp-2">
                         <%= related_post.title %>
                       </h4>
-                      <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">
+                      <p class="text-xs text-gray-500 mt-1">
                         <%= related_post.reading_time || 5 %> min read
                       </p>
                     </div>
@@ -531,16 +519,16 @@
           </div>
 
           <%# Enhanced Categories Widget with Dynamic Filtering %>
-          <div class="bg-white dark:bg-gray-800 rounded-xl sm:rounded-2xl shadow-lg sm:shadow-xl p-4 sm:p-6 border border-gray-100 dark:border-gray-700"
+          <div class="bg-white rounded-xl sm:rounded-2xl shadow-lg sm:shadow-xl p-4 sm:p-6 border border-gray-100"
                data-controller="category-filter"
                data-action="resize@window->category-filter#handleResize keydown->category-filter#handleKeydown">
             <div class="flex items-center justify-between mb-3 sm:mb-4">
-              <h3 class="text-base sm:text-lg font-bold text-gray-900 dark:text-white flex items-center">
+              <h3 class="text-base sm:text-lg font-bold text-gray-900 flex items-center">
                 <i class="fas fa-folder-open mr-2 text-indigo-500"></i>
                 Categories
               </h3>
               <button data-action="click->category-filter#toggleExpanded"
-                      class="text-indigo-600 hover:text-indigo-700 dark:text-indigo-400 text-sm font-medium transition-colors"
+                      class="text-indigo-600 hover:text-indigo-700 text-sm font-medium transition-colors"
                       data-category-filter-target="toggleButton">
                 <span data-category-filter-target="toggleText">View All</span>
                 <i class="fas fa-chevron-down ml-1 transition-transform" data-category-filter-target="toggleIcon"></i>
@@ -554,7 +542,7 @@
                        placeholder="Search categories..."
                        data-category-filter-target="searchInput"
                        data-action="input->category-filter#filterCategories"
-                       class="w-full px-3 py-2 pl-9 bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-lg text-sm focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400">
+                       class="w-full px-3 py-2 pl-9 bg-gray-50 border border-gray-200 rounded-lg text-sm focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900 placeholder-gray-500">
                 <i class="fas fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 text-sm"></i>
               </div>
             </div>
@@ -578,16 +566,16 @@
               <% top_categories.each_with_index do |category, index| %>
                 <div class="category-item" data-category-name="<%= category.name.downcase %>">
                   <%= link_to blog_category_path(category),
-                      class: "flex items-center justify-between p-2 -m-2 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-all duration-300 group transform hover:scale-[1.02]",
+                      class: "flex items-center justify-between p-2 -m-2 rounded-lg hover:bg-gray-50 transition-all duration-300 group transform hover:scale-[1.02]",
                       data: { action: "click->category-filter#categoryClicked" } do %>
                     <div class="flex items-center space-x-2">
                       <div class="w-2 h-2 rounded-full bg-gradient-to-r from-indigo-500 to-purple-500"></div>
-                      <span class="text-gray-700 dark:text-gray-300 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors font-medium">
+                      <span class="text-gray-700 group-hover:text-indigo-600 transition-colors font-medium">
                         <%= category.name %>
                       </span>
                     </div>
                     <div class="flex items-center space-x-2">
-                      <span class="text-xs px-2 py-1 bg-gradient-to-r from-gray-100 to-gray-200 dark:from-gray-700 dark:to-gray-600 text-gray-600 dark:text-gray-400 rounded-full font-medium">
+                      <span class="text-xs px-2 py-1 bg-gradient-to-r from-gray-100 to-gray-200 text-gray-600 rounded-full font-medium">
                         <%= category.posts_count %>
                       </span>
                       <i class="fas fa-arrow-right text-xs text-gray-400 group-hover:text-indigo-500 transform group-hover:translate-x-1 transition-all duration-300"></i>
@@ -601,16 +589,16 @@
                 <% (all_categories - top_categories).each do |category| %>
                   <div class="category-item" data-category-name="<%= category.name.downcase %>">
                     <%= link_to blog_category_path(category),
-                        class: "flex items-center justify-between p-2 -m-2 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-all duration-300 group transform hover:scale-[1.02]",
+                        class: "flex items-center justify-between p-2 -m-2 rounded-lg hover:bg-gray-50 transition-all duration-300 group transform hover:scale-[1.02]",
                         data: { action: "click->category-filter#categoryClicked" } do %>
                       <div class="flex items-center space-x-2">
                         <div class="w-2 h-2 rounded-full bg-gradient-to-r from-purple-500 to-pink-500"></div>
-                        <span class="text-gray-700 dark:text-gray-300 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors font-medium">
+                        <span class="text-gray-700 group-hover:text-indigo-600 transition-colors font-medium">
                           <%= category.name %>
                         </span>
                       </div>
                       <div class="flex items-center space-x-2">
-                        <span class="text-xs px-2 py-1 bg-gradient-to-r from-gray-100 to-gray-200 dark:from-gray-700 dark:to-gray-600 text-gray-600 dark:text-gray-400 rounded-full font-medium">
+                        <span class="text-xs px-2 py-1 bg-gradient-to-r from-gray-100 to-gray-200 text-gray-600 rounded-full font-medium">
                           <%= category.posts_count %>
                         </span>
                         <i class="fas fa-arrow-right text-xs text-gray-400 group-hover:text-indigo-500 transform group-hover:translate-x-1 transition-all duration-300"></i>
@@ -622,7 +610,7 @@
 
               <%# No Results Message %>
               <div class="hidden text-center py-4" data-category-filter-target="noResults">
-                <div class="text-gray-500 dark:text-gray-400">
+                <div class="text-gray-500">
                   <i class="fas fa-search-minus text-2xl mb-2"></i>
                   <p class="text-sm">No categories found</p>
                 </div>
@@ -630,21 +618,21 @@
             </div>
 
             <%# Quick Category Insights %>
-            <div class="mt-4 pt-4 border-t border-gray-200 dark:border-gray-700">
+            <div class="mt-4 pt-4 border-t border-gray-200">
               <div class="grid grid-cols-2 gap-4 text-center">
-                <div class="bg-gradient-to-br from-indigo-50 to-purple-50 dark:from-indigo-900/20 dark:to-purple-900/20 rounded-lg p-3">
-                  <div class="text-lg font-bold text-indigo-600 dark:text-indigo-400">
+                <div class="bg-gradient-to-br from-indigo-50 to-purple-50 rounded-lg p-3">
+                  <div class="text-lg font-bold text-indigo-600">
                     <%= BlogCategory.count %>
                   </div>
-                  <div class="text-xs text-gray-600 dark:text-gray-400 font-medium">
+                  <div class="text-xs text-gray-600 font-medium">
                     Total Categories
                   </div>
                 </div>
-                <div class="bg-gradient-to-br from-green-50 to-emerald-50 dark:from-green-900/20 dark:to-emerald-900/20 rounded-lg p-3">
-                  <div class="text-lg font-bold text-green-600 dark:text-green-400">
+                <div class="bg-gradient-to-br from-green-50 to-emerald-50 rounded-lg p-3">
+                  <div class="text-lg font-bold text-green-600">
                     <%= BlogPost.published.distinct.count(:category_id) %>
                   </div>
-                  <div class="text-xs text-gray-600 dark:text-gray-400 font-medium">
+                  <div class="text-xs text-gray-600 font-medium">
                     Active Categories
                   </div>
                 </div>
@@ -652,7 +640,7 @@
             </div>
 
             <%# Browse All Categories Link %>
-            <div class="mt-4 pt-4 border-t border-gray-200 dark:border-gray-700">
+            <div class="mt-4 pt-4 border-t border-gray-200">
               <%= link_to blog_categories_path,
                   class: "flex items-center justify-center w-full p-3 bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 text-white rounded-lg font-medium transition-all duration-300 transform hover:scale-[1.02] shadow-lg hover:shadow-xl" do %>
                 <i class="fas fa-th-large mr-2"></i>
