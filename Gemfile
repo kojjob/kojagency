@@ -19,6 +19,9 @@ gem "tailwindcss-rails"
 # Build JSON APIs with ease [https://github.com/rails/jbuilder]
 gem "jbuilder"
 
+# Modern rich text editor for Rails [https://github.com/basecamp/lexxy]
+gem 'lexxy', '~> 0.1.4.beta' # Need to specify the version since it's a pre-release
+
 # Use Active Model has_secure_password [https://guides.rubyonrails.org/active_model_basics.html#securepassword]
 gem "bcrypt", "~> 3.1.7"
 

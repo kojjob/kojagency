@@ -4,12 +4,28 @@ module Blog
     before_action :set_post, only: [:show]
     before_action :set_meta_tags_for_index, only: [:index]
 
+    rescue_from ActiveRecord::RecordNotFound, with: :handle_record_not_found
+
     def index
       @posts = BlogPost.published.recent
       @posts = filter_by_category if params[:category].present?
       @posts = filter_by_tag if params[:tag].present?
       @posts = search_posts if params[:q].present?
       @posts = @posts.page(params[:page]).per(12)
+
+      # For the new design
+      @featured_post = BlogPost.published.featured.first
+      @tags = BlogTag.joins(:blog_post_tags)
+                     .joins("JOIN blog_posts ON blog_post_tags.blog_post_id = blog_posts.id")
+                     .where("blog_posts.status = 'published'")
+                     .group('blog_tags.id, blog_tags.name, blog_tags.slug')
+                     .order('COUNT(blog_post_tags.id) DESC')
+                     .limit(6)
+      @categories = BlogCategory.joins(:blog_posts)
+                                .where("blog_posts.status = 'published'")
+                                .group('blog_categories.id')
+                                .order('COUNT(blog_posts.id) DESC')
+      @recent_posts = BlogPost.published.recent.limit(5)
 
       respond_to do |format|
         format.html
@@ -104,11 +120,15 @@ module Blog
           article: {
             published_time: @post.published_at&.iso8601,
             modified_time: @post.updated_at.iso8601,
-            author: @post.author.name,
+            author: @post.author&.name,
             section: @post.category&.name
           }
         }
       }
+    end
+
+    def handle_record_not_found
+      redirect_to blog_posts_path, alert: 'Blog post not found.'
     end
   end
 end

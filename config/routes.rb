@@ -1,5 +1,9 @@
 Rails.application.routes.draw do
-  devise_for :users
+  devise_for :users, controllers: {
+    sessions: 'users/sessions',
+    registrations: 'users/registrations',
+    passwords: 'users/passwords'
+  }
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
@@ -70,15 +74,25 @@ Rails.application.routes.draw do
       end
     end
 
-    resources :leads, only: [:index, :show, :update, :destroy] do
+    resources :leads, only: [:index, :show, :edit, :update, :destroy] do
+      collection do
+        get :export
+      end
       member do
         patch :contact
         patch :qualify
         patch :disqualify
         patch :archive
+        patch :recalculate_score
       end
-      collection do
-        get :export
+    end
+
+    # User management - only accessible by super admin
+    resources :users do
+      member do
+        patch :make_admin
+        patch :remove_admin
+        patch :make_super_admin
       end
     end
   end
@@ -96,4 +110,7 @@ Rails.application.routes.draw do
 
   # Redirect /blog to blog posts index
   get 'blog', to: redirect('/blog/posts')
+
+  # Redirect common incorrect blog routes
+  get 'blog/author', to: redirect('/blog/authors')
 end

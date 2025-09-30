@@ -1,7 +1,6 @@
 module Admin
-  class DashboardController < ApplicationController
-    before_action :authenticate_admin!
-    before_action :require_admin
+  class DashboardController < BaseController
+    # Authentication is handled by BaseController
 
     def index
       # Key Performance Indicators
@@ -13,11 +12,11 @@ module Admin
           high_priority: Lead.high_priority.count,
           conversion_rate: calculate_conversion_rate
         },
-        projects: {
-          total: Project.count,
-          published: Project.published.count,
-          featured: Project.featured.count,
-          recent: Project.where(created_at: 1.month.ago..Time.current).count
+        users: {
+          total: User.count,
+          admins: User.admin.count,
+          regular: User.where(admin: false).count,
+          recent: User.where(created_at: 1.month.ago..Time.current).count
         },
         blog: {
           total: BlogPost.count,
@@ -29,15 +28,10 @@ module Admin
       }
 
       # Recent leads requiring attention
-      @recent_leads = Lead.includes(:lead_status)
-                         .order(created_at: :desc)
-                         .limit(10)
+      @recent_leads = Lead.order(created_at: :desc).limit(10)
 
       # High priority leads
-      @priority_leads = Lead.high_priority
-                           .includes(:lead_status)
-                           .order(created_at: :desc)
-                           .limit(5)
+      @priority_leads = Lead.high_priority.order(created_at: :desc).limit(5)
 
       # Performance metrics
       @performance_data = {
@@ -76,14 +70,14 @@ module Admin
         }
       end
 
-      # Recent projects
-      Project.limit(3).order(created_at: :desc).each do |project|
+      # Recent user registrations
+      User.limit(3).order(created_at: :desc).each do |user|
         activities << {
-          type: 'project',
-          message: "Project updated: #{project.title}",
-          time: project.updated_at,
+          type: 'user',
+          message: "New user registered: #{user.name}",
+          time: user.created_at,
           priority: 'medium',
-          link: project_path(project)
+          link: '#'
         }
       end
 
@@ -102,14 +96,17 @@ module Admin
     end
 
     def weekly_lead_trends
-      (6.weeks.ago.to_date..Date.current).group_by_week.map do |week_start, _|
+      trends = []
+      6.times do |i|
+        week_start = (6 - i).weeks.ago.beginning_of_week
         week_end = week_start.end_of_week
-        {
+        trends << {
           week: week_start.strftime('%b %d'),
           leads: Lead.where(created_at: week_start..week_end).count,
           qualified: Lead.qualified.where(created_at: week_start..week_end).count
         }
       end
+      trends
     end
 
     def conversion_funnel_data

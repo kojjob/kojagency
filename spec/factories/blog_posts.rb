@@ -5,7 +5,7 @@ FactoryBot.define do
 
     sequence(:title) { |n| "Blog Post #{n}" }
     sequence(:slug) { |n| "blog-post-#{n}" }
-    content { "This is a comprehensive blog post with lots of content. " * 50 } # ~250 words
+    rich_content { "This is a comprehensive blog post with lots of content. " * 50 } # ~250 words
     excerpt { "This is an excerpt of the blog post." }
     status { "draft" }
     published_at { nil }

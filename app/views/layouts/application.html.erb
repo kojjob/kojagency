@@ -45,13 +45,16 @@
     <link rel="icon" href="/icon.svg" type="image/svg+xml">
     <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 
-    <!-- External Resources -->
+    <!-- External Resources with Performance Optimization -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" as="style">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+    <noscript><link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet"></noscript>
 
-    <!-- AOS Animation Library -->
-    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <!-- AOS Animation Library - Lazy Loaded -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" media="print" onload="this.media='all'">
+    <noscript><link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet"></noscript>
 
     <%# Enable PWA manifest for installable apps %>
     <%#= tag.link rel: "manifest", href: pwa_manifest_path(format: :json) %>
@@ -64,28 +67,44 @@
     <%# Includes all stylesheet files in app/assets/stylesheets %>
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
     <%= stylesheet_link_tag "tailwind", "data-turbo-track": "reload" %>
+    <%= stylesheet_link_tag "animations", "data-turbo-track": "reload" %>
+    <%= stylesheet_link_tag "lexxy" %>
     <%= javascript_importmap_tags %>
   </head>
 
-  <body class="<%= content_for(:body_class) %> min-h-screen flex flex-col">
+  <body class="<%= content_for(:body_class) %> min-h-screen flex flex-col bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 transition-colors duration-200">
+    <!-- Skip Navigation -->
+    <a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 bg-indigo-600 text-white px-4 py-2 rounded-md z-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+      Skip to main content
+    </a>
+
     <!-- Navigation -->
     <%= render "shared/navbar" %>
 
     <!-- Main Content -->
-    <main class="flex-grow pt-16 lg:pt-20">
+    <main id="main-content" class="flex-grow pt-16 lg:pt-20" role="main">
       <%= yield %>
     </main>
 
     <!-- Footer -->
     <%= render "shared/footer" %>
 
-    <!-- AOS Animation Library -->
-    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <!-- Lazy Load AOS Animation Library -->
     <script>
-      AOS.init({
-        duration: 800,
-        once: true,
-        offset: 100
+      // Lazy load AOS library after page load
+      window.addEventListener('load', function() {
+        const script = document.createElement('script');
+        script.src = 'https://unpkg.com/aos@2.3.1/dist/aos.js';
+        script.async = true;
+        script.onload = function() {
+          AOS.init({
+            duration: 800,
+            once: true,
+            offset: 100,
+            disable: window.innerWidth < 768 // Disable on mobile for better performance
+          });
+        };
+        document.body.appendChild(script);
       });
     </script>
 
