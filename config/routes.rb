@@ -75,6 +75,9 @@ Rails.application.routes.draw do
     end
 
     resources :leads, only: [:index, :show, :edit, :update, :destroy] do
+      collection do
+        get :export
+      end
       member do
         patch :contact
         patch :qualify
