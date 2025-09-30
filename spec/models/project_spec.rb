@@ -1,6 +1,13 @@
 require 'rails_helper'
 
 RSpec.describe Project, type: :model do
+  describe 'associations' do
+    it { should have_many(:project_technologies).dependent(:destroy) }
+    it { should have_many(:technologies).through(:project_technologies) }
+    it { should have_many(:project_services).dependent(:destroy) }
+    it { should have_many(:services).through(:project_services) }
+  end
+
   describe 'validations' do
     subject { build(:project) }
 

@@ -2,6 +2,13 @@ class Project < ApplicationRecord
   extend FriendlyId
   friendly_id :title, use: [:slugged, :history]
 
+  # Associations
+  has_many :project_technologies, dependent: :destroy
+  has_many :technologies, through: :project_technologies
+
+  has_many :project_services, dependent: :destroy
+  has_many :services, through: :project_services
+
   # Enums
   enum :status, {
     draft: 0,

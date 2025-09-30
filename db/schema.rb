@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2025_09_30_035327) do
+ActiveRecord::Schema[8.1].define(version: 2025_09_30_035804) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -236,6 +236,26 @@ ActiveRecord::Schema[8.1].define(version: 2025_09_30_035327) do
     t.index ["timeline"], name: "index_leads_on_timeline"
   end
 
+  create_table "project_services", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.bigint "project_id", null: false
+    t.bigint "service_id", null: false
+    t.datetime "updated_at", null: false
+    t.index ["project_id", "service_id"], name: "index_project_services_on_project_and_service", unique: true
+    t.index ["project_id"], name: "index_project_services_on_project_id"
+    t.index ["service_id"], name: "index_project_services_on_service_id"
+  end
+
+  create_table "project_technologies", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.bigint "project_id", null: false
+    t.bigint "technology_id", null: false
+    t.datetime "updated_at", null: false
+    t.index ["project_id", "technology_id"], name: "index_project_technologies_on_project_and_technology", unique: true
+    t.index ["project_id"], name: "index_project_technologies_on_project_id"
+    t.index ["technology_id"], name: "index_project_technologies_on_technology_id"
+  end
+
   create_table "projects", force: :cascade do |t|
     t.string "client_name", null: false
     t.date "completion_date"
@@ -254,6 +274,28 @@ ActiveRecord::Schema[8.1].define(version: 2025_09_30_035327) do
     t.index ["featured"], name: "index_projects_on_featured"
     t.index ["slug"], name: "index_projects_on_slug", unique: true
     t.index ["status"], name: "index_projects_on_status"
+  end
+
+  create_table "services", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.text "description", null: false
+    t.text "features"
+    t.string "icon_class"
+    t.string "name", null: false
+    t.string "slug", null: false
+    t.datetime "updated_at", null: false
+    t.index ["slug"], name: "index_services_on_slug", unique: true
+  end
+
+  create_table "technologies", force: :cascade do |t|
+    t.string "category", null: false
+    t.datetime "created_at", null: false
+    t.text "description"
+    t.string "icon_class"
+    t.string "name", null: false
+    t.datetime "updated_at", null: false
+    t.index ["category"], name: "index_technologies_on_category"
+    t.index ["name"], name: "index_technologies_on_name", unique: true
   end
 
   create_table "users", force: :cascade do |t|
@@ -285,4 +327,8 @@ ActiveRecord::Schema[8.1].define(version: 2025_09_30_035327) do
   add_foreign_key "blog_posts", "blog_categories", column: "category_id"
   add_foreign_key "blog_related_posts", "blog_posts"
   add_foreign_key "blog_related_posts", "blog_posts", column: "related_post_id"
+  add_foreign_key "project_services", "projects"
+  add_foreign_key "project_services", "services"
+  add_foreign_key "project_technologies", "projects"
+  add_foreign_key "project_technologies", "technologies"
 end
