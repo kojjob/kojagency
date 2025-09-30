@@ -99,6 +99,18 @@ Rails.application.routes.draw do
       end
     end
 
+    # CRM Sync monitoring
+    resources :crm_syncs, only: [:index, :show] do
+      collection do
+        get :dashboard
+        post :retry_failed
+        post :sync_all_pending
+      end
+      member do
+        post :retry
+      end
+    end
+
     # User management - only accessible by super admin
     resources :users do
       member do

@@ -2,6 +2,8 @@ class Lead < ApplicationRecord
   # Associations
   has_many :analytics, dependent: :destroy
   has_many :conversion_events, dependent: :destroy
+  has_many :email_sequences, dependent: :destroy
+  has_many :crm_syncs, dependent: :destroy
 
   # Enums for status management
   enum :lead_status, {

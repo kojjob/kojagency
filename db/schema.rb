@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2025_09_30_041334) do
+ActiveRecord::Schema[8.1].define(version: 2025_09_30_042058) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -217,6 +217,39 @@ ActiveRecord::Schema[8.1].define(version: 2025_09_30_041334) do
     t.index ["lead_id"], name: "index_conversion_events_on_lead_id"
   end
 
+  create_table "crm_syncs", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.string "crm_id"
+    t.string "crm_system", null: false
+    t.datetime "last_synced_at"
+    t.bigint "lead_id", null: false
+    t.jsonb "metadata", default: {}
+    t.text "sync_error"
+    t.string "sync_status", default: "pending", null: false
+    t.datetime "updated_at", null: false
+    t.index ["crm_id"], name: "index_crm_syncs_on_crm_id"
+    t.index ["last_synced_at"], name: "index_crm_syncs_on_last_synced_at"
+    t.index ["lead_id", "crm_system"], name: "index_crm_syncs_on_lead_id_and_crm_system", unique: true
+    t.index ["lead_id"], name: "index_crm_syncs_on_lead_id"
+    t.index ["sync_status"], name: "index_crm_syncs_on_sync_status"
+  end
+
+  create_table "email_sequences", force: :cascade do |t|
+    t.datetime "completed_at"
+    t.datetime "created_at", null: false
+    t.integer "current_step", default: 0, null: false
+    t.bigint "lead_id", null: false
+    t.jsonb "metadata", default: {}
+    t.string "sequence_name", null: false
+    t.datetime "started_at"
+    t.string "status", default: "active", null: false
+    t.datetime "updated_at", null: false
+    t.index ["lead_id", "sequence_name"], name: "index_email_sequences_on_lead_id_and_sequence_name", unique: true
+    t.index ["lead_id"], name: "index_email_sequences_on_lead_id"
+    t.index ["started_at"], name: "index_email_sequences_on_started_at"
+    t.index ["status"], name: "index_email_sequences_on_status"
+  end
+
   create_table "friendly_id_slugs", force: :cascade do |t|
     t.datetime "created_at"
     t.string "scope"
@@ -358,6 +391,8 @@ ActiveRecord::Schema[8.1].define(version: 2025_09_30_041334) do
   add_foreign_key "blog_related_posts", "blog_posts"
   add_foreign_key "blog_related_posts", "blog_posts", column: "related_post_id"
   add_foreign_key "conversion_events", "leads"
+  add_foreign_key "crm_syncs", "leads"
+  add_foreign_key "email_sequences", "leads"
   add_foreign_key "project_services", "projects"
   add_foreign_key "project_services", "services"
   add_foreign_key "project_technologies", "projects"
