@@ -245,6 +245,32 @@
 
           <%# Drop Cap for First Letter %>
           <style>
+            /* Prevent content overflow */
+            #article-content * {
+              max-width: 100%;
+              word-wrap: break-word;
+              overflow-wrap: break-word;
+            }
+
+            #article-content pre {
+              overflow-x: auto;
+              white-space: pre-wrap;
+              word-break: break-all;
+            }
+
+            #article-content table {
+              display: block;
+              overflow-x: auto;
+              width: 100%;
+            }
+
+            #article-content img,
+            #article-content video,
+            #article-content iframe {
+              max-width: 100%;
+              height: auto;
+            }
+
             @media (min-width: 640px) {
               .prose > p:first-of-type::first-letter {
                 float: left;
