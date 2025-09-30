@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2025_09_27_034644) do
+ActiveRecord::Schema[8.1].define(version: 2025_09_30_035327) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -234,6 +234,26 @@ ActiveRecord::Schema[8.1].define(version: 2025_09_27_034644) do
     t.index ["score"], name: "index_leads_on_score"
     t.index ["source"], name: "index_leads_on_source"
     t.index ["timeline"], name: "index_leads_on_timeline"
+  end
+
+  create_table "projects", force: :cascade do |t|
+    t.string "client_name", null: false
+    t.date "completion_date"
+    t.datetime "created_at", null: false
+    t.text "description", null: false
+    t.integer "duration_months"
+    t.boolean "featured", default: false, null: false
+    t.string "github_url"
+    t.string "project_url"
+    t.string "slug", null: false
+    t.integer "status", default: 0, null: false
+    t.integer "team_size"
+    t.string "title", null: false
+    t.datetime "updated_at", null: false
+    t.index ["completion_date"], name: "index_projects_on_completion_date"
+    t.index ["featured"], name: "index_projects_on_featured"
+    t.index ["slug"], name: "index_projects_on_slug", unique: true
+    t.index ["status"], name: "index_projects_on_status"
   end
 
   create_table "users", force: :cascade do |t|
