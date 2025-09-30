@@ -170,8 +170,8 @@ class Lead < ApplicationRecord
   end
 
   def send_new_lead_notification
-    # Send notification to admin team
-    # LeadNotificationJob.perform_later(self.id)
+    # Send notification to admin team asynchronously
+    LeadNotificationMailer.new_lead_notification(self).deliver_later
   end
 
   def update_contacted_status

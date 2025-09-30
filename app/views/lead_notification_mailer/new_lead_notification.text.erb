@@ -1,0 +1,35 @@
+NEW <%= @lead.priority_level.upcase %> PRIORITY LEAD
+========================================
+
+Lead Score: <%= @lead.score.round %> / 100
+Response Target: <%= @lead.response_time_target %>
+
+CONTACT INFORMATION
+-------------------
+Name: <%= @lead.full_name %>
+Email: <%= @lead.email %>
+<% if @lead.phone.present? %>Phone: <%= @lead.phone %><% end %>
+<% if @lead.company.present? %>Company: <%= @lead.company %><% end %>
+<% if @lead.website.present? %>Website: <%= @lead.website %><% end %>
+
+PROJECT DETAILS
+---------------
+Project Type: <%= @lead.project_type_display %>
+Budget Range: <%= @lead.budget_range_display %>
+Timeline: <%= @lead.timeline_display %>
+Preferred Contact: <%= @lead.preferred_contact_method.humanize %>
+
+Project Description:
+<%= @lead.project_description %>
+
+SCORING BREAKDOWN
+-----------------
+Budget Score: <%= @lead.budget_score.round(1) %> / 100 (35% weight)
+Timeline Score: <%= @lead.timeline_score.round(1) %> / 100 (25% weight)
+Complexity Score: <%= @lead.complexity_score.round(1) %> / 100 (20% weight)
+Quality Score: <%= @lead.quality_score.round(1) %> / 100 (20% weight)
+
+View full lead details: <%= @admin_lead_url %>
+
+Lead submitted on <%= @lead.created_at.strftime("%B %d, %Y at %I:%M %p %Z") %>
+Source: <%= @lead.source.humanize %>

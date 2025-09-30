@@ -1,4 +1,9 @@
-<%= form_with model: (lead || Lead.new), url: leads_path, local: true, class: "space-y-6" do |form| %>
+<%= form_with model: (lead || Lead.new), url: leads_path, local: true,
+    class: "space-y-6",
+    data: {
+      controller: "lead-form",
+      action: "submit->lead-form#submit"
+    } do |form| %>
   <% if lead&.errors&.any? %>
     <div class="bg-red-50 border border-red-200 rounded-lg p-4 mb-6">
       <div class="flex">
@@ -25,14 +30,16 @@
       <%= form.text_field :first_name,
           class: "w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors",
           required: true,
-          placeholder: "John" %>
+          placeholder: "John",
+          data: { lead_form_target: "firstName" } %>
     </div>
     <div>
       <label class="block text-sm font-medium text-gray-700 mb-2">Last Name *</label>
       <%= form.text_field :last_name,
           class: "w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors",
           required: true,
-          placeholder: "Doe" %>
+          placeholder: "Doe",
+          data: { lead_form_target: "lastName" } %>
     </div>
   </div>
 
@@ -42,13 +49,15 @@
       <%= form.email_field :email,
           class: "w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors",
           required: true,
-          placeholder: "john@company.com" %>
+          placeholder: "john@company.com",
+          data: { lead_form_target: "email" } %>
     </div>
     <div>
       <label class="block text-sm font-medium text-gray-700 mb-2">Phone</label>
       <%= form.telephone_field :phone,
           class: "w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors",
-          placeholder: "+1 (555) 123-4567" %>
+          placeholder: "+1 (555) 123-4567",
+          data: { lead_form_target: "phone" } %>
     </div>
   </div>
 
@@ -80,7 +89,9 @@
           ["Other", "other"]
         ], lead&.project_type),
         {},
-        { class: "w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors", required: true } %>
+        { class: "w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors",
+          required: true,
+          data: { lead_form_target: "projectType" } } %>
   </div>
 
   <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -97,7 +108,9 @@
             ["$250,000+", "250k_plus"]
           ], lead&.budget),
           {},
-          { class: "w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors", required: true } %>
+          { class: "w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors",
+            required: true,
+            data: { lead_form_target: "budget" } } %>
     </div>
     <div>
       <label class="block text-sm font-medium text-gray-700 mb-2">Timeline *</label>
@@ -112,7 +125,9 @@
             ["Flexible", "flexible"]
           ], lead&.timeline),
           {},
-          { class: "w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors", required: true } %>
+          { class: "w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors",
+            required: true,
+            data: { lead_form_target: "timeline" } } %>
     </div>
   </div>
 
@@ -122,8 +137,9 @@
         class: "w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors",
         rows: 5,
         required: true,
-        placeholder: "Please describe your project requirements, goals, and any specific technical details. The more information you provide, the better we can help you." %>
-    <p class="mt-1 text-sm text-gray-500">Minimum 20 characters required</p>
+        placeholder: "Please describe your project requirements, goals, and any specific technical details. The more information you provide, the better we can help you.",
+        data: { lead_form_target: "projectDescription" } %>
+    <p class="mt-1 text-sm text-gray-500" data-lead-form-target="charCount">Minimum 20 characters required</p>
   </div>
 
   <div>
@@ -140,8 +156,14 @@
 
   <%= form.hidden_field :source, value: "website" %>
 
+  <!-- Honeypot field for spam prevention -->
+  <div style="position: absolute; left: -9999px;" aria-hidden="true">
+    <%= text_field_tag :website_url, nil, tabindex: -1, autocomplete: "off" %>
+  </div>
+
   <div>
     <%= form.submit "Get Started",
-        class: "w-full px-8 py-4 bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-semibold rounded-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-300 cursor-pointer" %>
+        class: "w-full px-8 py-4 bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-semibold rounded-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-300 cursor-pointer",
+        data: { lead_form_target: "submitButton" } %>
   </div>
 <% end %>
