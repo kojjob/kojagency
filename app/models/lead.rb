@@ -1,4 +1,8 @@
 class Lead < ApplicationRecord
+  # Associations
+  has_many :analytics, dependent: :destroy
+  has_many :conversion_events, dependent: :destroy
+
   # Enums for status management
   enum :lead_status, {
     pending: 0,

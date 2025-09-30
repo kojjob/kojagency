@@ -53,6 +53,7 @@ Rails.application.routes.draw do
 
   # Admin routes
   namespace :admin do
+    resources :projects
     root "dashboard#index"
 
     resources :blog_posts do

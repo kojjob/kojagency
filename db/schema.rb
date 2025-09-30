@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2025_09_30_035804) do
+ActiveRecord::Schema[8.1].define(version: 2025_09_30_041334) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -50,6 +50,22 @@ ActiveRecord::Schema[8.1].define(version: 2025_09_30_035804) do
     t.bigint "blob_id", null: false
     t.string "variation_digest", null: false
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
+  end
+
+  create_table "analytics", force: :cascade do |t|
+    t.string "campaign"
+    t.datetime "created_at", null: false
+    t.string "event_type", null: false
+    t.bigint "lead_id", null: false
+    t.string "medium"
+    t.jsonb "metadata", default: {}
+    t.string "source"
+    t.datetime "updated_at", null: false
+    t.index ["created_at"], name: "index_analytics_on_created_at"
+    t.index ["event_type"], name: "index_analytics_on_event_type"
+    t.index ["lead_id", "event_type"], name: "index_analytics_on_lead_id_and_event_type"
+    t.index ["lead_id"], name: "index_analytics_on_lead_id"
+    t.index ["source"], name: "index_analytics_on_source"
   end
 
   create_table "blog_authors", force: :cascade do |t|
@@ -188,6 +204,19 @@ ActiveRecord::Schema[8.1].define(version: 2025_09_30_035804) do
     t.index ["slug"], name: "index_blog_tags_on_slug", unique: true
   end
 
+  create_table "conversion_events", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.string "event_name", null: false
+    t.bigint "lead_id", null: false
+    t.integer "time_to_convert"
+    t.datetime "updated_at", null: false
+    t.decimal "value", precision: 10, scale: 2
+    t.index ["created_at"], name: "index_conversion_events_on_created_at"
+    t.index ["event_name"], name: "index_conversion_events_on_event_name"
+    t.index ["lead_id", "event_name"], name: "index_conversion_events_on_lead_id_and_event_name"
+    t.index ["lead_id"], name: "index_conversion_events_on_lead_id"
+  end
+
   create_table "friendly_id_slugs", force: :cascade do |t|
     t.datetime "created_at"
     t.string "scope"
@@ -317,6 +346,7 @@ ActiveRecord::Schema[8.1].define(version: 2025_09_30_035804) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "analytics", "leads"
   add_foreign_key "blog_categories", "blog_categories", column: "parent_id"
   add_foreign_key "blog_comments", "blog_comments", column: "parent_id"
   add_foreign_key "blog_comments", "blog_posts"
@@ -327,6 +357,7 @@ ActiveRecord::Schema[8.1].define(version: 2025_09_30_035804) do
   add_foreign_key "blog_posts", "blog_categories", column: "category_id"
   add_foreign_key "blog_related_posts", "blog_posts"
   add_foreign_key "blog_related_posts", "blog_posts", column: "related_post_id"
+  add_foreign_key "conversion_events", "leads"
   add_foreign_key "project_services", "projects"
   add_foreign_key "project_services", "services"
   add_foreign_key "project_technologies", "projects"
