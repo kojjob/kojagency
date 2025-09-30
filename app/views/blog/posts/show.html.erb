@@ -284,7 +284,7 @@
 
           <%# Rich Text Content %>
           <% if @post.content.present? %>
-            <%= @post.content %>
+            <%= @post.content.to_s.html_safe %>
           <% else %>
             <%= simple_format(@post.excerpt || "No content available") %>
           <% end %>
