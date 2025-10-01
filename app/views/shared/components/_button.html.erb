@@ -1,0 +1,52 @@
+<%#
+  Reusable Button Component
+  Usage: <%= render "shared/components/button",
+             text: "Click Me",
+             url: some_path,
+             variant: :primary,
+             size: :base,
+             icon: true,
+             full_width: false,
+             method: :get,
+             data: {} %>
+%>
+
+<%
+  variant ||= :primary
+  size ||= :base
+  full_width ||= false
+  method ||= :get
+  icon ||= false
+  data ||= {}
+  classes ||= ""
+
+  button_class = button_classes(variant: variant, size: size, full_width: full_width) + " " + classes
+%>
+
+<% if defined?(url) && url.present? %>
+  <%= link_to url, method: method, class: button_class, data: data do %>
+    <% if defined?(icon) && icon %>
+      <span class="flex items-center">
+        <%= text %>
+        <svg class="ml-2 w-5 h-5 transform group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path>
+        </svg>
+      </span>
+    <% else %>
+      <%= text %>
+    <% end %>
+  <% end %>
+<% else %>
+  <button type="<%= defined?(type) ? type : 'button' %>" class="<%= button_class %>" <%= "data-#{data.keys.first}=\"#{data.values.first}\"" if data.any? %>>
+    <% if defined?(icon) && icon %>
+      <span class="flex items-center">
+        <%= text %>
+        <svg class="ml-2 w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path>
+        </svg>
+      </span>
+    <% else %>
+      <%= text %>
+    <% end %>
+  </button>
+<% end %>

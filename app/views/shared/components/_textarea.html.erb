@@ -1,0 +1,40 @@
+<%#
+  Reusable Form Textarea Component
+  Usage: <%= render "shared/components/textarea",
+             form: f,
+             field: :description,
+             label: "Description",
+             required: true,
+             placeholder: "Tell us about your project...",
+             rows: 5,
+             error: false %>
+%>
+
+<%
+  required ||= false
+  placeholder ||= ""
+  rows ||= 5
+  error ||= false
+  classes ||= ""
+
+  label_class = label_classes
+  textarea_class = input_classes(error: error) + " " + classes
+%>
+
+<div class="mb-6">
+  <% if defined?(label) && label.present? %>
+    <%= form.label field, label, class: label_class %>
+  <% end %>
+
+  <%= form.text_area field,
+      rows: rows,
+      required: required,
+      placeholder: placeholder,
+      class: textarea_class %>
+
+  <% if error && defined?(error_message) && error_message.present? %>
+    <p class="mt-2 text-sm text-red-600 dark:text-red-400">
+      <%= error_message %>
+    </p>
+  <% end %>
+</div>

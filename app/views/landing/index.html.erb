@@ -48,30 +48,21 @@
         measurable results for forward-thinking businesses.
       </p>
 
-      <!-- Enhanced CTA Buttons with 3D effect -->
+      <!-- Enhanced CTA Buttons using Design System -->
       <div class="flex flex-col sm:flex-row gap-4 justify-center items-center pt-4" data-framer-target="scale" data-delay="300">
-        <%= link_to contact_path, class: "group relative inline-flex items-center justify-center px-10 py-5 bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 text-white font-bold rounded-2xl overflow-hidden transition-all duration-300 hover:shadow-2xl hover:shadow-purple-500/50 transform hover:-translate-y-2 hover:scale-105 animate-shimmer bg-size-200" do %>
-          <span class="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></span>
-          <span class="relative z-10 flex items-center">
-            <svg class="mr-2 w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
-            </svg>
-            Start Your Project
-          </span>
-          <svg class="ml-2 w-5 h-5 transform group-hover:translate-x-2 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path>
-          </svg>
-        <% end %>
-        <%= link_to projects_path, class: "group inline-flex items-center justify-center px-10 py-5 bg-white text-gray-900 font-bold rounded-2xl border-2 border-gray-200 hover:border-indigo-600 hover:text-indigo-600 transition-all duration-300 shadow-lg hover:shadow-2xl transform hover:-translate-y-2 hover:scale-105" do %>
-          <svg class="mr-2 w-6 h-6 transform group-hover:rotate-12 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
-          </svg>
-          View Our Work
-          <svg class="ml-2 w-5 h-5 transform group-hover:translate-x-2 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
-          </svg>
-        <% end %>
+        <%= render "shared/components/button",
+            text: "Start Your Project",
+            url: contact_path,
+            variant: :primary,
+            size: :xl,
+            icon: true %>
+
+        <%= render "shared/components/button",
+            text: "View Our Work",
+            url: projects_path,
+            variant: :secondary,
+            size: :xl,
+            icon: true %>
       </div>
 
       <!-- Trust Indicators with brand logos -->
@@ -117,51 +108,43 @@
   </div>
 
   <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    <!-- Section Header -->
-    <div class="text-center mb-16">
-      <h2 class="text-4xl lg:text-5xl font-bold text-gray-900 mb-4">
-        Our <span class="bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">Impact</span> in Numbers
-      </h2>
-      <p class="text-xl text-gray-600 max-w-2xl mx-auto">
-        Delivering measurable results that drive business growth
-      </p>
-    </div>
+    <!-- Section Header using Design System -->
+    <%= render "shared/components/section_header",
+        title: "Our <span>Impact</span> in Numbers",
+        subtitle: "Delivering measurable results that drive business growth",
+        gradient: :primary %>
 
     <!-- Stats Grid -->
     <div class="grid grid-cols-2 lg:grid-cols-4 gap-8">
       <% @stats.each_with_index do |stat, index| %>
-        <div class="relative group">
-          <!-- Card Background with Gradient Border -->
-          <div class="absolute inset-0 bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-sm"></div>
-          <div class="relative bg-white rounded-3xl p-8 shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2">
-            <!-- Icon Container -->
-            <div class="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-2xl mb-6 group-hover:scale-110 group-hover:rotate-3 transition-all duration-500 shadow-lg">
-              <svg class="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <% case index %>
-                <% when 0 %>
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                <% when 1 %>
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
-                <% when 2 %>
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
-                <% else %>
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 10h4.764a2 2 0 011.789 2.894l-3.5 7A2 2 0 0115.263 21h-4.017c-.163 0-.326-.02-.485-.06L7 20m7-10V5a2 2 0 00-2-2h-.095c-.5 0-.905.405-.905.905 0 .714-.211 1.412-.608 2.006L7 11v9m7-10h-2M7 20H5a2 2 0 01-2-2v-6a2 2 0 012-2h2.5"></path>
-                <% end %>
-              </svg>
-            </div>
+        <%= render "shared/components/card", variant: :gradient_border, hover: true do %>
+          <!-- Icon Container using Design System -->
+          <%= render "shared/components/icon_container", gradient: :primary, size: :lg do %>
+            <svg class="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <% case index %>
+              <% when 0 %>
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+              <% when 1 %>
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
+              <% when 2 %>
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+              <% else %>
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 10h4.764a2 2 0 011.789 2.894l-3.5 7A2 2 0 0115.263 21h-4.017c-.163 0-.326-.02-.485-.06L7 20m7-10V5a2 2 0 00-2-2h-.095c-.5 0-.905.405-.905.905 0 .714-.211 1.412-.608 2.006L7 11v9m7-10h-2M7 20H5a2 2 0 01-2-2v-6a2 2 0 012-2h2.5"></path>
+              <% end %>
+            </svg>
+          <% end %>
 
-            <!-- Static Value Display (will add counter animation later) -->
-            <div class="text-5xl lg:text-6xl font-black text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 mb-3">
-              <%= stat[:value] %>
-            </div>
-
-            <!-- Label -->
-            <div class="text-gray-700 font-semibold text-lg"><%= stat[:label] %></div>
-
-            <!-- Decorative Element -->
-            <div class="absolute top-4 right-4 w-20 h-20 bg-gradient-to-br from-indigo-100 to-purple-100 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-500 -z-10"></div>
+          <!-- Static Value Display (will add counter animation later) -->
+          <div class="text-5xl lg:text-6xl font-black text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 mb-3">
+            <%= stat[:value] %>
           </div>
-        </div>
+
+          <!-- Label -->
+          <div class="text-gray-700 font-semibold text-lg"><%= stat[:label] %></div>
+
+          <!-- Decorative Element -->
+          <div class="absolute top-4 right-4 w-20 h-20 bg-gradient-to-br from-indigo-100 to-purple-100 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-500 -z-10"></div>
+        <% end %>
       <% end %>
     </div>
   </div>
@@ -176,99 +159,80 @@
   </div>
 
   <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    <!-- Section Header -->
-    <div class="text-center mb-20">
-      <span class="inline-block px-4 py-2 bg-indigo-100 text-indigo-600 rounded-full text-sm font-semibold mb-4">
-        🚀 What We Do
-      </span>
-      <h2 class="text-4xl lg:text-6xl font-black text-gray-900 mb-6">
-        Services That <br>
-        <span class="bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 bg-clip-text text-transparent">Drive Results</span>
-      </h2>
-      <p class="max-w-3xl mx-auto text-xl text-gray-600 leading-relaxed">
-        From concept to deployment, we deliver end-to-end solutions tailored to your unique business needs with cutting-edge technology and proven methodologies.
-      </p>
-    </div>
+    <!-- Section Header using Design System -->
+    <%= render "shared/components/section_header",
+        title: "Services That <span>Drive Results</span>",
+        subtitle: "From concept to deployment, we deliver end-to-end solutions tailored to your unique business needs with cutting-edge technology and proven methodologies.",
+        badge: "🚀 What We Do",
+        gradient: :primary %>
 
     <!-- Services Grid -->
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
       <% @services.each_with_index do |service, index| %>
-        <div class="group relative card-3d">
-          <!-- Hover Glow Effect -->
-          <div class="absolute -inset-2 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 rounded-3xl opacity-0 group-hover:opacity-20 blur-xl transition-all duration-500"></div>
-
-          <!-- Card Container -->
-          <div class="relative h-full bg-white rounded-3xl p-8 shadow-xl hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-3 overflow-hidden">
-            <!-- Gradient Border on Hover -->
-            <div class="absolute inset-0 bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-            <div class="absolute inset-[2px] bg-white rounded-3xl"></div>
-
-            <div class="relative z-10">
-              <!-- Animated Icon Container -->
-              <div class="relative mb-8">
-                <div class="w-20 h-20 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-2xl flex items-center justify-center group-hover:scale-110 group-hover:rotate-6 transition-all duration-500 shadow-lg">
-                  <svg class="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <% if service[:icon] == "web" %>
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"></path>
-                    <% elsif service[:icon] == "mobile" %>
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"></path>
-                    <% elsif service[:icon] == "data" %>
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4m0 5c0 2.21-3.582 4-8 4s-8-1.79-8-4"></path>
-                    <% else %>
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
-                    <% end %>
-                  </svg>
-                </div>
-                <!-- Decorative circle -->
-                <div class="absolute -top-2 -right-2 w-6 h-6 bg-gradient-to-br from-pink-400 to-purple-400 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-              </div>
-
-              <!-- Title -->
-              <h3 class="text-2xl font-bold text-gray-900 mb-4 group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-indigo-600 group-hover:to-purple-600 transition-all duration-300">
-                <%= service[:title] %>
-              </h3>
-
-              <!-- Description -->
-              <p class="text-gray-600 mb-6 leading-relaxed">
-                <%= service[:description] %>
-              </p>
-
-              <!-- Features with animated icons -->
-              <ul class="space-y-3 mb-8">
-                <% service[:features].each_with_index do |feature, f_index| %>
-                  <li class="flex items-start text-sm text-gray-700 group/item" style="animation-delay: <%= (index * 100) + (f_index * 50) %>ms">
-                    <svg class="w-5 h-5 text-indigo-500 mr-3 mt-0.5 flex-shrink-0 group-hover/item:scale-110 transition-transform" fill="currentColor" viewBox="0 0 20 20">
-                      <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
-                    </svg>
-                    <span class="flex-1"><%= feature %></span>
-                  </li>
+        <%= render "shared/components/card", variant: :gradient_border, hover: true, padding: :lg do %>
+          <!-- Animated Icon Container using Design System -->
+          <div class="relative mb-8">
+            <%= render "shared/components/icon_container", gradient: :primary, size: :lg do %>
+              <svg class="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <% if service[:icon] == "web" %>
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"></path>
+                <% elsif service[:icon] == "mobile" %>
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"></path>
+                <% elsif service[:icon] == "data" %>
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4m0 5c0 2.21-3.582 4-8 4s-8-1.79-8-4"></path>
+                <% else %>
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
                 <% end %>
-              </ul>
-
-              <!-- CTA Link -->
-              <%= link_to services_path, class: "inline-flex items-center justify-between w-full px-6 py-3 bg-gradient-to-r from-indigo-50 to-purple-50 text-indigo-700 font-bold rounded-xl group-hover:from-indigo-600 group-hover:to-purple-600 group-hover:text-white transition-all duration-300 shadow-sm group-hover:shadow-lg" do %>
-                <span>Learn More</span>
-                <svg class="w-5 h-5 transform group-hover:translate-x-2 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path>
-                </svg>
-              <% end %>
-            </div>
-
-            <!-- Background Pattern -->
-            <div class="absolute bottom-0 right-0 w-32 h-32 bg-gradient-to-br from-indigo-50 to-purple-50 rounded-full -mr-16 -mb-16 opacity-50 group-hover:opacity-100 transition-opacity duration-500"></div>
+              </svg>
+            <% end %>
+            <!-- Decorative circle -->
+            <div class="absolute -top-2 -right-2 w-6 h-6 bg-gradient-to-br from-pink-400 to-purple-400 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
           </div>
-        </div>
+
+          <!-- Title -->
+          <h3 class="text-2xl font-bold text-gray-900 mb-4 group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-indigo-600 group-hover:to-purple-600 transition-all duration-300">
+            <%= service[:title] %>
+          </h3>
+
+          <!-- Description -->
+          <p class="text-gray-600 mb-6 leading-relaxed">
+            <%= service[:description] %>
+          </p>
+
+          <!-- Features with animated icons -->
+          <ul class="space-y-3 mb-8">
+            <% service[:features].each_with_index do |feature, f_index| %>
+              <li class="flex items-start text-sm text-gray-700 group/item" style="animation-delay: <%= (index * 100) + (f_index * 50) %>ms">
+                <svg class="w-5 h-5 text-indigo-500 mr-3 mt-0.5 flex-shrink-0 group-hover/item:scale-110 transition-transform" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                </svg>
+                <span class="flex-1"><%= feature %></span>
+              </li>
+            <% end %>
+          </ul>
+
+          <!-- CTA Link -->
+          <%= link_to services_path, class: "inline-flex items-center justify-between w-full px-6 py-3 bg-gradient-to-r from-indigo-50 to-purple-50 text-indigo-700 font-bold rounded-xl group-hover:from-indigo-600 group-hover:to-purple-600 group-hover:text-white transition-all duration-300 shadow-sm group-hover:shadow-lg" do %>
+            <span>Learn More</span>
+            <svg class="w-5 h-5 transform group-hover:translate-x-2 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path>
+            </svg>
+          <% end %>
+
+          <!-- Background Pattern -->
+          <div class="absolute bottom-0 right-0 w-32 h-32 bg-gradient-to-br from-indigo-50 to-purple-50 rounded-full -mr-16 -mb-16 opacity-50 group-hover:opacity-100 transition-opacity duration-500"></div>
+        <% end %>
       <% end %>
     </div>
 
     <!-- View All Services CTA -->
     <div class="text-center mt-16" data-framer-target="fadeIn" data-delay="400">
-      <%= link_to services_path, class: "inline-flex items-center justify-center px-10 py-5 bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-bold rounded-2xl hover:shadow-2xl hover:shadow-purple-500/50 transform hover:-translate-y-1 hover:scale-105 transition-all duration-300 group" do %>
-        <span>Explore All Services</span>
-        <svg class="ml-3 w-6 h-6 transform group-hover:translate-x-2 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
-        </svg>
-      <% end %>
+      <%= render "shared/components/button",
+          text: "Explore All Services",
+          url: services_path,
+          variant: :primary,
+          size: :xl,
+          icon: true %>
     </div>
   </div>
 </section>
@@ -349,12 +313,12 @@
                 <% end %>
               </div>
 
-              <%= link_to projects_path, class: "inline-flex items-center px-6 py-3 bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-semibold rounded-full hover:shadow-lg transform hover:scale-105 transition-all duration-300 group" do %>
-                View Case Study
-                <svg class="ml-2 w-4 h-4 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
-                </svg>
-              <% end %>
+              <%= render "shared/components/button",
+                  text: "View Case Study",
+                  url: projects_path,
+                  variant: :primary,
+                  size: :base,
+                  icon: true %>
             </div>
           </div>
         </div>
@@ -362,12 +326,12 @@
     </div>
 
     <div class="text-center mt-12">
-      <%= link_to projects_path, class: "inline-flex items-center justify-center px-8 py-4 bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-semibold rounded-full hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300" do %>
-        View All Projects
-        <svg class="ml-2 w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path>
-        </svg>
-      <% end %>
+      <%= render "shared/components/button",
+          text: "View All Projects",
+          url: projects_path,
+          variant: :primary,
+          size: :lg,
+          icon: true %>
     </div>
   </div>
 </section>
@@ -403,17 +367,12 @@
             </div>
           <% end %>
 
-          <!-- Gradient Border on Hover -->
-          <div class="absolute -inset-1 bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 rounded-3xl opacity-0 group-hover:opacity-100 blur transition-opacity duration-500"></div>
-
-          <div class="relative bg-white rounded-3xl p-8 shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 hover:scale-105">
-            <!-- Number with Circle Background -->
-            <div class="relative inline-flex items-center justify-center w-20 h-20 mb-6">
-              <div class="absolute inset-0 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-2xl group-hover:rotate-6 transition-transform duration-500"></div>
-              <div class="relative text-4xl font-black text-white">
+          <%= render "shared/components/card", variant: :gradient_border, hover: true do %>
+            <%= render "shared/components/icon_container", gradient: :primary, size: :lg do %>
+              <div class="text-4xl font-black text-white">
                 <%= step[:number] %>
               </div>
-            </div>
+            <% end %>
 
             <h3 class="text-2xl font-black text-gray-900 mb-4 group-hover:text-indigo-600 transition-colors"><%= step[:title] %></h3>
             <p class="text-gray-600 leading-relaxed"><%= step[:description] %></p>
@@ -426,7 +385,7 @@
                 </svg>
               </div>
             <% end %>
-          </div>
+          <% end %>
         </div>
       <% end %>
     </div>
@@ -460,44 +419,71 @@
           <% @testimonials.each_with_index do |testimonial, index| %>
             <div class="w-full flex-shrink-0 px-4" data-carousel-target="slide">
               <div class="max-w-4xl mx-auto">
-                <!-- Enhanced Testimonial Card -->
-                <div class="relative group">
-                  <!-- Gradient Border -->
-                  <div class="absolute -inset-1 bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 rounded-3xl opacity-20 group-hover:opacity-30 blur-lg transition-opacity duration-500"></div>
-
-                  <div class="relative bg-white rounded-3xl p-10 lg:p-16 shadow-2xl">
+                <!-- Enhanced Testimonial Card with Schema.org markup -->
+                <div itemscope itemtype="https://schema.org/Review">
+                  <%= render "shared/components/card", variant: :gradient_border, hover: true, padding: :lg do %>
                     <!-- Quote Mark -->
                     <div class="absolute top-8 left-8 text-8xl text-indigo-100 font-serif leading-none">"</div>
 
-                    <!-- Rating -->
-                    <div class="flex justify-center mb-8 relative z-10">
-                      <% testimonial[:rating].times do %>
+                    <!-- Rating with schema markup -->
+                    <div itemprop="reviewRating" itemscope itemtype="https://schema.org/Rating" class="flex justify-center mb-8 relative z-10">
+                      <meta itemprop="ratingValue" content="<%= testimonial.rating %>">
+                      <meta itemprop="bestRating" content="5">
+                      <meta itemprop="worstRating" content="1">
+                      <% testimonial.rating.times do %>
                         <svg class="w-7 h-7 text-yellow-400 drop-shadow-md" fill="currentColor" viewBox="0 0 20 20">
                           <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
                         </svg>
                       <% end %>
                     </div>
 
-                    <!-- Quote Content -->
+                    <!-- Quote Content with schema markup -->
                     <blockquote class="text-center relative z-10">
-                      <p class="text-2xl lg:text-3xl text-gray-800 font-medium leading-relaxed mb-10">
-                        <%= testimonial[:content] %>
+                      <p itemprop="reviewBody" class="text-2xl lg:text-3xl text-gray-800 font-medium leading-relaxed mb-10">
+                        <%= testimonial.content %>
                       </p>
                     </blockquote>
 
-                    <!-- Author with Avatar Placeholder -->
-                    <div class="flex flex-col items-center justify-center relative z-10">
-                      <!-- Avatar Circle -->
-                      <div class="w-20 h-20 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-full flex items-center justify-center mb-4 shadow-lg">
-                        <span class="text-2xl font-bold text-white"><%= testimonial[:author].split.map(&:first).join %></span>
-                      </div>
+                    <!-- Author with Avatar and schema markup -->
+                    <div itemprop="author" itemscope itemtype="https://schema.org/Person" class="flex flex-col items-center justify-center relative z-10">
+                      <!-- Avatar Circle or Photo -->
+                      <% if testimonial.has_photo? %>
+                        <img itemprop="image" src="<%= testimonial.client_photo_url %>" alt="<%= testimonial.client_name %>" class="w-20 h-20 rounded-full object-cover mb-4 shadow-lg">
+                      <% else %>
+                        <%= render "shared/components/icon_container", gradient: :primary, size: :lg do %>
+                          <span class="text-2xl font-bold text-white"><%= testimonial.client_name.split.map(&:first).join %></span>
+                        <% end %>
+                      <% end %>
 
                       <div class="text-center">
-                        <div class="text-xl font-bold text-gray-900"><%= testimonial[:author] %></div>
-                        <div class="text-gray-600 font-medium"><%= testimonial[:position] %></div>
+                        <div itemprop="name" class="text-xl font-bold text-gray-900"><%= testimonial.client_name %></div>
+                        <div class="text-gray-600 font-medium">
+                          <% if testimonial.client_position.present? %>
+                            <span itemprop="jobTitle"><%= testimonial.client_position %></span>
+                          <% end %>
+                          <% if testimonial.client_company.present? %>
+                            <span itemprop="worksFor" itemscope itemtype="https://schema.org/Organization">
+                              <% if testimonial.client_position.present? %>, <% end %>
+                              <span itemprop="name"><%= testimonial.client_company %></span>
+                            </span>
+                          <% end %>
+                        </div>
                       </div>
                     </div>
-                  </div>
+
+                    <!-- Hidden schema.org metadata -->
+                    <% if testimonial.testimonial_date.present? %>
+                      <meta itemprop="datePublished" content="<%= testimonial.testimonial_date.iso8601 %>">
+                    <% else %>
+                      <meta itemprop="datePublished" content="<%= testimonial.created_at.iso8601 %>">
+                    <% end %>
+
+                    <!-- Item reviewed - agency service -->
+                    <div itemprop="itemReviewed" itemscope itemtype="https://schema.org/ProfessionalService" style="display:none;">
+                      <meta itemprop="name" content="KojAgency Digital Services">
+                      <meta itemprop="description" content="Professional digital agency providing web development, mobile apps, data engineering, and analytics platforms">
+                    </div>
+                  <% end %>
                 </div>
               </div>
             </div>
@@ -564,24 +550,18 @@
 
     <!-- CTA Buttons -->
     <div class="flex flex-col sm:flex-row gap-6 justify-center items-center">
-      <%= link_to contact_path, class: "group relative inline-flex items-center justify-center px-10 py-5 bg-white text-indigo-600 font-bold rounded-2xl hover:shadow-2xl transform hover:-translate-y-2 transition-all duration-500" do %>
-        <!-- Button Gradient Border Effect -->
-        <div class="absolute -inset-1 bg-gradient-to-r from-yellow-400 via-pink-400 to-purple-400 rounded-2xl opacity-0 group-hover:opacity-100 blur-sm transition-opacity duration-500"></div>
+      <%= render "shared/components/button",
+          text: "Start Your Project",
+          url: contact_path,
+          variant: :secondary,
+          size: :xl,
+          icon: true %>
 
-        <span class="relative flex items-center text-lg">
-          Start Your Project
-          <svg class="ml-3 w-6 h-6 transform group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path>
-          </svg>
-        </span>
-      <% end %>
-
-      <a href="tel:+1234567890" class="group relative inline-flex items-center justify-center px-10 py-5 bg-white/10 backdrop-blur-sm border-2 border-white text-white font-bold rounded-2xl hover:bg-white hover:text-indigo-600 transition-all duration-500 transform hover:-translate-y-2">
-        <svg class="mr-3 w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path>
-        </svg>
-        <span class="text-lg">Schedule a Call</span>
-      </a>
+      <%= render "shared/components/button",
+          text: "Schedule a Call",
+          url: "tel:+1234567890",
+          variant: :outline,
+          size: :xl %>
     </div>
 
     <!-- Trust Signals -->
