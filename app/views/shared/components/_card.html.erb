@@ -1,0 +1,33 @@
+<%#
+  Reusable Card Component
+  Usage: <%= render "shared/components/card",
+             variant: :default,
+             hover: true,
+             padding: :base do %>
+    <!-- Card content here -->
+  <% end %>
+%>
+
+<%
+  variant ||= :default
+  hover = true if !defined?(hover)
+  padding ||= :base
+  classes ||= ""
+
+  card_class = card_classes(variant: variant, hover: hover)
+
+  padding_class = case padding
+  when :sm
+    "p-6"
+  when :lg
+    "p-8 lg:p-12"
+  else
+    "p-6 lg:p-8"
+  end
+
+  full_class = "#{card_class} #{padding_class} #{classes}"
+%>
+
+<div class="<%= full_class %>">
+  <%= yield %>
+</div>

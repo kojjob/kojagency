@@ -9,7 +9,7 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
 
   # For backwards compatibility with existing admin system
-  helper_method :admin_current_user, :admin_signed_in?
+  helper_method :admin_current_user, :admin_signed_in?, :current_blog_author, :blog_author_signed_in?, :super_admin_signed_in?
 
   private
 
@@ -19,7 +19,11 @@ class ApplicationController < ActionController::Base
     if current_user&.admin?
       current_user
     else
-      @admin_current_user ||= User.find(session[:admin_user_id]) if session[:admin_user_id]
+      if session[:admin_user_id]
+        @admin_current_user ||= User.find(session[:admin_user_id])
+        @admin_current_user = nil unless @admin_current_user&.admin?
+        @admin_current_user
+      end
     end
   rescue ActiveRecord::RecordNotFound
     session[:admin_user_id] = nil
@@ -32,13 +36,49 @@ class ApplicationController < ActionController::Base
 
   def authenticate_admin!
     unless admin_signed_in?
-      redirect_to root_path, alert: 'Admin access required'
+      redirect_to root_path, alert: "Admin access required"
     end
   end
 
   def require_admin
     unless admin_current_user&.admin?
-      redirect_to root_path, alert: 'Admin access required'
+      redirect_to root_path, alert: "Admin access required"
+    end
+  end
+
+  def super_admin_signed_in?
+    current_user&.super_admin? || admin_current_user&.super_admin?
+  end
+
+  def require_super_admin
+    unless super_admin_signed_in?
+      redirect_to root_path, alert: "Super Admin access required"
+    end
+  end
+
+  def authorize_admin_access!
+    # Super admins can access everything
+    return true if super_admin_signed_in?
+
+    # Regular admins have normal admin access
+    require_admin
+  end
+
+  # Blog author authentication methods
+  def current_blog_author
+    @current_blog_author ||= BlogAuthor.find(session[:blog_author_id]) if session[:blog_author_id]
+  rescue ActiveRecord::RecordNotFound
+    session[:blog_author_id] = nil
+    nil
+  end
+
+  def blog_author_signed_in?
+    current_blog_author.present?
+  end
+
+  def authenticate_blog_author!
+    unless blog_author_signed_in?
+      redirect_to root_path, alert: "Blog author access required"
     end
   end
 
@@ -46,5 +86,10 @@ class ApplicationController < ActionController::Base
   def admin_sign_in(user)
     session[:admin_user_id] = user.id
     @admin_current_user = user
+  end
+
+  def blog_author_sign_in(author)
+    session[:blog_author_id] = author.id
+    @current_blog_author = author
   end
 end

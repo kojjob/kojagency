@@ -1,0 +1,19 @@
+<%#
+  Reusable Badge Component
+  Usage: <%= render "shared/components/badge",
+             text: "New",
+             color: :indigo,
+             size: :base %>
+%>
+
+<%
+  color ||= :indigo
+  size ||= :base
+  classes ||= ""
+
+  badge_class = badge_classes(color: color, size: size) + " " + classes
+%>
+
+<span class="<%= badge_class %>">
+  <%= text %>
+</span>

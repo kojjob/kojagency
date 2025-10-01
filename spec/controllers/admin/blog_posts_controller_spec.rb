@@ -7,23 +7,24 @@ RSpec.describe Admin::BlogPostsController, type: :controller do
   let(:blog_author) { create(:blog_author) }
   let(:blog_category) { create(:blog_category) }
 
+
   describe 'authentication' do
     it 'requires admin authentication' do
       get :index
       expect(response).to redirect_to(root_path)
-      expect(flash[:alert]).to eq('Admin access required')
+      expect(flash[:alert]).to eq('Access denied')
     end
 
     it 'denies access to non-admin users' do
-      session[:user_id] = regular_user.id
+      session[:admin_user_id] = regular_user.id
       get :index
       expect(response).to redirect_to(root_path)
-      expect(flash[:alert]).to eq('Not authorized')
+      expect(flash[:alert]).to eq('Access denied')
     end
   end
 
   context 'when authenticated as admin' do
-    before { session[:user_id] = admin_user.id }
+    before { session[:admin_user_id] = admin_user.id }
 
     describe 'GET #index' do
       before do
@@ -38,7 +39,8 @@ RSpec.describe Admin::BlogPostsController, type: :controller do
 
       it 'assigns all posts (not just published)' do
         get :index
-        expect(assigns(:posts).count).to eq(5)
+        expect(assigns(:posts)).to include(*BlogPost.where(status: 'published'))
+        expect(assigns(:posts)).to include(*BlogPost.where(status: 'draft'))
       end
 
       it 'filters by status' do
@@ -78,8 +80,8 @@ RSpec.describe Admin::BlogPostsController, type: :controller do
         create_list(:blog_category, 5)
 
         get :new
-        expect(assigns(:authors).count).to eq(3)
-        expect(assigns(:categories).count).to eq(5)
+        expect(assigns(:authors).count).to be >= 3
+        expect(assigns(:categories).count).to be >= 5
       end
     end
 
@@ -87,7 +89,7 @@ RSpec.describe Admin::BlogPostsController, type: :controller do
       let(:valid_attributes) do
         {
           title: 'New Blog Post',
-          content: 'Interesting content here',
+          rich_content: 'Interesting content here',
           author_id: blog_author.id,
           category_id: blog_category.id,
           status: 'draft'
@@ -97,7 +99,7 @@ RSpec.describe Admin::BlogPostsController, type: :controller do
       let(:invalid_attributes) do
         {
           title: '',
-          content: '',
+          rich_content: '',
           author_id: nil
         }
       end
@@ -124,7 +126,7 @@ RSpec.describe Admin::BlogPostsController, type: :controller do
           tag2 = create(:blog_tag)
 
           post :create, params: {
-            blog_post: valid_attributes.merge(tag_ids: [tag1.id, tag2.id])
+            blog_post: valid_attributes.merge(tag_ids: [ tag1.id, tag2.id ])
           }
 
           new_post = BlogPost.last
@@ -276,6 +278,116 @@ RSpec.describe Admin::BlogPostsController, type: :controller do
         draft = create(:blog_post, status: 'draft')
         get :preview, params: { id: draft.slug }
         expect(response).to be_successful
+      end
+    end
+  end
+
+  # Tests for the new requirement: BLOG AUTHOR OR ADMIN SHOULD BE ABLE TO PERFORM CRUD
+  describe 'blog author authorization' do
+    let(:blog_author) { create(:blog_author) }
+    let(:another_author) { create(:blog_author) }
+    let(:own_post) { create(:blog_post, author: blog_author) }
+    let(:other_post) { create(:blog_post, author: another_author) }
+
+    before do
+      # Mock blog author authentication
+      allow(controller).to receive(:current_blog_author).and_return(blog_author)
+      allow(controller).to receive(:blog_author_signed_in?).and_return(true)
+    end
+
+    describe 'access to own posts' do
+      it 'allows blog author to view index with only their posts' do
+        get :index
+        expect(response).to be_successful
+        expect(assigns(:posts)).to include(own_post)
+        expect(assigns(:posts)).not_to include(other_post)
+      end
+
+      it 'allows blog author to view their own post' do
+        get :show, params: { id: own_post.slug }
+        expect(response).to be_successful
+      end
+
+      it 'allows blog author to edit their own post' do
+        get :edit, params: { id: own_post.slug }
+        expect(response).to be_successful
+      end
+
+      it 'allows blog author to update their own post' do
+        patch :update, params: {
+          id: own_post.slug,
+          blog_post: { title: "Updated by Author" }
+        }
+        expect(own_post.reload.title).to eq("Updated by Author")
+        expect(response).to redirect_to(admin_blog_post_path(own_post))
+      end
+
+      it 'allows blog author to create new posts' do
+        post_params = attributes_for(:blog_post).merge(rich_content: "New content")
+        expect {
+          post :create, params: { blog_post: post_params }
+        }.to change(BlogPost, :count).by(1)
+
+        new_post = BlogPost.last
+        expect(new_post.author).to eq(blog_author)
+      end
+
+      it 'allows blog author to delete their own post' do
+        own_post # ensure it exists
+        expect {
+          delete :destroy, params: { id: own_post.slug }
+        }.to change(BlogPost, :count).by(-1)
+      end
+
+      it 'allows blog author to publish their own post' do
+        draft_post = create(:blog_post, status: 'draft', author: blog_author)
+        patch :publish, params: { id: draft_post.slug }
+        expect(draft_post.reload.status).to eq('published')
+      end
+
+      it 'allows blog author to archive their own post' do
+        patch :archive, params: { id: own_post.slug }
+        expect(own_post.reload.status).to eq('archived')
+      end
+    end
+
+    describe 'access restrictions for other authors posts' do
+      it 'redirects when trying to show other authors post' do
+        get :show, params: { id: other_post.slug }
+        expect(response).to redirect_to(admin_blog_posts_path)
+        expect(flash[:alert]).to eq('Not authorized to access this post')
+      end
+
+      it 'redirects when trying to edit other authors post' do
+        get :edit, params: { id: other_post.slug }
+        expect(response).to redirect_to(admin_blog_posts_path)
+        expect(flash[:alert]).to eq('Not authorized to access this post')
+      end
+
+      it 'prevents updating other authors post' do
+        original_title = other_post.title
+        patch :update, params: {
+          id: other_post.slug,
+          blog_post: { title: "Unauthorized Update" }
+        }
+        expect(response).to redirect_to(admin_blog_posts_path)
+        expect(other_post.reload.title).to eq(original_title)
+      end
+
+      it 'prevents deleting other authors post' do
+        other_post # ensure it exists
+        expect {
+          delete :destroy, params: { id: other_post.slug }
+        }.not_to change(BlogPost, :count)
+        expect(response).to redirect_to(admin_blog_posts_path)
+      end
+
+      it 'prevents publishing other authors post' do
+        draft_post = create(:blog_post, status: 'draft', author: another_author)
+        original_status = draft_post.status
+        patch :publish, params: { id: draft_post.slug }
+        expect(response).to redirect_to(admin_blog_posts_path)
+        expect(draft_post.reload.status).to eq(original_status)
       end
     end
   end

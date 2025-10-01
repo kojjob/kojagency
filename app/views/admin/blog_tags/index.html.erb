@@ -1,0 +1,280 @@
+<% content_for :title, "Blog Tags - Admin Dashboard" %>
+<% content_for :page_title, "Blog Tags" %>
+
+<% content_for :breadcrumbs do %>
+  <li>
+    <svg class="w-5 h-5 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+      <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path>
+    </svg>
+  </li>
+  <li>
+    <span class="text-gray-500">Blog Tags</span>
+  </li>
+<% end %>
+
+<div class="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 pb-12">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <!-- Hero Header -->
+    <div class="bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 rounded-2xl md:rounded-3xl p-4 md:p-6 lg:p-8 text-white shadow-2xl mb-6 md:mb-8">
+      <div class="flex items-center justify-between">
+        <div class="flex-1 pr-4">
+          <h1 class="text-2xl md:text-3xl lg:text-4xl font-bold mb-2">
+            Blog Tags
+            <span class="inline-block">🔖</span>
+          </h1>
+          <p class="text-indigo-100 text-sm md:text-base lg:text-lg leading-relaxed">
+            Organize and discover content with flexible tagging
+          </p>
+        </div>
+        <div class="flex items-center gap-4">
+          <div class="hidden md:block flex-shrink-0">
+            <div class="w-16 h-16 md:w-20 md:h-20 lg:w-24 lg:h-24 bg-white/20 backdrop-blur-sm rounded-xl md:rounded-2xl flex items-center justify-center">
+              <svg class="w-8 h-8 md:w-10 md:h-10 lg:w-12 lg:h-12 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"></path>
+              </svg>
+            </div>
+          </div>
+          <%= link_to new_admin_blog_tag_path, class: 'inline-flex items-center px-4 md:px-6 py-2.5 md:py-3 bg-white/20 backdrop-blur-sm text-white font-semibold rounded-xl hover:bg-white/30 shadow-lg transition-all transform hover:-translate-y-0.5 border border-white/30' do %>
+            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+            </svg>
+            New Tag
+          <% end %>
+        </div>
+      </div>
+    </div>
+
+    <!-- Stats Cards -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6 mb-6 md:mb-8">
+      <!-- Total Tags -->
+      <div class="bg-white/70 backdrop-blur-sm rounded-xl md:rounded-2xl border border-white/20 shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 overflow-hidden group">
+        <div class="p-4 md:p-6">
+          <div class="flex items-center justify-between mb-3 md:mb-4">
+            <div class="w-12 h-12 md:w-14 md:h-14 bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl md:rounded-2xl flex items-center justify-center shadow-lg group-hover:shadow-xl transition-shadow">
+              <svg class="w-6 h-6 md:w-8 md:h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"></path>
+              </svg>
+            </div>
+            <span class="inline-flex items-center px-2 md:px-3 py-1 rounded-full text-xs font-bold bg-gradient-to-r from-blue-100 to-blue-200 text-blue-800 border border-blue-300">
+              Total
+            </span>
+          </div>
+          <h3 class="text-2xl md:text-3xl font-bold bg-gradient-to-r from-blue-600 to-blue-800 bg-clip-text text-transparent">
+            <%= @stats[:total] %>
+          </h3>
+          <p class="text-sm font-medium text-gray-600 mt-1">All Tags</p>
+        </div>
+        <div class="bg-gradient-to-r from-blue-50/80 to-indigo-50/80 backdrop-blur-sm px-4 md:px-6 py-2 md:py-3 border-t border-blue-100/50">
+          <div class="text-xs text-gray-700">
+            Library: <span class="font-bold text-blue-600">Complete</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Used Tags -->
+      <div class="bg-white/70 backdrop-blur-sm rounded-xl md:rounded-2xl border border-white/20 shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 overflow-hidden group">
+        <div class="p-4 md:p-6">
+          <div class="flex items-center justify-between mb-3 md:mb-4">
+            <div class="w-12 h-12 md:w-14 md:h-14 bg-gradient-to-br from-green-500 to-green-600 rounded-xl md:rounded-2xl flex items-center justify-center shadow-lg group-hover:shadow-xl transition-shadow">
+              <svg class="w-6 h-6 md:w-8 md:h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+              </svg>
+            </div>
+            <span class="inline-flex items-center px-2 md:px-3 py-1 rounded-full text-xs font-bold bg-gradient-to-r from-green-100 to-green-200 text-green-800 border border-green-300">
+              Active
+            </span>
+          </div>
+          <h3 class="text-2xl md:text-3xl font-bold bg-gradient-to-r from-green-600 to-green-800 bg-clip-text text-transparent">
+            <%= @stats[:used] %>
+          </h3>
+          <p class="text-sm font-medium text-gray-600 mt-1">Used Tags</p>
+        </div>
+        <div class="bg-gradient-to-r from-green-50/80 to-emerald-50/80 backdrop-blur-sm px-4 md:px-6 py-2 md:py-3 border-t border-green-100/50">
+          <div class="text-xs text-gray-700">
+            Status: <span class="font-bold text-green-600">In Use</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Unused Tags -->
+      <div class="bg-white/70 backdrop-blur-sm rounded-xl md:rounded-2xl border border-white/20 shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 overflow-hidden group">
+        <div class="p-4 md:p-6">
+          <div class="flex items-center justify-between mb-3 md:mb-4">
+            <div class="w-12 h-12 md:w-14 md:h-14 bg-gradient-to-br from-gray-500 to-gray-600 rounded-xl md:rounded-2xl flex items-center justify-center shadow-lg group-hover:shadow-xl transition-shadow">
+              <svg class="w-6 h-6 md:w-8 md:h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4"></path>
+              </svg>
+            </div>
+            <span class="inline-flex items-center px-2 md:px-3 py-1 rounded-full text-xs font-bold bg-gradient-to-r from-gray-100 to-gray-200 text-gray-800 border border-gray-300">
+              Unused
+            </span>
+          </div>
+          <h3 class="text-2xl md:text-3xl font-bold bg-gradient-to-r from-gray-600 to-gray-800 bg-clip-text text-transparent">
+            <%= @stats[:unused] %>
+          </h3>
+          <p class="text-sm font-medium text-gray-600 mt-1">Unused Tags</p>
+        </div>
+        <div class="bg-gradient-to-r from-gray-50/80 to-slate-50/80 backdrop-blur-sm px-4 md:px-6 py-2 md:py-3 border-t border-gray-100/50">
+          <div class="text-xs text-gray-700">
+            Status: <span class="font-bold text-gray-600">Available</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tags List -->
+    <div class="bg-white/70 backdrop-blur-sm rounded-xl md:rounded-2xl shadow-xl border border-white/20 overflow-hidden">
+      <% if @tags.any? %>
+        <div class="p-4 md:p-6">
+          <!-- Tag Cloud Style Grid -->
+          <div class="flex flex-wrap gap-3">
+            <% @tags.each do |tag| %>
+              <div class="relative group">
+                <div class="bg-gradient-to-br from-indigo-50 via-purple-50 to-pink-50 hover:from-indigo-100 hover:via-purple-100 hover:to-pink-100 border-2 border-indigo-200 hover:border-indigo-400 rounded-xl p-4 transition-all duration-300 transform hover:-translate-y-1 hover:shadow-xl">
+                  <!-- Tag Header -->
+                  <div class="flex items-start justify-between mb-3">
+                    <%= link_to admin_blog_tag_path(tag), class: 'flex-1 mr-3' do %>
+                      <h4 class="text-base md:text-lg font-bold text-gray-900 group-hover:text-indigo-600 transition-colors mb-1">
+                        #<%= tag.name %>
+                      </h4>
+                    <% end %>
+
+                    <!-- Usage Count Badge -->
+                    <span class="flex-shrink-0 inline-flex items-center px-2 py-1 text-xs font-bold rounded-full shadow-sm
+                      <%= if tag.usage_count > 10
+                            'bg-gradient-to-r from-green-100 to-green-200 text-green-800 border border-green-300'
+                          elsif tag.usage_count > 5
+                            'bg-gradient-to-r from-blue-100 to-blue-200 text-blue-800 border border-blue-300'
+                          elsif tag.usage_count > 0
+                            'bg-gradient-to-r from-yellow-100 to-yellow-200 text-yellow-800 border border-yellow-300'
+                          else
+                            'bg-gradient-to-r from-gray-100 to-gray-200 text-gray-800 border border-gray-300'
+                          end %>">
+                      <%= tag.usage_count %>
+                    </span>
+                  </div>
+
+                  <!-- Meta Info -->
+                  <div class="flex items-center justify-between text-xs text-gray-500 mb-3">
+                    <div class="flex items-center gap-1">
+                      <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                      </svg>
+                      <%= tag.slug %>
+                    </div>
+                    <div class="flex items-center gap-1">
+                      <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"></path>
+                      </svg>
+                      <%= pluralize(tag.usage_count, 'post') %>
+                    </div>
+                  </div>
+
+                  <!-- Action Buttons -->
+                  <div class="flex flex-wrap items-center gap-1.5">
+                    <%= link_to admin_blog_tag_path(tag), class: 'inline-flex items-center px-2 py-1 text-xs font-semibold text-indigo-600 hover:text-indigo-700 bg-indigo-50/80 hover:bg-indigo-100/80 backdrop-blur-sm rounded-lg transition-all shadow-sm hover:shadow' do %>
+                      <svg class="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+                      </svg>
+                      View
+                    <% end %>
+
+                    <%= link_to edit_admin_blog_tag_path(tag), class: 'inline-flex items-center px-2 py-1 text-xs font-semibold text-blue-600 hover:text-blue-700 bg-blue-50/80 hover:bg-blue-100/80 backdrop-blur-sm rounded-lg transition-all shadow-sm hover:shadow' do %>
+                      <svg class="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
+                      </svg>
+                      Edit
+                    <% end %>
+
+                    <% if tag.posts.empty? %>
+                      <%= button_to admin_blog_tag_path(tag), method: :delete, data: { confirm: 'Are you sure you want to delete this tag?' }, class: 'inline-flex items-center px-2 py-1 text-xs font-semibold text-red-600 hover:text-red-700 bg-red-50/80 hover:bg-red-100/80 backdrop-blur-sm rounded-lg transition-all shadow-sm hover:shadow' do %>
+                        <svg class="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                        </svg>
+                        Delete
+                      <% end %>
+                    <% else %>
+                      <span class="inline-flex items-center px-2 py-1 text-xs font-semibold text-gray-400 bg-gray-50/80 backdrop-blur-sm rounded-lg cursor-not-allowed" title="Cannot delete tag with posts">
+                        <svg class="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
+                        </svg>
+                        Locked
+                      </span>
+                    <% end %>
+                  </div>
+                </div>
+
+                <!-- Popularity Indicator -->
+                <% if tag.usage_count > 10 %>
+                  <div class="absolute -top-2 -right-2">
+                    <span class="inline-flex items-center justify-center w-8 h-8 bg-gradient-to-br from-amber-500 to-amber-600 text-white rounded-full shadow-lg border-2 border-white">
+                      <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                      </svg>
+                    </span>
+                  </div>
+                <% end %>
+              </div>
+            <% end %>
+          </div>
+        </div>
+
+        <!-- Pagination -->
+        <% if @tags.total_pages > 1 %>
+          <div class="bg-gradient-to-r from-gray-50/80 to-slate-50/80 backdrop-blur-sm px-4 md:px-6 py-4 border-t border-gray-200/50">
+            <%= paginate @tags, theme: 'twitter-bootstrap-4' %>
+          </div>
+        <% end %>
+      <% else %>
+        <!-- Empty State -->
+        <div class="p-8 md:p-12 text-center">
+          <div class="inline-flex items-center justify-center w-16 h-16 md:w-20 md:h-20 mb-4 bg-gradient-to-br from-indigo-100 to-purple-100 rounded-full">
+            <svg class="w-8 h-8 md:w-10 md:h-10 text-indigo-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"></path>
+            </svg>
+          </div>
+          <h3 class="text-lg font-semibold text-gray-900 mb-2">No tags yet</h3>
+          <p class="text-gray-600 mb-4">Get started by creating your first blog tag</p>
+          <%= link_to new_admin_blog_tag_path, class: 'inline-flex items-center px-6 py-3 bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-semibold rounded-xl hover:shadow-lg transition-all transform hover:-translate-y-0.5' do %>
+            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+            </svg>
+            Create Your First Tag
+          <% end %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>
+
+<style>
+  /* Custom styles for glassmorphism effects */
+  @supports ((-webkit-backdrop-filter: none) or (backdrop-filter: none)) {
+    .backdrop-blur-sm {
+      -webkit-backdrop-filter: blur(12px);
+      backdrop-filter: blur(12px);
+    }
+  }
+
+  /* Smooth gradient transitions */
+  .bg-gradient-to-br,
+  .bg-gradient-to-r {
+    background-size: 200% 200%;
+    transition: background-position 0.5s ease;
+  }
+
+  /* Hover gradient animation */
+  .group:hover .bg-gradient-to-br,
+  .group:hover .bg-gradient-to-r {
+    background-position: 100% 100%;
+  }
+
+  /* Line clamp utilities */
+  .line-clamp-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+</style>

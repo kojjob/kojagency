@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+    <style>
+      body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
+      .container { max-width: 600px; margin: 0 auto; padding: 20px; }
+      .header { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 30px; text-align: center; border-radius: 8px 8px 0 0; }
+      .content { background: #f9fafb; padding: 30px; border: 1px solid #e5e7eb; }
+      .priority-badge { display: inline-block; padding: 8px 16px; border-radius: 4px; font-weight: bold; margin: 10px 0; }
+      .high { background: #fee2e2; color: #991b1b; }
+      .medium { background: #fef3c7; color: #92400e; }
+      .low { background: #d1fae5; color: #065f46; }
+      .detail-row { margin: 15px 0; padding: 15px; background: white; border-left: 4px solid #667eea; border-radius: 4px; }
+      .label { font-weight: bold; color: #4b5563; margin-bottom: 5px; }
+      .value { color: #1f2937; }
+      .score-section { background: #667eea; color: white; padding: 20px; border-radius: 8px; margin: 20px 0; text-align: center; }
+      .score-value { font-size: 48px; font-weight: bold; margin: 10px 0; }
+      .action-button { display: inline-block; background: #667eea; color: white; padding: 15px 30px; text-decoration: none; border-radius: 6px; font-weight: bold; margin: 20px 0; }
+      .footer { text-align: center; padding: 20px; color: #6b7280; font-size: 14px; }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">
+        <h1>🎯 New Lead Submission</h1>
+        <p style="margin: 10px 0;">
+          <span class="priority-badge <%= @lead.priority_level %>">
+            <%= @lead.priority_level.upcase %> PRIORITY
+          </span>
+        </p>
+      </div>
+
+      <div class="content">
+        <div class="score-section">
+          <div style="font-size: 18px; margin-bottom: 10px;">Lead Score</div>
+          <div class="score-value"><%= @lead.score.round %></div>
+          <div style="font-size: 14px; margin-top: 10px;">
+            Response Target: <%= @lead.response_time_target %>
+          </div>
+        </div>
+
+        <h2 style="color: #1f2937; margin-top: 30px;">Contact Information</h2>
+
+        <div class="detail-row">
+          <div class="label">Name</div>
+          <div class="value"><%= @lead.full_name %></div>
+        </div>
+
+        <div class="detail-row">
+          <div class="label">Email</div>
+          <div class="value"><a href="mailto:<%= @lead.email %>"><%= @lead.email %></a></div>
+        </div>
+
+        <% if @lead.phone.present? %>
+          <div class="detail-row">
+            <div class="label">Phone</div>
+            <div class="value"><a href="tel:<%= @lead.phone %>"><%= @lead.phone %></a></div>
+          </div>
+        <% end %>
+
+        <% if @lead.company.present? %>
+          <div class="detail-row">
+            <div class="label">Company</div>
+            <div class="value"><%= @lead.company %></div>
+          </div>
+        <% end %>
+
+        <% if @lead.website.present? %>
+          <div class="detail-row">
+            <div class="label">Website</div>
+            <div class="value"><a href="<%= @lead.website %>" target="_blank"><%= @lead.website %></a></div>
+          </div>
+        <% end %>
+
+        <h2 style="color: #1f2937; margin-top: 30px;">Project Details</h2>
+
+        <div class="detail-row">
+          <div class="label">Project Type</div>
+          <div class="value"><%= @lead.project_type_display %></div>
+        </div>
+
+        <div class="detail-row">
+          <div class="label">Budget Range</div>
+          <div class="value"><%= @lead.budget_range_display %></div>
+        </div>
+
+        <div class="detail-row">
+          <div class="label">Timeline</div>
+          <div class="value"><%= @lead.timeline_display %></div>
+        </div>
+
+        <div class="detail-row">
+          <div class="label">Preferred Contact Method</div>
+          <div class="value"><%= @lead.preferred_contact_method.humanize %></div>
+        </div>
+
+        <div class="detail-row">
+          <div class="label">Project Description</div>
+          <div class="value"><%= simple_format(@lead.project_description) %></div>
+        </div>
+
+        <h2 style="color: #1f2937; margin-top: 30px;">Scoring Breakdown</h2>
+
+        <div class="detail-row">
+          <div class="label">Budget Score</div>
+          <div class="value"><%= @lead.budget_score.round(1) %> / 100 (35% weight)</div>
+        </div>
+
+        <div class="detail-row">
+          <div class="label">Timeline Score</div>
+          <div class="value"><%= @lead.timeline_score.round(1) %> / 100 (25% weight)</div>
+        </div>
+
+        <div class="detail-row">
+          <div class="label">Complexity Score</div>
+          <div class="value"><%= @lead.complexity_score.round(1) %> / 100 (20% weight)</div>
+        </div>
+
+        <div class="detail-row">
+          <div class="label">Quality Score</div>
+          <div class="value"><%= @lead.quality_score.round(1) %> / 100 (20% weight)</div>
+        </div>
+
+        <div style="text-align: center;">
+          <a href="<%= @admin_lead_url %>" class="action-button">
+            View Full Lead Details →
+          </a>
+        </div>
+      </div>
+
+      <div class="footer">
+        <p>Lead submitted on <%= @lead.created_at.strftime("%B %d, %Y at %I:%M %p %Z") %></p>
+        <p>Source: <%= @lead.source.humanize %></p>
+      </div>
+    </div>
+  </body>
+</html>

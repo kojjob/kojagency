@@ -1,7 +1,7 @@
 module Blog
   class CategoriesController < ApplicationController
-    layout 'blog'
-    before_action :set_category, only: [:show]
+    layout "blog"
+    before_action :set_category, only: [ :show ]
 
     def index
       @categories = BlogCategory.includes(:blog_posts)

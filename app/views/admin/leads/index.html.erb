@@ -1,404 +1,764 @@
-<% content_for :title, "Lead Management" %>
+<% content_for :title, "Lead Management Dashboard - Admin" %>
+<% content_for :page_title, "Lead Management" %>
 
 <% content_for :breadcrumbs do %>
-  <li class="flex items-center">
-    <svg class="h-5 w-5 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+  <li>
+    <svg class="w-5 h-5 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
       <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path>
     </svg>
-    <span class="ml-2 text-sm text-gray-500">Leads</span>
+  </li>
+  <li>
+    <span class="text-gray-500">Leads</span>
   </li>
 <% end %>
 
-<!-- Page Header -->
-<div class="sm:flex sm:items-center sm:justify-between mb-8">
-  <div>
-    <h1 class="text-2xl font-bold text-gray-900">Lead Management</h1>
-    <p class="text-gray-600">Track and manage your sales pipeline</p>
+<div class="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 pb-16 relative overflow-hidden">
+  <!-- Animated Background Elements -->
+  <div class="absolute inset-0 opacity-20">
+    <div class="absolute top-0 -left-4 w-96 h-96 bg-indigo-300 rounded-full mix-blend-multiply filter blur-3xl animate-blob"></div>
+    <div class="absolute top-0 -right-4 w-96 h-96 bg-purple-300 rounded-full mix-blend-multiply filter blur-3xl animate-blob animation-delay-2000"></div>
+    <div class="absolute -bottom-8 left-20 w-96 h-96 bg-pink-300 rounded-full mix-blend-multiply filter blur-3xl animate-blob animation-delay-4000"></div>
   </div>
-  <div class="mt-4 sm:mt-0 sm:ml-16 sm:flex-none">
-    <%= link_to admin_leads_path(format: :csv, **request.query_parameters),
-        class: "inline-flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:w-auto" do %>
-      <svg class="-ml-1 mr-2 h-4 w-4" fill="currentColor" viewBox="0 0 20 20">
-        <path fill-rule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z" clip-rule="evenodd"></path>
-      </svg>
-      Export CSV
+
+  <div class="relative max-w-[1800px] mx-auto px-4 sm:px-6 lg:px-8 pt-8">
+
+    <!-- Premium Hero Header -->
+    <div class="relative mb-12 mx-auto max-w-7xl">
+      <div class="absolute inset-0 bg-gradient-to-r from-indigo-100/50 via-purple-100/50 to-pink-100/50 rounded-3xl blur-2xl"></div>
+      <div class="relative bg-white/90 backdrop-blur-xl rounded-3xl p-8 lg:p-12 border border-gray-200 shadow-2xl">
+        <div class="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6">
+          <div class="flex items-center gap-6">
+            <div class="hidden lg:block">
+              <div class="w-24 h-24 bg-gradient-to-br from-indigo-600 via-purple-600 to-pink-600 rounded-2xl flex items-center justify-center shadow-2xl">
+                <svg class="w-12 h-12 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
+                </svg>
+              </div>
+            </div>
+            <div>
+              <h1 class="text-4xl lg:text-5xl font-black text-gray-900 mb-2 tracking-tight">
+                Lead Pipeline
+              </h1>
+              <p class="text-lg text-gray-600 leading-relaxed">
+                Transform prospects into clients with intelligent lead management
+              </p>
+            </div>
+          </div>
+          <div class="flex flex-wrap gap-3">
+            <%= link_to admin_leads_path(format: :csv, **request.query_parameters),
+                class: 'group inline-flex items-center px-6 py-3 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 text-white font-bold rounded-xl transition-all shadow-lg hover:shadow-2xl transform hover:-translate-y-1' do %>
+              <svg class="w-5 h-5 mr-2 group-hover:animate-bounce" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+              </svg>
+              Export Data
+            <% end %>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Premium Statistics Cards -->
+    <div class="grid grid-cols-2 lg:grid-cols-6 gap-4 lg:gap-6 mb-12 max-w-7xl mx-auto">
+      <!-- Total Leads -->
+      <div class="group relative">
+        <div class="absolute inset-0 bg-gradient-to-r from-blue-200 to-cyan-200 rounded-2xl blur-xl opacity-30 group-hover:opacity-50 transition-opacity"></div>
+        <div class="relative bg-white/90 backdrop-blur-xl rounded-2xl p-6 border border-gray-200 shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-2">
+          <div class="flex items-center justify-between mb-4">
+            <div class="w-14 h-14 bg-gradient-to-br from-blue-600 to-cyan-600 rounded-xl flex items-center justify-center shadow-lg">
+              <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
+              </svg>
+            </div>
+          </div>
+          <div>
+            <p class="text-sm font-medium text-gray-600 mb-1">Total Leads</p>
+            <p class="text-4xl font-black text-gray-900"><%= @stats[:total] %></p>
+          </div>
+        </div>
+      </div>
+
+      <!-- High Priority -->
+      <div class="group relative">
+        <div class="absolute inset-0 bg-gradient-to-r from-red-200 to-orange-200 rounded-2xl blur-xl opacity-30 group-hover:opacity-50 transition-opacity"></div>
+        <div class="relative bg-white/90 backdrop-blur-xl rounded-2xl p-6 border border-gray-200 shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-2">
+          <div class="flex items-center justify-between mb-4">
+            <div class="w-14 h-14 bg-gradient-to-br from-red-600 to-orange-600 rounded-xl flex items-center justify-center shadow-lg animate-pulse">
+              <svg class="w-7 h-7 text-white" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd"></path>
+              </svg>
+            </div>
+          </div>
+          <div>
+            <p class="text-sm font-medium text-gray-600 mb-1">🔥 Urgent</p>
+            <p class="text-4xl font-black text-gray-900"><%= @stats[:high_priority] %></p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Medium Priority -->
+      <div class="group relative">
+        <div class="absolute inset-0 bg-gradient-to-r from-amber-200 to-yellow-200 rounded-2xl blur-xl opacity-30 group-hover:opacity-50 transition-opacity"></div>
+        <div class="relative bg-white/90 backdrop-blur-xl rounded-2xl p-6 border border-gray-200 shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-2">
+          <div class="flex items-center justify-between mb-4">
+            <div class="w-14 h-14 bg-gradient-to-br from-amber-600 to-yellow-600 rounded-xl flex items-center justify-center shadow-lg">
+              <svg class="w-7 h-7 text-white" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path>
+              </svg>
+            </div>
+          </div>
+          <div>
+            <p class="text-sm font-medium text-gray-600 mb-1">⚡ Important</p>
+            <p class="text-4xl font-black text-gray-900"><%= @stats[:medium_priority] %></p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Pending -->
+      <div class="group relative">
+        <div class="absolute inset-0 bg-gradient-to-r from-purple-200 to-pink-200 rounded-2xl blur-xl opacity-30 group-hover:opacity-50 transition-opacity"></div>
+        <div class="relative bg-white/90 backdrop-blur-xl rounded-2xl p-6 border border-gray-200 shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-2">
+          <div class="flex items-center justify-between mb-4">
+            <div class="w-14 h-14 bg-gradient-to-br from-purple-600 to-pink-600 rounded-xl flex items-center justify-center shadow-lg">
+              <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+              </svg>
+            </div>
+          </div>
+          <div>
+            <p class="text-sm font-medium text-gray-600 mb-1">⏳ Pending</p>
+            <p class="text-4xl font-black text-gray-900"><%= @stats[:pending] %></p>
+          </div>
+        </div>
+      </div>
+
+      <!-- This Week -->
+      <div class="group relative">
+        <div class="absolute inset-0 bg-gradient-to-r from-emerald-200 to-teal-200 rounded-2xl blur-xl opacity-30 group-hover:opacity-50 transition-opacity"></div>
+        <div class="relative bg-white/90 backdrop-blur-xl rounded-2xl p-6 border border-gray-200 shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-2">
+          <div class="flex items-center justify-between mb-4">
+            <div class="w-14 h-14 bg-gradient-to-br from-emerald-600 to-teal-600 rounded-xl flex items-center justify-center shadow-lg">
+              <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path>
+              </svg>
+            </div>
+          </div>
+          <div>
+            <p class="text-sm font-medium text-gray-600 mb-1">📈 This Week</p>
+            <p class="text-4xl font-black text-gray-900"><%= @stats[:this_week] %></p>
+          </div>
+        </div>
+      </div>
+
+      <!-- This Month -->
+      <div class="group relative">
+        <div class="absolute inset-0 bg-gradient-to-r from-indigo-200 to-purple-200 rounded-2xl blur-xl opacity-30 group-hover:opacity-50 transition-opacity"></div>
+        <div class="relative bg-white/90 backdrop-blur-xl rounded-2xl p-6 border border-gray-200 shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-2">
+          <div class="flex items-center justify-between mb-4">
+            <div class="w-14 h-14 bg-gradient-to-br from-indigo-600 to-purple-600 rounded-xl flex items-center justify-center shadow-lg">
+              <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+              </svg>
+            </div>
+          </div>
+          <div>
+            <p class="text-sm font-medium text-gray-600 mb-1">📅 This Month</p>
+            <p class="text-4xl font-black text-gray-900"><%= @stats[:this_month] %></p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Advanced Search & Filter Panel -->
+    <div class="relative mb-10 mx-auto max-w-7xl">
+      <div class="relative bg-white/90 backdrop-blur-xl rounded-2xl p-8 border border-gray-200 shadow-xl">
+        <%= form_with url: admin_leads_path, method: :get, local: true, class: "space-y-8" do |form| %>
+          <!-- Search Hero -->
+          <div class="relative">
+            <div class="absolute inset-y-0 left-0 pl-6 flex items-center pointer-events-none">
+              <svg class="h-6 w-6 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+              </svg>
+            </div>
+            <%= form.text_field :q,
+                value: params[:q],
+                placeholder: "Search leads by name, email, company, or project description...",
+                class: "w-full pl-16 pr-6 py-4 bg-gray-50 border-2 border-gray-300 rounded-xl focus:border-indigo-500 focus:ring-4 focus:ring-indigo-100 transition-all duration-300 text-gray-900 placeholder-gray-500 text-base font-medium shadow-sm hover:shadow-md" %>
+          </div>
+
+          <!-- Filter Grid -->
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <!-- Priority -->
+            <div>
+              <label class="block text-sm font-semibold text-gray-700 mb-2">Priority Level</label>
+              <%= form.select :priority,
+                  options_for_select([
+                    ['All Priorities', ''],
+                    ['🔴 High (80-100)', 'high'],
+                    ['🟡 Medium (60-79)', 'medium'],
+                    ['⚪ Low (<60)', 'low']
+                  ], params[:priority]),
+                  {},
+                  class: "w-full px-4 py-3 bg-gray-50 border-2 border-gray-300 rounded-xl focus:border-indigo-500 focus:ring-4 focus:ring-indigo-100 transition-all duration-300 text-gray-900 font-medium shadow-sm hover:shadow-md appearance-none" %>
+            </div>
+
+            <!-- Status -->
+            <div>
+              <label class="block text-sm font-semibold text-gray-700 mb-2">Lead Status</label>
+              <%= form.select :status,
+                  options_for_select([
+                    ['All Statuses', ''],
+                    ['⏳ Pending', 'pending'],
+                    ['📞 Contacted', 'contacted'],
+                    ['✅ Qualified', 'qualified'],
+                    ['📄 Proposal Sent', 'proposal_sent'],
+                    ['💬 Negotiating', 'negotiating'],
+                    ['🎉 Won', 'won'],
+                    ['❌ Lost', 'lost'],
+                    ['⛔ Unqualified', 'unqualified']
+                  ], params[:status]),
+                  {},
+                  class: "w-full px-4 py-3 bg-gray-50 border-2 border-gray-300 rounded-xl focus:border-indigo-500 focus:ring-4 focus:ring-indigo-100 transition-all duration-300 text-gray-900 font-medium shadow-sm hover:shadow-md appearance-none" %>
+            </div>
+
+            <!-- Project Type -->
+            <div>
+              <label class="block text-sm font-semibold text-gray-700 mb-2">Project Type</label>
+              <%= form.select :project_type,
+                  options_for_select([
+                    ['All Types', ''],
+                    ['🌐 Web Development', 'web_development'],
+                    ['📱 Mobile Development', 'mobile_development'],
+                    ['🔧 Data Engineering', 'data_engineering'],
+                    ['📊 Analytics Platform', 'analytics_platform'],
+                    ['💼 Consulting', 'technical_consulting'],
+                    ['🔹 Other', 'other']
+                  ], params[:project_type]),
+                  {},
+                  class: "w-full px-4 py-3 bg-gray-50 border-2 border-gray-300 rounded-xl focus:border-indigo-500 focus:ring-4 focus:ring-indigo-100 transition-all duration-300 text-gray-900 font-medium shadow-sm hover:shadow-md appearance-none" %>
+            </div>
+
+            <!-- Sort -->
+            <div>
+              <label class="block text-sm font-semibold text-gray-700 mb-2">Sort By</label>
+              <%= form.select :sort,
+                  options_for_select([
+                    ['📅 Newest First', 'created_desc'],
+                    ['📅 Oldest First', 'created_asc'],
+                    ['📈 Highest Score', 'score_desc'],
+                    ['📉 Lowest Score', 'score_asc'],
+                    ['🔤 Name (A-Z)', 'name']
+                  ], params[:sort] || 'created_desc'),
+                  {},
+                  class: "w-full px-4 py-3 bg-gray-50 border-2 border-gray-300 rounded-xl focus:border-indigo-500 focus:ring-4 focus:ring-indigo-100 transition-all duration-300 text-gray-900 font-medium shadow-sm hover:shadow-md appearance-none" %>
+            </div>
+          </div>
+
+          <!-- Date Range -->
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div>
+              <label class="block text-sm font-semibold text-gray-700 mb-2">From Date</label>
+              <%= form.date_field :start_date,
+                  value: params[:start_date],
+                  class: "w-full px-4 py-3 bg-gray-50 border-2 border-gray-300 rounded-xl focus:border-indigo-500 focus:ring-4 focus:ring-indigo-100 transition-all duration-300 text-gray-900 font-medium shadow-sm hover:shadow-md" %>
+            </div>
+
+            <div>
+              <label class="block text-sm font-semibold text-gray-700 mb-2">To Date</label>
+              <%= form.date_field :end_date,
+                  value: params[:end_date],
+                  class: "w-full px-4 py-3 bg-gray-50 border-2 border-gray-300 rounded-xl focus:border-indigo-500 focus:ring-4 focus:ring-indigo-100 transition-all duration-300 text-gray-900 font-medium shadow-sm hover:shadow-md" %>
+            </div>
+
+            <div class="flex items-end gap-3">
+              <%= form.submit "Apply Filters", class: "flex-1 px-6 py-3 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all transform hover:-translate-y-0.5 cursor-pointer" %>
+              <%= link_to "Clear", admin_leads_path, class: "flex-1 px-6 py-3 bg-gray-100 hover:bg-gray-200 text-gray-700 font-semibold rounded-xl border-2 border-gray-300 hover:border-gray-400 transition-all shadow-sm hover:shadow-md text-center" %>
+            </div>
+          </div>
+
+          <!-- Active Filters -->
+          <% if params.except(:controller, :action, :page).values.any?(&:present?) %>
+            <div class="flex flex-wrap items-center gap-3 pt-6 border-t border-gray-200">
+              <span class="text-sm font-semibold text-gray-700">Active Filters:</span>
+              <% if params[:q].present? %>
+                <span class="inline-flex items-center px-4 py-2 bg-blue-100 text-blue-800 text-sm font-semibold rounded-lg border border-blue-200">
+                  🔍 "<%= params[:q] %>"
+                  <%= link_to admin_leads_path(request.query_parameters.except(:q)), class: "ml-2 text-blue-600 hover:text-blue-800 transition-colors" do %>
+                    ✕
+                  <% end %>
+                </span>
+              <% end %>
+              <% if params[:priority].present? %>
+                <span class="inline-flex items-center px-4 py-2 bg-purple-100 text-purple-800 text-sm font-semibold rounded-lg border border-purple-200">
+                  <%= params[:priority].capitalize %> Priority
+                  <%= link_to admin_leads_path(request.query_parameters.except(:priority)), class: "ml-2 text-purple-600 hover:text-purple-800 transition-colors" do %>
+                    ✕
+                  <% end %>
+                </span>
+              <% end %>
+              <% if params[:status].present? %>
+                <span class="inline-flex items-center px-4 py-2 bg-green-100 text-green-800 text-sm font-semibold rounded-lg border border-green-200">
+                  <%= params[:status].humanize %>
+                  <%= link_to admin_leads_path(request.query_parameters.except(:status)), class: "ml-2 text-green-600 hover:text-green-800 transition-colors" do %>
+                    ✕
+                  <% end %>
+                </span>
+              <% end %>
+              <% if params[:project_type].present? %>
+                <span class="inline-flex items-center px-4 py-2 bg-amber-100 text-amber-800 text-sm font-semibold rounded-lg border border-amber-200">
+                  <%= params[:project_type].humanize %>
+                  <%= link_to admin_leads_path(request.query_parameters.except(:project_type)), class: "ml-2 text-amber-600 hover:text-amber-800 transition-colors" do %>
+                    ✕
+                  <% end %>
+                </span>
+              <% end %>
+            </div>
+          <% end %>
+        <% end %>
+      </div>
+    </div>
+
+    <!-- Quick Filters Bar -->
+    <div class="flex items-center justify-between mb-8 mx-auto max-w-7xl">
+      <div class="bg-white/90 backdrop-blur-xl rounded-xl px-6 py-3 border border-gray-200 shadow-md">
+        <% if @leads.any? %>
+          <p class="text-base font-semibold text-gray-900">
+            Showing <span class="text-indigo-600"><%= @leads.offset_value + 1 %>-<%= [@leads.offset_value + @leads.limit_value, @leads.total_count].min %></span> of <span class="text-purple-600"><%= @leads.total_count %></span>
+          </p>
+        <% else %>
+          <p class="text-base font-semibold text-gray-900">No leads found</p>
+        <% end %>
+      </div>
+
+      <div class="flex flex-wrap gap-3">
+        <%= link_to "All", admin_leads_path,
+            class: "px-5 py-2.5 font-semibold rounded-xl transition-all #{params[:priority].blank? && params[:status].blank? ? 'bg-gradient-to-r from-indigo-600 to-purple-600 text-white shadow-md' : 'bg-white/90 text-gray-700 hover:bg-gray-100 border border-gray-300'}" %>
+        <%= link_to "🔥 Urgent", admin_leads_path(priority: 'high'),
+            class: "px-5 py-2.5 font-semibold rounded-xl transition-all #{params[:priority] == 'high' ? 'bg-gradient-to-r from-red-600 to-orange-600 text-white shadow-md' : 'bg-white/90 text-gray-700 hover:bg-gray-100 border border-gray-300'}" %>
+        <%= link_to "⏳ Pending", admin_leads_path(status: 'pending'),
+            class: "px-5 py-2.5 font-semibold rounded-xl transition-all #{params[:status] == 'pending' ? 'bg-gradient-to-r from-amber-600 to-yellow-600 text-white shadow-md' : 'bg-white/90 text-gray-700 hover:bg-gray-100 border border-gray-300'}" %>
+        <%= link_to "✅ Qualified", admin_leads_path(status: 'qualified'),
+            class: "px-5 py-2.5 font-semibold rounded-xl transition-all #{params[:status] == 'qualified' ? 'bg-gradient-to-r from-green-600 to-emerald-600 text-white shadow-md' : 'bg-white/90 text-gray-700 hover:bg-gray-100 border border-gray-300'}" %>
+      </div>
+    </div>
+
+    <!-- Leads Grid/Table -->
+    <% if @leads.any? %>
+      <!-- Desktop View -->
+      <div class="hidden lg:block relative mb-10 mx-auto max-w-7xl">
+        <div class="bg-white rounded-2xl overflow-hidden border border-gray-200 shadow-lg">
+          <table class="w-full">
+            <thead>
+              <tr class="bg-gray-50 border-b border-gray-200">
+                <th class="px-6 py-4 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">Lead</th>
+                <th class="px-6 py-4 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">Score</th>
+                <th class="px-6 py-4 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">Project</th>
+                <th class="px-6 py-4 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">Budget</th>
+                <th class="px-6 py-4 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">Status</th>
+                <th class="px-6 py-4 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">Created</th>
+                <th class="px-6 py-4 text-right text-xs font-semibold text-gray-700 uppercase tracking-wider">Actions</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-gray-100">
+              <% @leads.each do |lead| %>
+                <tr class="group hover:bg-gray-50 transition-all duration-200 <%= 'bg-red-50 border-l-4 border-red-500' if lead.overdue_response? %>">
+                  <!-- Lead Info -->
+                  <td class="px-6 py-4">
+                    <div class="flex items-center gap-3">
+                      <div class="flex-shrink-0">
+                        <div class="w-12 h-12 rounded-lg bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center shadow-md group-hover:scale-105 transition-transform">
+                          <span class="text-lg font-bold text-white">
+                            <%= lead.first_name&.first&.upcase || lead.email&.first&.upcase || '?' %>
+                          </span>
+                        </div>
+                      </div>
+                      <div>
+                        <div class="flex items-center gap-2">
+                          <%= link_to lead.full_name, admin_lead_path(lead),
+                              class: "text-sm font-semibold text-gray-900 hover:text-indigo-600 transition-colors" %>
+                          <% if lead.overdue_response? %>
+                            <span class="px-2 py-0.5 bg-red-500 text-white text-xs font-semibold rounded animate-pulse">⚠️ OVERDUE</span>
+                          <% end %>
+                        </div>
+                        <div class="text-sm text-gray-600"><%= lead.email %></div>
+                        <% if lead.company.present? %>
+                          <div class="text-xs text-gray-500 font-medium"><%= lead.company %></div>
+                        <% end %>
+                      </div>
+                    </div>
+                  </td>
+
+                  <!-- Score -->
+                  <td class="px-6 py-4">
+                    <div class="flex flex-col gap-2">
+                      <div class="inline-flex items-center justify-center w-14 h-14 rounded-lg font-bold text-lg shadow-md <%=
+                        case lead.priority_level
+                        when 'high' then 'bg-gradient-to-br from-red-500 to-orange-600 text-white animate-pulse'
+                        when 'medium' then 'bg-gradient-to-br from-amber-500 to-yellow-600 text-white'
+                        else 'bg-gradient-to-br from-gray-500 to-gray-600 text-white'
+                        end
+                      %>">
+                        <%= lead.score %>
+                      </div>
+                      <span class="inline-flex items-center px-2.5 py-1 rounded-md text-xs font-semibold uppercase <%=
+                        case lead.priority_level
+                        when 'high' then 'bg-red-100 text-red-800 border border-red-200'
+                        when 'medium' then 'bg-amber-100 text-amber-800 border border-amber-200'
+                        else 'bg-gray-100 text-gray-800 border border-gray-200'
+                        end
+                      %>">
+                        <%= lead.priority_level %>
+                      </span>
+                    </div>
+                  </td>
+
+                  <!-- Project -->
+                  <td class="px-6 py-4">
+                    <div class="max-w-xs">
+                      <div class="text-sm font-semibold text-gray-900 mb-1">
+                        <%= lead.project_type_display %>
+                      </div>
+                      <% if lead.project_description.present? %>
+                        <div class="text-xs text-gray-600 line-clamp-2">
+                          <%= truncate(lead.project_description, length: 60) %>
+                        </div>
+                      <% end %>
+                    </div>
+                  </td>
+
+                  <!-- Budget -->
+                  <td class="px-6 py-4">
+                    <div class="space-y-2">
+                      <div class="inline-flex items-center px-3 py-1.5 bg-emerald-50 border border-emerald-200 rounded-lg">
+                        <svg class="w-4 h-4 text-emerald-600 mr-1.5" fill="currentColor" viewBox="0 0 20 20">
+                          <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-13a1 1 0 10-2 0v.092a4.535 4.535 0 00-1.676.662C6.602 6.234 6 7.009 6 8c0 .99.602 1.765 1.324 2.246.48.32 1.054.545 1.676.662v1.941c-.391-.127-.68-.317-.843-.504a1 1 0 10-1.51 1.31c.562.649 1.413 1.076 2.353 1.253V15a1 1 0 102 0v-.092a4.535 4.535 0 001.676-.662C13.398 13.766 14 12.991 14 12c0-.99-.602-1.765-1.324-2.246A4.535 4.535 0 0011 9.092V7.151c.391.127.68.317.843.504a1 1 0 101.511-1.31c-.563-.649-1.413-1.076-2.354-1.253V5z" clip-rule="evenodd"></path>
+                        </svg>
+                        <span class="text-xs font-semibold text-emerald-800">
+                          <%= lead.budget_range_display %>
+                        </span>
+                      </div>
+                      <div class="inline-flex items-center px-3 py-1.5 bg-blue-50 border border-blue-200 rounded-lg">
+                        <svg class="w-4 h-4 text-blue-600 mr-1.5" fill="currentColor" viewBox="0 0 20 20">
+                          <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd"></path>
+                        </svg>
+                        <span class="text-xs font-semibold text-blue-800">
+                          <%= lead.timeline_display %>
+                        </span>
+                      </div>
+                    </div>
+                  </td>
+
+                  <!-- Status -->
+                  <td class="px-6 py-4">
+                    <span class="inline-flex items-center px-3 py-1.5 rounded-lg text-xs font-semibold uppercase <%=
+                      case lead.lead_status
+                      when 'pending' then 'bg-amber-100 text-amber-800 border border-amber-200'
+                      when 'contacted' then 'bg-blue-100 text-blue-800 border border-blue-200'
+                      when 'qualified' then 'bg-green-100 text-green-800 border border-green-200'
+                      when 'won' then 'bg-emerald-100 text-emerald-800 border border-emerald-200'
+                      when 'lost' then 'bg-gray-100 text-gray-800 border border-gray-200'
+                      end
+                    %>">
+                      <%= lead.lead_status.humanize %>
+                    </span>
+                  </td>
+
+                  <!-- Created -->
+                  <td class="px-6 py-4">
+                    <div class="text-sm font-semibold text-gray-900">
+                      <%= lead.created_at.strftime('%b %d, %Y') %>
+                    </div>
+                    <div class="text-xs text-gray-600">
+                      <%= time_ago_in_words(lead.created_at) %> ago
+                    </div>
+                  </td>
+
+                  <!-- Actions -->
+                  <td class="px-6 py-4">
+                    <div class="flex items-center justify-end gap-2">
+                      <%= link_to admin_lead_path(lead),
+                          class: "p-2.5 bg-indigo-50 hover:bg-indigo-100 text-indigo-600 hover:text-indigo-700 rounded-lg transition-all border border-indigo-200",
+                          title: "View" do %>
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+                        </svg>
+                      <% end %>
+
+                      <% if lead.lead_status == 'pending' %>
+                        <%= button_to contact_admin_lead_path(lead), method: :patch,
+                            class: "p-2.5 bg-blue-50 hover:bg-blue-100 text-blue-600 hover:text-blue-700 rounded-lg transition-all border border-blue-200",
+                            title: "Contact",
+                            form: { data: { turbo_confirm: "Mark as contacted?" } } do %>
+                          <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"></path>
+                            <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"></path>
+                          </svg>
+                        <% end %>
+                      <% end %>
+
+                      <% if lead.lead_status == 'contacted' %>
+                        <%= button_to qualify_admin_lead_path(lead), method: :patch,
+                            class: "p-2.5 bg-green-50 hover:bg-green-100 text-green-600 hover:text-green-700 rounded-lg transition-all border border-green-200",
+                            title: "Qualify",
+                            form: { data: { turbo_confirm: "Mark as qualified?" } } do %>
+                          <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                          </svg>
+                        <% end %>
+                      <% end %>
+
+                      <%= button_to admin_lead_path(lead), method: :delete,
+                          class: "p-2.5 bg-red-50 hover:bg-red-100 text-red-600 hover:text-red-700 rounded-lg transition-all border border-red-200",
+                          title: "Delete",
+                          form: { data: { turbo_confirm: "Delete this lead?" } } do %>
+                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                          <path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd"></path>
+                        </svg>
+                      <% end %>
+                    </div>
+                  </td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+
+          <!-- Pagination -->
+          <div class="bg-gray-50 px-6 py-4 border-t border-gray-200">
+            <div class="flex items-center justify-between">
+              <div class="text-sm font-semibold text-gray-700">
+                Page <%= @leads.current_page %> of <%= @leads.total_pages %>
+              </div>
+              <div class="pagination-wrapper">
+                <%= paginate @leads %>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Mobile View -->
+      <div class="lg:hidden space-y-4">
+        <% @leads.each do |lead| %>
+          <div class="relative group">
+            <div class="bg-white rounded-xl p-5 border border-gray-200 shadow-md hover:shadow-lg transition-all <%= 'border-l-4 border-red-500' if lead.overdue_response? %>">
+              <!-- Mobile Card Header -->
+              <div class="flex items-start justify-between mb-4">
+                <div class="flex items-center gap-3 flex-1">
+                  <div class="w-12 h-12 rounded-lg bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center shadow-md">
+                    <span class="text-lg font-bold text-white">
+                      <%= lead.first_name&.first&.upcase || lead.email&.first&.upcase || '?' %>
+                    </span>
+                  </div>
+                  <div class="flex-1">
+                    <%= link_to lead.full_name, admin_lead_path(lead),
+                        class: "text-sm font-semibold text-gray-900 hover:text-indigo-600 transition-colors block" %>
+                    <div class="text-xs text-gray-600"><%= lead.email %></div>
+                  </div>
+                </div>
+                <div class="w-12 h-12 rounded-lg font-bold text-base shadow-md flex items-center justify-center <%=
+                  case lead.priority_level
+                  when 'high' then 'bg-gradient-to-br from-red-500 to-orange-600 text-white'
+                  when 'medium' then 'bg-gradient-to-br from-amber-500 to-yellow-600 text-white'
+                  else 'bg-gradient-to-br from-gray-500 to-gray-600 text-white'
+                  end
+                %>">
+                  <%= lead.score %>
+                </div>
+              </div>
+
+              <!-- Mobile Card Body -->
+              <div class="space-y-2.5">
+                <div class="flex items-center gap-2">
+                  <span class="px-2.5 py-1 rounded-md text-xs font-semibold uppercase <%=
+                    case lead.priority_level
+                    when 'high' then 'bg-red-100 text-red-800 border border-red-200'
+                    when 'medium' then 'bg-amber-100 text-amber-800 border border-amber-200'
+                    else 'bg-gray-100 text-gray-800 border border-gray-200'
+                    end
+                  %>">
+                    <%= lead.priority_level %>
+                  </span>
+                  <span class="px-2.5 py-1 rounded-md text-xs font-semibold uppercase <%=
+                    case lead.lead_status
+                    when 'pending' then 'bg-amber-100 text-amber-800 border border-amber-200'
+                    when 'contacted' then 'bg-blue-100 text-blue-800 border border-blue-200'
+                    when 'qualified' then 'bg-green-100 text-green-800 border border-green-200'
+                    end
+                  %>">
+                    <%= lead.lead_status.humanize %>
+                  </span>
+                </div>
+
+                <div class="text-sm font-semibold text-gray-900">
+                  <%= lead.project_type_display %>
+                </div>
+
+                <div class="text-xs text-gray-600">
+                  <%= time_ago_in_words(lead.created_at) %> ago
+                </div>
+              </div>
+
+              <!-- Mobile Actions -->
+              <div class="flex gap-2 mt-4 pt-4 border-t border-gray-200">
+                <%= link_to "View", admin_lead_path(lead),
+                    class: "flex-1 px-4 py-2 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white text-sm font-semibold rounded-lg shadow-md text-center" %>
+
+                <% if lead.lead_status == 'pending' || lead.lead_status == 'contacted' %>
+                  <% action_path = lead.lead_status == 'pending' ? contact_admin_lead_path(lead) : qualify_admin_lead_path(lead) %>
+                  <% action_label = lead.lead_status == 'pending' ? 'Contact' : 'Qualify' %>
+                  <%= button_to action_path, method: :patch,
+                      class: "p-2 bg-blue-50 hover:bg-blue-100 text-blue-600 rounded-lg transition-all border border-blue-200",
+                      form: { data: { turbo_confirm: "Mark as #{action_label.downcase}d?" } } do %>
+                    ✓
+                  <% end %>
+                <% end %>
+
+                <%= button_to admin_lead_path(lead), method: :delete,
+                    class: "p-2 bg-red-50 hover:bg-red-100 text-red-600 rounded-lg transition-all border border-red-200",
+                    form: { data: { turbo_confirm: "Delete?" } } do %>
+                  ✕
+                <% end %>
+              </div>
+            </div>
+          </div>
+        <% end %>
+      </div>
+
+    <% else %>
+      <!-- Professional Empty State -->
+      <div class="relative">
+        <div class="bg-white rounded-2xl p-12 md:p-16 text-center border border-gray-200 shadow-lg">
+          <div class="w-24 h-24 mx-auto bg-gradient-to-br from-gray-400 to-gray-500 rounded-2xl flex items-center justify-center mb-6 shadow-md">
+            <svg class="w-12 h-12 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+            </svg>
+          </div>
+          <h3 class="text-2xl font-bold text-gray-900 mb-3">No Leads Found</h3>
+          <p class="text-base text-gray-600 max-w-md mx-auto mb-6">
+            <% if params.except(:controller, :action, :page).values.any?(&:present?) %>
+              No leads match your filters. Try adjusting your criteria.
+            <% else %>
+              Your pipeline is empty. Leads will appear when visitors submit the contact form.
+            <% end %>
+          </p>
+          <% if params.except(:controller, :action, :page).values.any?(&:present?) %>
+            <%= link_to "Clear All Filters", admin_leads_path,
+                class: "inline-flex items-center px-6 py-3 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white font-semibold rounded-lg shadow-md hover:shadow-lg transition-all transform hover:-translate-y-0.5" %>
+          <% end %>
+        </div>
+      </div>
     <% end %>
   </div>
 </div>
 
-<!-- Statistics Overview -->
-<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6 mb-8">
-  <div class="bg-white rounded-lg border border-gray-200 p-6">
-    <div class="flex items-center">
-      <div class="flex-shrink-0">
-        <div class="w-8 h-8 bg-blue-500 rounded-md flex items-center justify-center">
-          <svg class="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 20 20">
-            <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-          </svg>
-        </div>
-      </div>
-      <div class="ml-4">
-        <p class="text-sm font-medium text-gray-500">Total Leads</p>
-        <p class="text-2xl font-bold text-gray-900"><%= @stats[:total] %></p>
-      </div>
-    </div>
-  </div>
+<!-- Professional Styles -->
+<style>
+  @keyframes blob {
+    0% {
+      transform: translate(0px, 0px) scale(1);
+    }
+    33% {
+      transform: translate(30px, -50px) scale(1.1);
+    }
+    66% {
+      transform: translate(-20px, 20px) scale(0.9);
+    }
+    100% {
+      transform: translate(0px, 0px) scale(1);
+    }
+  }
 
-  <div class="bg-white rounded-lg border border-gray-200 p-6">
-    <div class="flex items-center">
-      <div class="flex-shrink-0">
-        <div class="w-8 h-8 bg-red-500 rounded-md flex items-center justify-center">
-          <svg class="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 20 20">
-            <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd"></path>
-          </svg>
-        </div>
-      </div>
-      <div class="ml-4">
-        <p class="text-sm font-medium text-gray-500">High Priority</p>
-        <p class="text-2xl font-bold text-gray-900"><%= @stats[:high_priority] %></p>
-      </div>
-    </div>
-  </div>
+  .animate-blob {
+    animation: blob 7s infinite;
+  }
 
-  <div class="bg-white rounded-lg border border-gray-200 p-6">
-    <div class="flex items-center">
-      <div class="flex-shrink-0">
-        <div class="w-8 h-8 bg-yellow-500 rounded-md flex items-center justify-center">
-          <svg class="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 20 20">
-            <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path>
-          </svg>
-        </div>
-      </div>
-      <div class="ml-4">
-        <p class="text-sm font-medium text-gray-500">Medium Priority</p>
-        <p class="text-2xl font-bold text-gray-900"><%= @stats[:medium_priority] %></p>
-      </div>
-    </div>
-  </div>
+  .animation-delay-2000 {
+    animation-delay: 2s;
+  }
 
-  <div class="bg-white rounded-lg border border-gray-200 p-6">
-    <div class="flex items-center">
-      <div class="flex-shrink-0">
-        <div class="w-8 h-8 bg-green-500 rounded-md flex items-center justify-center">
-          <svg class="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 20 20">
-            <path d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"></path>
-          </svg>
-        </div>
-      </div>
-      <div class="ml-4">
-        <p class="text-sm font-medium text-gray-500">This Week</p>
-        <p class="text-2xl font-bold text-gray-900"><%= @stats[:this_week] %></p>
-      </div>
-    </div>
-  </div>
+  .animation-delay-4000 {
+    animation-delay: 4s;
+  }
 
-  <div class="bg-white rounded-lg border border-gray-200 p-6">
-    <div class="flex items-center">
-      <div class="flex-shrink-0">
-        <div class="w-8 h-8 bg-purple-500 rounded-md flex items-center justify-center">
-          <svg class="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 20 20">
-            <path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"></path>
-          </svg>
-        </div>
-      </div>
-      <div class="ml-4">
-        <p class="text-sm font-medium text-gray-500">This Month</p>
-        <p class="text-2xl font-bold text-gray-900"><%= @stats[:this_month] %></p>
-      </div>
-    </div>
-  </div>
-</div>
+  @supports ((-webkit-backdrop-filter: none) or (backdrop-filter: none)) {
+    .backdrop-blur-xl {
+      -webkit-backdrop-filter: blur(20px) saturate(180%);
+      backdrop-filter: blur(20px) saturate(180%);
+    }
 
-<!-- Filters and Search -->
-<div class="bg-white rounded-lg border border-gray-200 p-6 mb-8">
-  <%= form_with url: admin_leads_path, method: :get, local: true, class: "space-y-4" do |form| %>
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-      <!-- Search -->
-      <div>
-        <%= form.label :q, "Search", class: "block text-sm font-medium text-gray-700 mb-2" %>
-        <%= form.text_field :q,
-            value: params[:q],
-            placeholder: "Name, email, company...",
-            class: "block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" %>
-      </div>
+    .backdrop-blur-sm {
+      -webkit-backdrop-filter: blur(8px);
+      backdrop-filter: blur(8px);
+    }
+  }
 
-      <!-- Priority Filter -->
-      <div>
-        <%= form.label :priority, "Priority", class: "block text-sm font-medium text-gray-700 mb-2" %>
-        <%= form.select :priority,
-            options_for_select([
-              ['All Priorities', ''],
-              ['High Priority', 'high'],
-              ['Medium Priority', 'medium'],
-              ['Low Priority', 'low']
-            ], params[:priority]),
-            {},
-            class: "block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" %>
-      </div>
+  .line-clamp-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
 
-      <!-- Status Filter -->
-      <div>
-        <%= form.label :status, "Status", class: "block text-sm font-medium text-gray-700 mb-2" %>
-        <%= form.select :status,
-            options_for_select([
-              ['All Statuses', ''],
-              ['Pending', 'pending'],
-              ['Contacted', 'contacted'],
-              ['Qualified', 'qualified'],
-              ['Unqualified', 'unqualified'],
-              ['Lost', 'lost']
-            ], params[:status]),
-            {},
-            class: "block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" %>
-      </div>
+  /* Professional Pagination */
+  .pagination-wrapper .pagination {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
 
-      <!-- Project Type Filter -->
-      <div>
-        <%= form.label :project_type, "Project Type", class: "block text-sm font-medium text-gray-700 mb-2" %>
-        <%= form.select :project_type,
-            options_for_select([
-              ['All Project Types', ''],
-              ['Web Development', 'web_development'],
-              ['Mobile App', 'mobile_app'],
-              ['Data Pipeline', 'data_pipeline'],
-              ['Analytics Platform', 'analytics_platform'],
-              ['Consulting', 'consulting'],
-              ['Other', 'other']
-            ], params[:project_type]),
-            {},
-            class: "block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" %>
-      </div>
-    </div>
+  .pagination-wrapper .pagination a,
+  .pagination-wrapper .pagination span {
+    padding: 0.625rem 0.875rem;
+    border-radius: 0.5rem;
+    border: 1px solid #d1d5db;
+    background: #ffffff;
+    color: #374151;
+    font-weight: 600;
+    font-size: 0.875rem;
+    transition: all 0.2s;
+  }
 
-    <!-- Date Range -->
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-      <div>
-        <%= form.label :start_date, "From Date", class: "block text-sm font-medium text-gray-700 mb-2" %>
-        <%= form.date_field :start_date,
-            value: params[:start_date],
-            class: "block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" %>
-      </div>
+  .pagination-wrapper .pagination a:hover {
+    background: #f3f4f6;
+    border-color: #9ca3af;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
 
-      <div>
-        <%= form.label :end_date, "To Date", class: "block text-sm font-medium text-gray-700 mb-2" %>
-        <%= form.date_field :end_date,
-            value: params[:end_date],
-            class: "block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" %>
-      </div>
+  .pagination-wrapper .pagination .current {
+    background: linear-gradient(135deg, #6366f1, #a855f7);
+    border-color: #6366f1;
+    color: white;
+    box-shadow: 0 4px 8px rgba(99, 102, 241, 0.3);
+  }
 
-      <div class="flex items-end space-x-2">
-        <%= form.submit "Filter", class: "inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" %>
-        <%= link_to "Clear", admin_leads_path, class: "inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" %>
-      </div>
-    </div>
-  <% end %>
-</div>
+  /* Professional Scrollbar */
+  ::-webkit-scrollbar {
+    width: 12px;
+    height: 12px;
+  }
 
-<!-- Sorting Options -->
-<div class="flex items-center justify-between mb-6">
-  <div class="flex items-center space-x-4">
-    <span class="text-sm text-gray-500">Sort by:</span>
-    <%= link_to "Score (High to Low)", admin_leads_path(sort: 'score_desc', **request.query_parameters.except('sort')),
-        class: "text-sm #{params[:sort] == 'score_desc' ? 'text-indigo-600 font-semibold' : 'text-gray-500 hover:text-gray-700'}" %>
-    <%= link_to "Recent First", admin_leads_path(sort: 'created_desc', **request.query_parameters.except('sort')),
-        class: "text-sm #{params[:sort] == 'created_desc' || params[:sort].blank? ? 'text-indigo-600 font-semibold' : 'text-gray-500 hover:text-gray-700'}" %>
-    <%= link_to "Name", admin_leads_path(sort: 'name', **request.query_parameters.except('sort')),
-        class: "text-sm #{params[:sort] == 'name' ? 'text-indigo-600 font-semibold' : 'text-gray-500 hover:text-gray-700'}" %>
-  </div>
+  ::-webkit-scrollbar-track {
+    background: #f3f4f6;
+    border-radius: 6px;
+  }
 
-  <div class="text-sm text-gray-500">
-    Showing <%= @leads.offset_value + 1 %>-<%= [@leads.offset_value + @leads.limit_value, @leads.total_count].min %> of <%= @leads.total_count %> leads
-  </div>
-</div>
+  ::-webkit-scrollbar-thumb {
+    background: #9ca3af;
+    border-radius: 6px;
+  }
 
-<!-- Leads Table -->
-<div class="bg-white rounded-lg border border-gray-200 overflow-hidden">
-  <% if @leads.any? %>
-    <div class="overflow-x-auto">
-      <table class="min-w-full divide-y divide-gray-200">
-        <thead class="bg-gray-50">
-          <tr>
-            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Lead</th>
-            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Score</th>
-            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Project</th>
-            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Budget</th>
-            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
-            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Created</th>
-            <th scope="col" class="relative px-6 py-3"><span class="sr-only">Actions</span></th>
-          </tr>
-        </thead>
-        <tbody class="bg-white divide-y divide-gray-200">
-          <% @leads.each do |lead| %>
-            <tr class="hover:bg-gray-50 transition-colors">
-              <td class="px-6 py-4 whitespace-nowrap">
-                <div class="flex items-center">
-                  <div class="flex-shrink-0 h-10 w-10">
-                    <div class="h-10 w-10 rounded-full bg-indigo-500 flex items-center justify-center">
-                      <span class="text-sm font-medium text-white">
-                        <%= lead.first_name&.first&.upcase || lead.email&.first&.upcase || '?' %>
-                      </span>
-                    </div>
-                  </div>
-                  <div class="ml-4">
-                    <div class="text-sm font-medium text-gray-900">
-                      <%= link_to lead.full_name, admin_lead_path(lead), class: "hover:text-indigo-600" %>
-                    </div>
-                    <div class="text-sm text-gray-500"><%= lead.email %></div>
-                    <% if lead.company.present? %>
-                      <div class="text-xs text-gray-400"><%= lead.company %></div>
-                    <% end %>
-                  </div>
-                </div>
-              </td>
+  ::-webkit-scrollbar-thumb:hover {
+    background: #6b7280;
+  }
 
-              <td class="px-6 py-4 whitespace-nowrap">
-                <div class="flex items-center">
-                  <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium <%=
-                    case lead.priority_level
-                    when 'high' then 'bg-red-100 text-red-800'
-                    when 'medium' then 'bg-yellow-100 text-yellow-800'
-                    else 'bg-gray-100 text-gray-800'
-                    end
-                  %>">
-                    <%= lead.score %>
-                  </span>
-                  <span class="ml-2 text-xs text-gray-500"><%= lead.priority_level.capitalize %></span>
-                </div>
-              </td>
-
-              <td class="px-6 py-4">
-                <div class="text-sm text-gray-900"><%= lead.project_type_display %></div>
-                <div class="text-sm text-gray-500">
-                  <%= truncate(lead.project_description, length: 60) if lead.project_description.present? %>
-                </div>
-                <div class="text-xs text-gray-400 mt-1">
-                  Timeline: <%= lead.timeline_display %>
-                </div>
-              </td>
-
-              <td class="px-6 py-4 whitespace-nowrap">
-                <div class="text-sm text-gray-900"><%= lead.budget_range_display %></div>
-              </td>
-
-              <td class="px-6 py-4 whitespace-nowrap">
-                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium <%=
-                  case lead.lead_status
-                  when 'pending' then 'bg-yellow-100 text-yellow-800'
-                  when 'contacted' then 'bg-blue-100 text-blue-800'
-                  when 'qualified' then 'bg-green-100 text-green-800'
-                  when 'unqualified' then 'bg-red-100 text-red-800'
-                  when 'lost' then 'bg-gray-100 text-gray-800'
-                  else 'bg-gray-100 text-gray-800'
-                  end
-                %>">
-                  <%= lead.lead_status.humanize %>
-                </span>
-              </td>
-
-              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                <div><%= lead.created_at.strftime('%b %d, %Y') %></div>
-                <div class="text-xs text-gray-400"><%= time_ago_in_words(lead.created_at) %> ago</div>
-              </td>
-
-              <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                <div class="flex items-center space-x-2">
-                  <%= link_to admin_lead_path(lead), class: "text-indigo-600 hover:text-indigo-900" do %>
-                    <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                      <path d="M10 12a2 2 0 100-4 2 2 0 000 4z"></path>
-                      <path fill-rule="evenodd" d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z" clip-rule="evenodd"></path>
-                    </svg>
-                  <% end %>
-
-                  <% if lead.lead_status == 'pending' %>
-                    <%= link_to contact_admin_lead_path(lead), method: :patch,
-                        class: "text-blue-600 hover:text-blue-900",
-                        title: "Mark as Contacted" do %>
-                      <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                        <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"></path>
-                        <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"></path>
-                      </svg>
-                    <% end %>
-                  <% end %>
-
-                  <% if lead.lead_status == 'contacted' %>
-                    <%= link_to qualify_admin_lead_path(lead), method: :patch,
-                        class: "text-green-600 hover:text-green-900",
-                        title: "Mark as Qualified" do %>
-                      <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
-                      </svg>
-                    <% end %>
-                  <% end %>
-
-                  <%= link_to admin_lead_path(lead), method: :delete,
-                      class: "text-red-600 hover:text-red-900",
-                      title: "Delete Lead",
-                      confirm: "Are you sure you want to delete this lead?" do %>
-                    <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                      <path fill-rule="evenodd" d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z" clip-rule="evenodd"></path>
-                      <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414L10 12.414l3.707-3.707z" clip-rule="evenodd"></path>
-                    </svg>
-                  <% end %>
-                </div>
-              </td>
-            </tr>
-          <% end %>
-        </tbody>
-      </table>
-    </div>
-
-    <!-- Pagination -->
-    <div class="bg-white px-4 py-3 border-t border-gray-200 sm:px-6">
-      <div class="flex items-center justify-between">
-        <div class="flex-1 flex justify-between sm:hidden">
-          <% if @leads.prev_page %>
-            <%= link_to "Previous", admin_leads_path(page: @leads.prev_page, **request.query_parameters.except('page')),
-                class: "relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50" %>
-          <% end %>
-          <% if @leads.next_page %>
-            <%= link_to "Next", admin_leads_path(page: @leads.next_page, **request.query_parameters.except('page')),
-                class: "ml-3 relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50" %>
-          <% end %>
-        </div>
-
-        <div class="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
-          <div>
-            <p class="text-sm text-gray-700">
-              Showing
-              <span class="font-medium"><%= @leads.offset_value + 1 %></span>
-              to
-              <span class="font-medium"><%= [@leads.offset_value + @leads.limit_value, @leads.total_count].min %></span>
-              of
-              <span class="font-medium"><%= @leads.total_count %></span>
-              results
-            </p>
-          </div>
-          <div>
-            <%= paginate @leads, theme: 'twitter_bootstrap_4' %>
-          </div>
-        </div>
-      </div>
-    </div>
-  <% else %>
-    <!-- Empty State -->
-    <div class="text-center py-12">
-      <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16l2.879-2.879m0 0a3 3 0 104.243-4.242 3 3 0 00-4.243 4.242zM21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-      </svg>
-      <h3 class="mt-2 text-sm font-medium text-gray-900">No leads found</h3>
-      <p class="mt-1 text-sm text-gray-500">
-        <% if params.values.any?(&:present?) %>
-          Try adjusting your search criteria or clearing the filters.
-        <% else %>
-          Get started by generating some leads through your website contact form.
-        <% end %>
-      </p>
-      <% if params.values.any?(&:present?) %>
-        <div class="mt-6">
-          <%= link_to "Clear all filters", admin_leads_path,
-              class: "inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" %>
-        </div>
-      <% end %>
-    </div>
-  <% end %>
-</div>
+  /* Professional Select Dropdowns */
+  select {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3E%3Cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3E%3C/svg%3E");
+    background-position: right 1rem center;
+    background-repeat: no-repeat;
+    background-size: 1.5em 1.5em;
+    padding-right: 3rem;
+  }
+</style>

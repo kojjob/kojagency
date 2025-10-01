@@ -1,0 +1,40 @@
+<%#
+  Reusable Form Input Component
+  Usage: <%= render "shared/components/input",
+             form: f,
+             field: :email,
+             label: "Email Address",
+             type: "email",
+             required: true,
+             placeholder: "you@example.com",
+             error: false %>
+%>
+
+<%
+  type ||= "text"
+  required ||= false
+  placeholder ||= ""
+  error ||= false
+  classes ||= ""
+
+  label_class = label_classes
+  input_class = input_classes(error: error) + " " + classes
+%>
+
+<div class="mb-6">
+  <% if defined?(label) && label.present? %>
+    <%= form.label field, label, class: label_class %>
+  <% end %>
+
+  <%= form.text_field field,
+      type: type,
+      required: required,
+      placeholder: placeholder,
+      class: input_class %>
+
+  <% if error && defined?(error_message) && error_message.present? %>
+    <p class="mt-2 text-sm text-red-600 dark:text-red-400">
+      <%= error_message %>
+    </p>
+  <% end %>
+</div>

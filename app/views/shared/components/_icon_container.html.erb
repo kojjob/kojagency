@@ -1,0 +1,20 @@
+<%#
+  Reusable Icon Container Component
+  Usage: <%= render "shared/components/icon_container",
+             gradient: :primary,
+             size: :base do %>
+    <!-- SVG icon here -->
+  <% end %>
+%>
+
+<%
+  gradient ||= :primary
+  size ||= :base
+  classes ||= ""
+
+  icon_class = icon_container_classes(gradient: gradient, size: size) + " " + classes
+%>
+
+<div class="<%= icon_class %>">
+  <%= yield %>
+</div>
